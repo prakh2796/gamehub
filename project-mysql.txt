@@ -1,0 +1,220 @@
+create database project;
+
+
+use project;
+
+
+
+create table user_login
+(
+user_id varchar(20) NOT NULL,
+password varchar(30) NOT NULL,
+PRIMARY KEY(user_id)
+);
+
+
+create table user_desc
+(
+user_id varchar(20),
+name varchar(30) NOT NULL,
+age int(3) NOT NULL,
+desc varchar(200),
+sex char NOT NULL,
+address varchar(50),
+DOB date,
+pro_pic    xxxxxxxxxxxxxxxx
+acc_date date NOT NULL, 
+FOREIGN KEY (user_id) REFERENCES user_login(user_id)
+);
+
+
+
+
+create table user_status
+(
+user_id varchar(20),
+status int,
+FOREIGN KEY (user_id) REFERENCES user_login(user_id)
+);
+
+
+
+create table user_following
+(
+user_id varchar(20) NOT NULL,
+following varchar(20),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (following) REFERENCES user_login(user_id)
+);
+
+
+
+
+create table user_followers
+(
+user_id varchar(20) NOT NULL,
+followers varchar(20),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (followers) REFERENCES user_login(user_id)
+);
+
+
+
+create table games
+(
+game_id varchar(20) NOT NULL,
+game_name varchar(30) NOT NULL,
+desc varchar(50) NOT NULL,
+comp_name varchar(50),   
+genre_id varchar(20) NOT NULL,
+release_date date NOT NULL,
+tag_id varchar(20),
+rating int(2) CHECK(rating<11 && rating>-1),
+rate_count int,
+gallery    xxxxxxxxxxxxxxxx
+PRIMARY KEY(game_id)
+);
+
+
+
+create table genre
+(
+genre_id varchar(20) NOT NULL,
+genre_name varhcar(50) NOT NULL,
+PRIMARY KEY (genre_id)
+);
+
+
+ALTER TABLE games ADD FOREIGN KEY (genre_id) REFERENCES genre(genre_id);
+
+
+create table games_played
+(
+user_id varchar(20) NOT NULL,
+game_id varchar(20),
+user_rate int CHECK(rating<11 && rating>-1), 
+user_rev varchar(200),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (game_id) REFERENCES games(game_id)
+);
+
+
+create table interest
+(
+user_id varchar(20) NOT NULL,
+game_id varchar(20),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (game_id) REFERENCES games(game_id)
+);
+
+
+
+
+create table posts
+(
+post_id varchar(20) NOT NULL,
+post_type char(2),
+post_date date,
+game_id varchar(20),
+PRIMARY KEY (post_id),
+FOREIGN KEY (game_id) REFERENCES games(game_id)
+);
+
+
+
+
+create table user_posts
+(
+user_id varchar(20) NOT NULL,
+post_id varchar(20),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (post_id) REFERENCES posts(post_id)
+);
+
+
+
+create table tags
+(
+tag_id varchar(20) NOT NULL,
+tag_name varchar(50) NOT NULL,
+post_id varchar(20),
+PRIMARY KEY (tag_id),
+FOREIGN KEY (post_id) REFERENCES posts(post_id)
+);
+
+
+
+ALTER TABLE games ADD FOREIGN KEY (tag_id) REFERENCES tags(tag_id);
+
+
+
+
+create table questions
+(
+post_id varchar(20) NOT NULL,
+ans_id varchar(20) NOT NULL,
+user_id varchar(20) NOT NULL,
+tag_id varchar(20),
+title varchar(200),
+content varchar(3000),
+likes int,
+FOREIGN KEY (post_id) REFERENCES posts(post_id),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (tag_id) REFERENCES tags(tag_id)
+);
+
+
+
+
+create table articles
+(
+post_id varchar(20) NOT NULL,
+comm_id varchar(20),
+user_id varchar(20) NOT NULL,
+tag_id varchar(20),
+title varchar(200),
+content varchar(5000),
+likes int,
+FOREIGN KEY (post_id) REFERENCES posts(post_id),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id),
+FOREIGN KEY (tag_id) REFERENCES tags(tag_id)
+);
+
+
+
+create table answers
+(
+ans_id varchar(20) NOT NULL,
+ans_date date NOT NULL,
+user_id varchar(20) NOT NULL,
+content varchar(5000),
+likes int,
+PRIMARY KEY (ans_id),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id)
+);
+
+
+
+ALTER TABLE questions ADD FOREIGN KEY (ans_id) REFERENCES answers(ans_id);
+
+
+
+create table comments
+(
+comm_id varchar(20) NOT NULL,
+comm_date date NOT NULL,
+user_id varchar(20) NOT NULL,
+content varchar(5000),
+likes int,
+PRIMARY KEY (comm_id),
+FOREIGN KEY (user_id) REFERENCES user_login(user_id)
+);
+
+
+
+ALTER TABLE articles ADD FOREIGN KEY (comm_id) REFERENCES comments(comm_id);
+
+
+
+
+
