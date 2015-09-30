@@ -46,16 +46,16 @@ def get_db():
 
 # @app.before_request
 # def before_request():
-# 	try:
-# 		db=open('minor_01').read()
-# 	except IOError:
-# 		db='select * from games;'
-# 	g.db=json.loads(db)
+#   try:
+#       db=open('minor_01').read()
+#   except IOError:
+#       db='select * from games;'
+#   g.db=json.loads(db)
 
 
 # @app.teardown_request
 # def teardown_request(exception):
-# 	if
+#   if
 
 # @app.cli.command('initdb')
 # def initdb_command():
@@ -92,22 +92,93 @@ def show_entries(name):
     print entries
     print entries[0][0]
     for row in entries:
-    	id=row[0]
-    	age=row[1]
-    	desc=row[2]
+        id=row[0]
+        age=row[1]
+        desc=row[2]
 
-    	arr.append({
-    		'id':id,
-    		'age':age,
-    		'desc':desc
-    		})
+        arr.append({
+            'id':id,
+            'age':age,
+            'desc':desc
+            })
     print arr
     json.dumps(arr)
     # import pdb;pdb.set_trace()
     return render_template('abc.html', entries=entries)
 
 
-# @app.route('/add', methods=['POST'])	
+@app.route('/login', methods=['POST'])
+def login():
+    db,cursor=get_db()
+    # print request.name
+    print request.data
+    print type(request.data)
+    #import pdb;pdb.set_trace()
+    data = json.loads(request.data)
+    # print request.args.name
+    email = data['email']
+    password = data['password'] 
+    # print request.data
+    # print email
+    # print password
+    # New User
+    # cursor.execute('SELECT count(*) FROM user_login where user_id =`{0}` AND pass =`{1}`'.format(email,password))
+    # cursor.execute('SELECT user_id,count(*) FROM user_login WHERE email=`{0}` AND password=`{1}`'.format(email,password))
+    # print('DONE')
+    cursor.execute('SELECT user_id,count(*) FROM user_login WHERE email="{0}" AND password="{1}"'.format(email,password))
+    entries = cursor.fetchall()
+    user_id=entries[0][0]
+    cursor.execute('SELECT * FROM user_descp WHERE user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    # # if count > 0:
+    # #     return jsonify(status='error', error_msg='Email already')
+    print entries
+    # count=entries[0][1]
+    # print count
+    # if count > 0:
+    #     return jsonify(status='success', error_msg='Successfully Logged In')
+    return request.data
+    # return render_template('login.html', entries=entries)
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    db,cursor=get_db()
+    data=json.loads(request.data)
+    username=data['username']
+    password=data['password']
+    email=data['email']
+    fname=data['fname']
+    lname=data['lname']
+    age=data['age']
+    descp=data['descp']
+    sex=data['sex']
+    addr=data['address']
+    dob=data['dob']
+    pro_pic=data['pro_pic']
+    acc_date=data['acc_date']
+    cursor.execute('INSERT INTO user_login VALUES (DEFAULT,"{0}","{1}","{2}")'.format(username,password,email))
+    db.commit()
+    cursor.execute('SELECT user_id FROM user_login WHERE email="{0}" AND password="{1}"'.format(email,password))
+    entries=cursor.fetchall()
+    user_id=entries[0][0]
+    print user_id
+    cursor.execute('SELECT count(*) FROM user_login WHERE user_id="{0}"'.format(user_id))
+    entries=cursor.fetchall()
+    print entries[0][0]
+    count=0
+    if count > 0:
+        return jsonify(status='error', error_msg='Email already')
+        return request.data
+    else:
+        cursor.execute('INSERT INTO user_descp VALUES ("{9}","{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}","{8}")'.format(fname,lname,age,descp,sex,addr,dob,pro_pic,acc_date,user_id))
+        db.commit()
+        db.close()
+        # return jsonify(status='success', error_msg='Account Successfully Created')
+        return request.data
+    # return request.data
+
+# @app.route('/add', methods=['POST'])  
 # def add_entry():
 #     if not session.get('logged_in'):
 #         abort(401)
@@ -141,4 +212,4 @@ def show_entries(name):
 #     return redirect(url_for('show_entries'))
 
 if __name__=='__main__':
-	app.run()
+    app.run()
