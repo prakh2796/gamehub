@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="../static/css/bootstrap.css">
 <link rel="stylesheet" href= "../static/css/home.css">
- <link rel="stylesheet" href="../static/css/style_home_header.css">
+<link rel="stylesheet" href="../static/css/style_home_header.css">
  
 <style>
 body{
@@ -35,9 +35,7 @@ font-family:Courier, Monaco, monospace;
 </style>
 </head>
 <body>
-
-  <header >
-	
+  <header class="">
   <div class="header1" style="">
     <div class="top-left">
 		<h1>
@@ -59,7 +57,7 @@ font-family:Courier, Monaco, monospace;
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu dropdown-menu-right onhover" id="drop_down"role="menu">
+					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
 						<li><a href="#">Settings</a></li>
 						<li><a href="#">Tods</a>
 						<li><a href="signup.html">Logout</a></li>
@@ -70,15 +68,24 @@ font-family:Courier, Monaco, monospace;
 		</nav>
 	</div>
   </div>
-  <div class="header2" >
+  <div class="header2 navbar navbar-inverse">
   	
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" style=""data-toggle="collapse" data-target="#menunavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>  
+	  </button>
+     </div>
+	
+	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
-        <li ><a href="#">Home</a></li>
+        <li ><a href="home.html">Home</a></li>
         <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
         <li><a href="article.html" onclick="make_link_active()">Post</a></li>
 		<li class="dropdown " >
           <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
-          <ul class="dropdown-menu onhover" id="db_menu" style"color:white">
+          <ul class="dropdown-menu " id="db_menu" style="">
 			<li><a href="#">Game1</a></li>
             <li><a href="#">Game2</a></li>
             <li><a href="#">Game3</a></li>   
@@ -90,13 +97,13 @@ font-family:Courier, Monaco, monospace;
 			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
 			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
 		</ul>
-     
-	<!-- </div>
-	 -->
+     </div>
+	
   </div>
   
+  <div class="clearfix visible-lg"></div>
+  
 </header>
-
 <!-- ask section -->
 <div class="section container">
 <div class="ask_section">
@@ -119,10 +126,10 @@ font-family:Courier, Monaco, monospace;
 		<div id="on_ar">			
 			<p style="font-size:2em ; color:#505050 ;"><strong>Add Title.</strong></p>
 			<div>
-			<textarea  class="txtarea"placeholder="Title" cols="25" rows="2" name="txtarea" ></textarea>
+			<textarea  class="txtarea" placeholder="Title" cols="25" rows="2" name="txtarea" ></textarea>
+			</div>		
 		</div>
 		
-		</div>
 		<div id="on_qs">
 			<p style="font-size:2em ; color:#505050 ;"><strong>Ask Question.</strong></p>
 			<div>
@@ -200,8 +207,15 @@ font-family:Courier, Monaco, monospace;
 </div>
 <footer>
 </footer>
-<script type="text/javascript" src="../static/js/jquery-1.11.3.min.js"></script>
-<script src="../static/js/ask.js"></script>
+<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
+<!-- <script src="../static/javascript/home.js"></script>
+ -->
+<script src="../static/javascript/ask.js"></script>
+<script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
+
+<!-- <script src="../static/javascript/home.js"></script>
+ -->    
 
 </body>
 </html>

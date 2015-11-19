@@ -6,24 +6,33 @@ background:cover;
 
 }
 
+
+
 header {
   //font-family: sans-serif;
+  
   font-size:1.2em;
   //display:bold;
-  position: fixed;
+  //position: fixed;
+    z-index:3;
+	position:fixed;
+   
   width: 100%;
   height: 150px;
   //height:auto;
+  display:block;
   top: 0;
   left: 0;
 //padding:0px;
     padding:10px 0px 8px 0px;
+	margin-bottom:10%;
   //background-color: rgba(22, 22, 22, 0.4);
   background-color: rgba(22, 22, 22,1);
   
   //background-color:white;
   border-bottom: 3px solid rgba(0, 0, 0, 0.4);
   -webkit-transition: height 0.3s;
+   -webkit-transition: font-size 0.3s;
   //-webkit-transition: all 1s;
 }
 header .container {
@@ -37,10 +46,11 @@ header h1 {
 }
 header h1, header nav ,header.header2-left{
   display: inline-block;
-  position: relative;
+ // position: relative;
   line-height: 60px;
   //width:100%;
   -webkit-transition: all 0.3s;
+  
 }
 header h1 a span{
 	font-size:1.4em;
@@ -141,21 +151,35 @@ margin-top:5px;
 	  background:black;
 	  color:white;
   }
+   #db_menu li a{
+	   -webkit-transition: font-size 0.3s; 
+   }
   
-.onhover:hover{
+  #db_menu li a:active{
+	   
+	  background:black;
+	  color:white;
+	  -webkit-transition: font-size 0.3s; 
+  
+  }
+  
+/* .onhover:hover{
   background: linear-gradient(top, #423131,  #961b1b );
   background: -ms-linear-gradient(top, #423131,  #961b1b);
   background: -webkit-gradient(linear, left top, left bottom, from( #423131), to( #961b1b));
   background: -moz-linear-gradient(top,   #423131,  #961b1b);
 color:#909090 ;
-  }
+  } */
   .header2{
 	  padding:0px;
 	  padding-right:20px;
 	  margin:0px;
 	  height:auto;
+	  width:100%;
+	  display:inline-block;
 	  //height:100px;
-	  border:2px solid red;
+	  //border:2px solid red;
+	  border-top:4px solid red;
 	  font-size:1em;
 	  -webkit-transition: font-size 0.3s;  
   }
@@ -167,7 +191,8 @@ color:#909090 ;
  
  .navbar-nav li a{
 	//margin:5px; 
-	margin:0px;
+	font-size:0.9em;
+	//margin:0px;
 	padding-bottom:10px;
 	 -webkit-transition: font-size 0.3s,padding-bottom 0.3s;
  }
@@ -181,7 +206,9 @@ border-radius:4px;
  
 header.minimized {
   height: 110px;
-//height:auto
+//height:auto;
+ position:fixed;
+    z-index:3;
   }
 header.minimized h1, header.minimized nav ,header.minimized ul  li{
   line-height: 25px;
@@ -193,7 +220,7 @@ header.minimized h1 span{
   font-size: 1.2em;
 }
 header.minimized ul  li a{
-	font-size:1em;
+	font-size:14px;
 	line-height: 10px;
 	padding-bottom:0px;
 	//padding:0px;
@@ -204,7 +231,12 @@ header.minimized  input{
 	width:25%;
 
 }
-
+ 
+ #db_menu li a.minimized{
+	 
+	 font-size:3px;
+ }
 .container {
+	//background:yellow;
  //height: 2000px;
 }

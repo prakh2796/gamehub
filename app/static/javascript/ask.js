@@ -19,13 +19,13 @@ $(document).ready(function(){
 	/*$('#tag_div').(function(){
 		$(this).html("akjsdbkjsdbksajd");
 	});*/
-	$("#games_drop").click(function(){
+	/* $("#games_drop").click(function(){
 			$("#db_menu").slideToggle("slow");
 	});
 	$("#user_drop").click(function(){
 			$("#drop_down").slideToggle("slow");
 	});		
-	$("#txtarea").focusin(function(){
+	 */$("#txtarea").focusin(function(){
 		$(this).animate({
 			opacity:'1',
 			width:'600px',
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		if(type == "Article")
 		{
 			$("#on_ar").show("slow");
-			$("#on_qs p strong").html("Add Secton");
+			$("#on_qs p strong").html("Add Section");
 			page_type="AR";
 		}
 		else if(type=="Question")

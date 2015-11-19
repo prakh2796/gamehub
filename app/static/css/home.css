@@ -68,8 +68,15 @@ color:#909090 ;
    */
    
    .section{
-	margin-top:20%;
-	top:20%;
+	margin-top:18%;
+	display:block;
+	//border:2px solid red;
+	//width:100%;
+	//background:green;
+	//top:30%;
+	padding:0px;
+	//position:relative;
+    z-index:2;
 }
  .main{
 	 width:100%;
@@ -87,9 +94,9 @@ color:#909090 ;
   
   .div1{  
 	//  border:2px solid #686868 ;
-	  width:20%;
+	  width:15%;
 	  height:auto;
-	  margin-right:2px;
+	  margin-right:10px;
 	  float:left;
 	  padding:1px;
 	  display:block;
@@ -156,6 +163,7 @@ color:#909090 ;
   
   .div_feed_header:hover{
 	  color:#909090   ;
+	  //border:2px outset black;
   }
  
   
@@ -204,7 +212,7 @@ color:#909090 ;
   .new_feed {
 	  width:100%;
 	  height:200px;
-	  border :1px solid #202020;
+	  //border :1px solid #202020;
 	  //opacity:0.8;
 	  text-align:center;
 	  //filter: alpha(opacity=40); /* For IE8 and earlier */
@@ -218,10 +226,11 @@ color:#909090 ;
 		padding:20px;
 		//color:#FFFFFF;
 		color:black;
-		transition:font-size 1s, padding 2s;
+		transition:font-size 1s, padding 2s, border .6s;
 		//transition-timing-function:ease-in-out;
-		margin:2px 0px 2px 0px;
+		margin:6px 2px 6px 2px;
 		border-radius:6px ;
+		box-shadow:3px 3px 1px grey;
   }
   .new_feed {
 	  color:black;
@@ -233,6 +242,7 @@ color:#909090 ;
 	   //font-size:20px;
 	   padding:10px;
 	   background:white;
+	   border:4px outset black;
 	   //background-color:#D3D3D3;
 	   color:black;
 	   text-align:center;
@@ -302,7 +312,8 @@ iframe[seamless] {
 	  padding:5px;
 	  height:auto;
 	  width:100%;
-		position:fixed;
+		//position:fixed;
+		
 		display:block;
 		
   }
@@ -354,8 +365,7 @@ iframe[seamless] {
   }
   .new{
 	width:20px;
-height:20px;	
-	  
+	height:20px;	  
   }
   .tag_div{
 	  
@@ -379,9 +389,9 @@ height:20px;
 	display:inline-block;
 }
 .add_plus_txt{
-font-size:2em;
-display:inline-block ;
- color:#505050 ;	
+	font-size:2em;
+	display:inline-block ;
+	color:#505050 ;	
 }
   .tag{	  	  
 	  width:220px;
@@ -418,7 +428,9 @@ display:inline-block ;
   }
   
   footer{
-	  
+	  position:relative;
+	  display:block;
+	  margin-top:300px;
 	  width:100%;
 	  height:200px;
 	  background-color:#202020;

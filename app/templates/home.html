@@ -2,27 +2,33 @@
 <html >
   <head>
     <meta charset="UTF-8">
-    <title>Animated Header</title>
+    <title>Game World-gameworld.pythonanywhere.com</title>
     
     
-    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    
+    
+        <link rel="stylesheet" href="../static/css/style.css">
+		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" href="../static/css/home.css">
+		<link rel="stylesheet" href="../static/css/style_home_header.css">
+		<link href="../static/css/jquery-ui.css" rel="stylesheet">
+	
+    <style>
+	body{
+		background:url("../static/images/profile-background.png") repeat ;
+		background:cover;
 
-<link rel="stylesheet" href="../static/css/home.css">
-        <link rel="stylesheet" href="../static/css/style_home_header.css">
- 
+	}
+
+	</style>
+    
+    
   </head>
-  <style>
-  body {
- background:url("../static/images/sunset.jpg") no-repeat center center fixed;
-background:cover;
- height: 1000px;
-}
-
-  </style>
 
   <body>
-  <header>
+<header>
 	
+  
   <div class="header1" style="">
     <div class="top-left">
 		<h1>
@@ -39,12 +45,12 @@ background:cover;
 				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
 					<span class="glyphicon glyphicon-user"></span> 
 				</button>
-				<button type="button" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>						
+				<button type="button" id="user-name" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >username</button>		
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu dropdown-menu-right onhover" id="drop_down"role="menu">
+					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
 						<li><a href="#">Settings</a></li>
 						<li><a href="#">Tods</a>
 						<li><a href="signup.html">Logout</a></li>
@@ -55,15 +61,24 @@ background:cover;
 		</nav>
 	</div>
   </div>
-  <div class="header2" >
+  <div class="header2 navbar navbar-inverse">
   	
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" style=""data-toggle="collapse" data-target="#menunavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>  
+	  </button>
+     </div>
+	
+	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
         <li ><a href="#">Home</a></li>
         <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
         <li><a href="article.html" onclick="make_link_active()">Post</a></li>
 		<li class="dropdown " >
           <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
-          <ul class="dropdown-menu onhover" id="db_menu" style"color:white">
+          <ul class="dropdown-menu " id="db_menu" style="">
 			<li><a href="#">Game1</a></li>
             <li><a href="#">Game2</a></li>
             <li><a href="#">Game3</a></li>   
@@ -75,85 +90,153 @@ background:cover;
 			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
 			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
 		</ul>
-     
-	<!-- </div>
-	 -->
+     </div>
+	
   </div>
   
+  <div class="clearfix visible-lg"></div>
+  
 </header>
-<div class="section container" >
-	<div class=" main" id="main">
-		<div class="div1">
-			<a href="#">
-			<div class="div1_1 onhover div_feed_header" style=" text-align:center;padding-top:10px;font-size:20px">
-				<strong><span style="font-size:30px">I</span>nterest</strong>
-			</div>
-			</a>
-			<!-- <div class="div1_2" style="margin-top:6px;">
-				<div class="list-group" style="" id="int_fields">
-					<a href="#" class="list-group-item list-group-item-success">Game1</a>
-					<a href="#" class="list-group-item list-group-item-info">Game2</a>
-					<a href="#" class="list-group-item list-group-item-warning">Game3</a>
-					<a href="#" class="list-group-item list-group-item-danger">Game4</a>
-					<a href="#" class="list-group-item list-group-item-success">Game65555555555555555</a>
-					<a href="#" class="list-group-item list-group-item-info">Game7</a>
-					<a href="#" class="list-group-item list-group-item-warning">Game8</a>
-				</div>			
-			</div> -->
+<div class="section container">
+<div class="section-head">
+<!-- <p style="font-size:1.2em;display:inline-block;">Add Games:</p>
+		  <input type="text" class="form-control" style="width:30%;" id="autocomplete" placeholder="Enter here"></input>
+		  <button type="button" id="add" class="btn btn-info" >ADD</button>	
+		 -->
+<div id="new-user" class="new-user"><p>Follow atleast Five Games of your choice to start your feed.<button class="btn-btn-info" data-toggle="modal" data-target="#myModal" id="fill_int">Click Here!</button><p></div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2 class="modal-title" style="font-weight:bold;">Add Interest</h2>
+        </div>
+        <div class="modal-body" style="height:auto;width:auto">
+          <p style="font-size:1.2em;display:inline-block;">Add Games:</p>
+		  <input type="text" class="form-control" style="width:30%;" id="autocomplete" placeholder="Enter here" ></input>
+		  <button type="button" id="add" class="btn btn-info" >ADD</button>	
+			<!-- <p class="interest-added" id="interest-added"></p>		 
+		  -->
+		  <div class="interest-name" style="display:block;" id="interest-name">
+			<!-- <p class="interest-added" id="interest-added"><span class="remove-int"></span></p>
+		   --></div>
 		</div>
-		<div class="div1 div2" style="">
-			<div class="div1_1" style="display:inline-block">
-				<a href="#"><div class="div_feed_header onhover " id="qs" style="text-align:right;padding:13px 25px 2px 0px ;width:50%;float:left">
-				<strong><span style="font-size:30px">Q</span>UESTIONS</strong></div></a>
-				
-				<a href="#"><div class="div_feed_header onhover" id="ar" style=" text-align:left;padding:13px 0px 2px 25px ;width:50% ;float:left">
-				<strong><span style="font-size:30px">A</span>RTICLES</strong></div></a>
-			</div>
-			
-			<div class="div1_2  div2_2" id="feed">
-				<!-- here Dynamic div's having class="new_feed" will come -->
-				
-			</div>
-			<div  id="more" class="more">
-					<a href="#" style="text-decoration:none"><strong>more>></strong></a>
-				</div>
-			
+        <div class="modal-footer">
+			<button type="button" id="done" class="btn btn-default" >Done</button>	
+			<button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>					
 		</div>
-		<div class="div1 div3">
-			<a href="#">
-			<div class="div1_1 onhover div_feed_header" style="text-align:center;padding-top:10px;font-size:20px">
-				<strong><span style="font-size:30px">T</span>op&nbsp&nbsp</strong><strong><span style="font-size:30px">D</span>iscussions</strong>
-			</div>
-			</a>
-			<div class="div1_2 div3_2" >
-			
-			<!iframe id="ifrm" class="container-fluid" style="border:none;padding:0px;width:100%;height:500px"src="discussion.html">
-				
-			<!/iframe>	
-			<div id="discussion" style="width:100%;height:500px;overflow:auto;border:1px solid black; border-radius:6px ;">
-				<span id="scroll"></span>
-				<div class="new_discuss">
-					<p id="newp"></p>
-				</div>
-				<div class="new_discuss">
-					
-				</div>
-				<span id="scroll"></span>
-				
-			</div>				
-			</div>
-		</div>
+      </div>
+      
+    </div>
+</div>
+  
+<h1>Masonry - animate item size</h1>
 
+<p>Click items to toggle size</p>
+</div>
+<p><button class="stamp-button">Toggle stamp</button></p>
+<div id="feed" class="grid">
+  <div class="stamp">
+	<div class="stamp-head">
+		Top Stories
 	</div>
+	<div class="line"></div>
+	<div class="story" id="story1"></div>
+	<div class="line"></div>
+	<div class="story" id="story1"></div>
+	<div class="line"></div>
+	<div class="story" id="story1"></div>
+	<div class="line"></div>
+	<a id="more-story" href="#">
+		<div class="more-story-link stamp-head" style="font-size:1.2sem;float:right">more >>></div>
+	</a>
+  </div>
+  
+  <div class="grid-item grid-item--height2">
+    <div class="grid-item-content" id="feed1">
+		<div class="feed-div feed-upper-div">
+			<img src="../static/images/profile-dribbble.png" class="feed-user-image"></img>
+			<div class="feed-username">lovingyugs</div>
+			<div class="follow-btn">Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span></div>
+		</div>
+		<div class="feed-div feed-lower-div">
+			<h2>How to download CS maps??</h2>
+			<p></p>
+		</div>
+		<div class="like-bar">
+			<span style=""class="glyphicon glyphicon-comment">4</span>
+			<span style="font-size:1.2em"class="glyphicon glyphicon-heart">10</span>
+			<div id="expand" class="expand_class">expand<span style="padding:3px;"class="glyphicon glyphicon-fast-forward"></span></div>
+			<!-- <div id="less" class="expand_class">less<span style="padding:3px;"class="glyphicon glyphicon-fast-backward"></span></div>
+		 --></div>
+	</div>
+  </div>
+  <!-- <div class="grid-item ">
+    <div class="grid-item-content">2</div>
+  </div>
+  <div class="grid-item grid-item--height3 ">
+    <div class="grid-item-content ">3</div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content">4</div>
+  </div>
+  <div class="grid-item grid-item--height2">
+    <div class="grid-item-content ">5</div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content">6</div>
+  </div>
+  <div class="grid-item grid-item--height2">
+    <div class="grid-item-content">7</div>
+  </div>
+  <div class="grid-item grid-item--height3 ">
+    <div class="grid-item-content   "></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content"></div>
+  </div>
+  <div class="grid-item grid-item grid-item--height2">
+    <div class="grid-item-content"></div>
+  </div>
+  <div class="grid-item">
+    <div class="grid-item-content"></div>
+  </div> -->
+</div>
+<div class="view-more btn btn-info" id="view-more"> View More +
+</div>
+<!-- <nav id="page-nav" style="border:2px solid red;width:100px ;height:100px;">
+  <a href="../templates/ask.html">link</a>
+</nav> -->
 </div>
 <footer>
 </footer>
-
-   <script type="text/javascript" src="../static/js/jquery-1.11.3.min.js"></script>
-   <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
-
-        <script src="../static/js/home.js"></script>
-		<script src="../static/js/index.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
+	<script type="text/javascript" src="../static/javascript/home.js"></script>
+	<script src="../static/javascript/home_index.js"></script>
+	
+	<script src="../static/javascript/masonry.pkgd.js"></script>
+	<!-- <script src="../static/javascript/jquery.infinitescroll.min"></script>
+	<script src="../static/javascript/jquery.endless-scroll"></script>
+	 --><!-- <script src="../static/javascript/index.js"></script>
+		 -->
     
     
     

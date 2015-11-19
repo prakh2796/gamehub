@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../static/css/bootstrap.css">
 <link rel="stylesheet" href="../static/css/home.css">
+<link rel="stylesheet" href="../static/css/style_home_header.css">
+ 
 <style>
 body{
 background:url("galaxy-wallpapers-10.jpg") no-repeat center left;
@@ -30,73 +32,75 @@ font-family:Courier, Monaco, monospace;
 </style>
 </head>
 <body>
-<div  class="container">
-
-	
-	<div class=" well header" style="">
-		<div class="top-left" style="display:inline-block;width:50%">
-<strong><span style="font-size:35px">G</span>ame <span style="font-size:35px">W</span>orld</strong>
-		</div>
-		<div class="top-right"  style="display:inline-block;">
-			<div class="form-inline search" style="float:left;margin-top:1px">
-				<label for="username" style="color:black;font-size:18px">Search &nbsp&nbsp</label>
-				<input type="text" name="search" class="form-control" id="search" placeholder="Search"></input>
-			</div>
-			<div style="margin-left:10px;width:auto;float:left;color:red">
+  <header class="">
+  <div class="header1" style="">
+    <div class="top-left">
+		<h1>
+			<a href="/"><strong><span style="">G</span>ame <span style="">W</span>orld</strong>
+			</a>
+		</h1>
+	</div>
+	<div class="form-inline search" style="">
+		<input type="text" name="search" class="form-control" style="width:100%;" id="search" placeholder="Search"></input>		
+	</div>
+	<div class="top-right">
+		<nav>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
+					<span class="glyphicon glyphicon-user"></span> 
+				</button>
+				<button type="button" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>						
 				<div class="btn-group">
-					<button type="button" class="btn btn-primary" style="border-radius: 50%" >
-							<span class="glyphicon glyphicon-user"></span> 
-					</button>
-					<button type="button" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>	
-					<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
-						<span class="caret"></span></button>
-						<ul class="dropdown-menu onhover" id="drop_down"role="menu">
-							<li><a href="#">Settings</a></li>
-							<li><a href="#">Tods</a>
-							<li><a href="signup.html">Logout</a></li>
-							<li><a href="#">Help</a></li>
-						</ul>
-					</div>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
+						<li><a href="#">Settings</a></li>
+						<li><a href="#">Tods</a>
+						<li><a href="signup.html">Logout</a></li>
+						<li><a href="#">Help</a></li>
+					</ul>
 				</div>
 			</div>
-		
-					
-		</div>
+		</nav>
 	</div>
-</div>
- <div class="container" style="">
-<div class="nav_div">
-<nav class="navbar navbar-inverse onhover" style="margin-top:-15px">
-  <div class="container" style="">
-    <div class="collapse navbar-collapse " id="myNavbar" style="padding-right:50px;">
-        <ul class="nav navbar-nav ">
+  </div>
+  <div class="header2 navbar navbar-inverse">
+  	
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" style=""data-toggle="collapse" data-target="#menunavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>  
+	  </button>
+     </div>
+	
+	 <div class="collapse navbar-collapse" id="menunavbar">
+		 <ul class="nav navbar-nav ">
         <li ><a href="home.html">Home</a></li>
         <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
         <li><a href="article.html" onclick="make_link_active()">Post</a></li>
-		<li class="dropdown onhover" >
-          <a class="dropdown-toggle onhover" data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
-          <ul class="dropdown-menu onhover" id="db_menu" style"color:white">
+		<li class="dropdown " >
+          <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
+          <ul class="dropdown-menu " id="db_menu" style="">
 			<li><a href="#">Game1</a></li>
             <li><a href="#">Game2</a></li>
             <li><a href="#">Game3</a></li>   
 		  </ul>
         </li>
-        <li><a href="#" onclick="make_link_active()" style="display:inline-block;float:left">Notifications
-			</li>
-			<li style="padding:0px;text-align:center;margin-top:10px;margin-left:-7px;color:black;border :4px inset #D3D3D3;border-radius:4px;width:30px;height:30px;background-color:#D3D3D3">	
-			</a></li>
-		</ul>
+        <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
+					</ul>
 		 <ul class="nav navbar-nav navbar-right">
 			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
-			<li><a href="#"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
+			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
 		</ul>
      </div>
+	
   </div>
-</nav>
-</div>
-</div>
-<!/div>
+  
+  <div class="clearfix visible-lg"></div>
+  
+</header>
 <div class="container">
 <div class="ask_section">
 	<div class="type_btn" value="Type">
@@ -201,8 +205,13 @@ font-family:Courier, Monaco, monospace;
 </footer>
 
 <script type="text/javascript" src="../static/js/jquery-1.11.3.min.js"></script>
-<script src="../static/js/article.js"></script>
+<script src="../static/js/home.js"></script>
+<script src="../static/js/index.js"></script>
 
+<script src="../static/js/article.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    
 </body>
 </html>
 

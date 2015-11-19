@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+
+<link rel="stylesheet" href="../static/css/home.css">
+        <link rel="stylesheet" href="../static/css/style_home_header.css">
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+ <header>
+	
+<div class="header1" style="">
+    <div class="top-left">
+		<h1>
+			<a href="/"><strong><span style="">G</span>ame <span style="">W</span>orld</strong>
+			</a>
+		</h1>
+	</div>
+	<div class="form-inline search" style="">
+		<input type="text" name="search" class="form-control" style="width:100%;" id="search" placeholder="Search"></input>		
+	</div>
+	<div class="top-right">
+		<nav>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
+					<span class="glyphicon glyphicon-user"></span> 
+				</button>
+				<button type="button" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>						
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right onhover" id="drop_down"role="menu">
+						<li><a href="#">Settings</a></li>
+						<li><a href="#">Tods</a>
+						<li><a href="signup.html">Logout</a></li>
+						<li><a href="#">Help</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+  </div>
+<div class=" header2  navbar navbar-inverse">
+ 
+    
+   
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" style="color:red" data-toggle="collapse" data-target="#menunavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>  
+	  </button>
+     </div>
+	
+	 <div class="collapse navbar-collapse" id="menunavbar">
+		 <ul class="nav navbar-nav ">
+        <li ><a href="#">Home</a></li>
+        <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
+        <li><a href="article.html" onclick="make_link_active()">Post</a></li>
+		<li class="dropdown " >
+          <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
+          <ul class="dropdown-menu onhover" id="db_menu" style"color:white">
+			<li><a href="#">Game1</a></li>
+            <li><a href="#">Game2</a></li>
+            <li><a href="#">Game3</a></li>   
+		  </ul>
+        </li>
+        <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
+					</ul>
+		 <ul class="nav navbar-nav navbar-right">
+			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
+			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
+		</ul>
+     </div>
+
+</div>
+</header>
+<div class="section container" >
+	<div class=" main" id="main">
+		<div class="div1">
+			<a href="#">
+			<div class="div1_1 onhover div_feed_header" style=" text-align:center;padding-top:10px;font-size:20px">
+				<strong><span style="font-size:30px">I</span>nterest</strong>
+			</div>
+			</a>
+			<!-- <div class="div1_2" style="margin-top:6px;">
+				<div class="list-group" style="" id="int_fields">
+					<a href="#" class="list-group-item list-group-item-success">Game1</a>
+					<a href="#" class="list-group-item list-group-item-info">Game2</a>
+					<a href="#" class="list-group-item list-group-item-warning">Game3</a>
+					<a href="#" class="list-group-item list-group-item-danger">Game4</a>
+					<a href="#" class="list-group-item list-group-item-success">Game65555555555555555</a>
+					<a href="#" class="list-group-item list-group-item-info">Game7</a>
+					<a href="#" class="list-group-item list-group-item-warning">Game8</a>
+				</div>			
+			</div> -->
+		</div>
+		<div class="div1 div2" style="">
+			<div class="div1_1" style="display:inline-block">
+				<a href="#"><div class="div_feed_header onhover " id="qs" style="text-align:right;padding:13px 25px 2px 0px ;width:50%;float:left">
+				<strong><span style="font-size:30px">Q</span>UESTIONS</strong></div></a>
+				
+				<a href="#"><div class="div_feed_header onhover" id="ar" style=" text-align:left;padding:13px 0px 2px 25px ;width:50% ;float:left">
+				<strong><span style="font-size:30px">A</span>RTICLES</strong></div></a>
+			</div>
+			
+			<div class="div1_2  div2_2" id="feed">
+				<!-- here Dynamic div's having class="new_feed" will come -->
+				
+			</div>
+			<div  id="more" class="more">
+					<a href="#" style="text-decoration:none"><strong>more>></strong></a>
+				</div>
+			
+		</div>
+		<div class="div1 div3">
+			<a href="#">
+			<div class="div1_1 onhover div_feed_header" style="text-align:center;padding-top:10px;font-size:20px">
+				<strong><span style="font-size:30px">T</span>op&nbsp&nbsp</strong><strong><span style="font-size:30px">D</span>iscussions</strong>
+			</div>
+			</a>
+			<div class="div1_2 div3_2" >
+			
+			<!iframe id="ifrm" class="container-fluid" style="border:none;padding:0px;width:100%;height:500px"src="discussion.html">
+				
+			<!/iframe>	
+			<div id="discussion" style="width:100%;height:500px;overflow:auto;border:1px solid black; border-radius:6px ;">
+				<span id="scroll"></span>
+				<div class="new_discuss">
+					<p id="newp"></p>
+				</div>
+				<div class="new_discuss">
+					
+				</div>
+				<span id="scroll"></span>
+				
+			</div>				
+			</div>
+		</div>
+
+	</div>
+</div>
+<footer>
+</footer>
+
+   <script type="text/javascript" src="../static/js/jquery-1.11.3.min.js"></script>
+   <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+
+        <script src="../static/js/home.js"></script>
+		<script src="../static/js/index.js"></script>
+    
+</body>
+</html>

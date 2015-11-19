@@ -1,0 +1,94 @@
+
+
+.left {
+	position: relative;
+	float: left;
+	width: 300px;
+	height: 1000px;
+	background-color: rgba(24,24,24,0.6);
+	border-radius: 10px;
+	//font-style: Verdana;
+	font-size: 1.3em;
+
+}
+
+.imageDiv
+{
+	height:300px;
+}
+
+.name
+{
+	margin:1em 0.5em 0em 0.5em;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: rgb(254,252,255);
+}
+
+.description
+{
+	margin:0.5em 0.5em 0em 0.5em;
+	font-size: 1em;
+	font-weight: lighter;
+	color: rgb(232,232,232);
+}
+
+#profilePic
+{
+	border-radius: 10px 10px 0px 0px;
+}
+
+.top
+{
+	position: relative;
+	float: left;
+	width: 70%;
+	height: 150px;
+	background-color: rgba(24,24,24,0.6);
+	border-radius: 10px;
+	//font-style: Verdana;
+	font-size: 1.3em;
+	margin-left:2%;
+
+}
+
+.username
+{
+	margin:0.5em 0.5em 0em 0.5em;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: rgb(254,252,255);
+}
+
+.line1
+{
+
+	color: rgb(254,252,255);
+	width:70%;
+	height:1px;
+	border-radius: 1px;
+	border:0.1em solid gray;
+}
+
+.followers
+{
+	position: relative;
+	float:left;
+	margin:2em 0em 0em 1em;
+	width:10%;
+	font-size: 1em;
+	text-align: center;
+	font-weight: lighter;
+	color: rgb(232,232,232);
+}
+
+.following
+{
+	position: relative;
+	float:left;
+	margin:2em 0em 0em 1em;
+	width:10%;
+	font-size: 1em;
+	font-weight: lighter;
+	color: rgb(232,232,232);
+}
