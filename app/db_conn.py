@@ -9,6 +9,7 @@ from settings import *
 
 # create our little application :)
 app = Flask(__name__)
+app.secret_key = 'yghghghgfhfhgfbgfbgfbgfbgf'
 
 
 user_id = 1
@@ -72,28 +73,37 @@ def get_db():
 
 @app.route('/', methods=['GET','POST'])
 def login():
-    db,cursor=get_db()
-    if request.method == 'GET':
-        return render_template('signup.html')
+    if session.get('logged_in'):
+        return render_template('home.html')
+    else:
+        db,cursor=get_db()
+        if request.method == 'GET':
+            return render_template('signup.html')
 
-    elif request.method == 'POST':
-        f=0
-        global user_id
-        email = request.form['email']
-        password = request.form['password']
-        cursor.execute('SELECT user_id,count(*) FROM user_login WHERE email="{0}" AND password="{1}"'.format(email,password))
-        entries = cursor.fetchall()
-        user_id=entries[0][0]
-        count=entries[0][1]
-        if count > 0:
-            f=1
-            # return render_template('home.html',status='success', msg='Login Successfull')
-            return jsonify(status='success', msg='Login Successfull',check=f)
+        elif request.method == 'POST':
+            f=0
+            global user_id
+            email = request.form['email']
+            password = request.form['password']
+            cursor.execute('SELECT user_id,count(*) FROM user_login WHERE email="{0}" AND password="{1}"'.format(email,password))
+            entries = cursor.fetchall()
+            user_id=entries[0][0]
+            count=entries[0][1]
+            if count > 0:
+                f=1
+                session['logged_in'] = True
+                '''if session.get('logged_in'):
+                    # User logged in
+                else:
+                    # Not logged in'''
+                print session['logged_in']
+                # return render_template('home.html',status='success', msg='Login Successfull')
+                return jsonify(status='success', msg='Login Successfull',check=f)
 
-        else:
-            # return jsonify(status='error', error_msg='Invalid Username or Password')
-            return jsonify(status='error', msg='Invalid Username or Password',check=f)
-            # return render_template('templates/login.html', entries=entries)
+            else:
+                # return jsonify(status='error', error_msg='Invalid Username or Password')
+                return jsonify(status='error', msg='Invalid Username or Password',check=f)
+                # return render_template('templates/login.html', entries=entries)
 
 
 # @app.route('/walkthroughs/')
@@ -140,62 +150,68 @@ def signup():
     else:
         return jsonify(status='error', msg='Email Already Exists !')
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
-    return render_template(signup.html)
+    session['logged_in'] = False
+    print session['logged_in']
+    # return jsonify(status='success', msg='logout')
+    return render_template('signup.html')
 #     session.pop('logged_in', None)
 #     flash('You were logged out')
 #     return redirect(url_for('show_entries'))
 
 @app.route('/home', methods=['GET','POST'])
 def home():
-    if request.method == 'GET':
-        return render_template('home.html')
+    if session.get('logged_in'):
+        if request.method == 'GET':
+            return render_template('home.html')
 
-    elif request.method == 'POST':
-        db,cursor = get_db()
-        arr = []
-        global user_id
-        arr2 = []
-        p_id = []
-        question = []
-        articles = []
-        game_name_user = []
-        # data = json.loads(request.data)
-        # session.pop('logged_in', None)
-        # flash('You were logged out')
-        cursor.execute('SELECT username FROM user_login WHERE user_id="{0}"'.format(user_id))
-        entries=cursor.fetchall()
-        username=entries[0][0]
-        print username
-        cursor.execute('SELECT fname,lname,age,descp,sex FROM user_descp WHERE user_id="{0}"'.format(user_id))
-        for row in cursor.fetchall():
-            user_desp_dict=dict({'fname':row[0],'lname':row[1],'age':row[2],'descp':row[3],'sex':row[4]})
-        cursor.execute('SELECT game_id FROM interest WHERE user_id="{0}"'.format(user_id))
-        entries = cursor.fetchall()
-        for a in entries:
-            arr.append(a)
-        count=len(arr)
-        for i in range (0,count):
-            a=arr[i]
-            cursor.execute('SELECT game_name FROM games WHERE game_id="{0}"'.format(a[0]))
+        elif request.method == 'POST':
+            db,cursor = get_db()
+            arr = []
+            global user_id
+            arr2 = []
+            p_id = []
+            question = []
+            articles = []
+            game_name_user = []
+            # data = json.loads(request.data)
+            # session.pop('logged_in', None)
+            # flash('You were logged out')
+            cursor.execute('SELECT username FROM user_login WHERE user_id="{0}"'.format(user_id))
+            entries=cursor.fetchall()
+            username=entries[0]
+            print username
+            cursor.execute('SELECT fname,lname,age,descp,sex FROM user_descp WHERE user_id="{0}"'.format(user_id))
             for row in cursor.fetchall():
-                game_name_user.append(dict({'game_name':row[0]}))
-        cursor.execute('SELECT post_id,post_type FROM posts')
-        entries = cursor.fetchall()
-        for a,b in entries:
-            p_id.append(a)
-            arr2.append(b)
-        for i in range(0,len(arr2)):
-            if(arr2[i] == 'QS'):
-                cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(p_id[i]))
+                user_desp_dict=dict({'fname':row[0],'lname':row[1],'age':row[2],'descp':row[3],'sex':row[4]})
+            cursor.execute('SELECT game_id FROM interest WHERE user_id="{0}"'.format(user_id))
+            entries = cursor.fetchall()
+            for a in entries:
+                arr.append(a)
+            count=len(arr)
+            for i in range (0,count):
+                a=arr[i]
+                cursor.execute('SELECT game_name FROM games WHERE game_id="{0}"'.format(a[0]))
                 for row in cursor.fetchall():
-                    question.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
-            if(arr2[i] == 'AR'):
-                cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(p_id[i]))
-                for row in cursor.fetchall():
-                    articles.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
-        return jsonify(username=username,user_desp_dict=user_desp_dict,game_name_user=game_name_user,question=question,articles=articles)
+                    game_name_user.append(dict({'game_name':row[0]}))
+            cursor.execute('SELECT post_id,post_type FROM posts')
+            entries = cursor.fetchall()
+            for a,b in entries:
+                p_id.append(a)
+                arr2.append(b)
+            for i in range(0,len(arr2)):
+                if(arr2[i] == 'QS'):
+                    cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(p_id[i]))
+                    for row in cursor.fetchall():
+                        question.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+                if(arr2[i] == 'AR'):
+                    cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(p_id[i]))
+                    for row in cursor.fetchall():
+                        articles.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+            return jsonify(username=username,user_desp_dict=user_desp_dict,game_name_user=game_name_user,question=question,articles=articles)
+    else:
+        return jsonify(status='error', msg='Login to Continue')
 
 
 # @app.route('/home', methods=['GET'])
@@ -204,7 +220,7 @@ def home():
 #     # flash('You were logged out')
     # return render_template('home.html')
 
-@app.route('/all_games', methods=['GET','POST'])
+@app.route('/all_games', methods=['POST'])
 def all_games():
     game_name = []
     db,cursor = get_db()
@@ -230,7 +246,7 @@ def all_games():
 #     return jsonify(status='success', msg='Interests Successfully Added')
 
 
-@app.route('/autocomplete_games', methods=['GET','POST'])
+@app.route('/autocomplete_games', methods=['POST'])
 def autocomplete_games():
     arr = []
     arr2 = []

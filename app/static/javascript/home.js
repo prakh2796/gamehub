@@ -62,7 +62,7 @@ $(window).load(function(){
 				console.log(res);
 				var username = res.username;
 				$("#user-name").html(username);
-				$.cookie("user", res);
+				// $.cookie("user", res);
 			// 	if(res.check == 1)
 			// 	{
 		   //  		window.location.href = "/home";
@@ -121,19 +121,59 @@ $(function(){
 
 $(document).ready(function(){
 
-	availableTags = [];
-	var game_name =[];
+	// availableTags = [];
+	// game_name = [];
+
+	$("#logout").click(function(){
+			event.preventDefault();
+			$.ajax({
+			method: "POST",
+			url: "/logout",
+			//data: data_new,
+			success: function(res) {
+				//window.location.href="/";
+			
+				// console.log(res);
+					//console.log("successfully logedout");
+					//window.location.reload(true);
+					// setTimeout(function() {
+						// window.location.pathname="/";
+						// window.location.assign('http://localhost:5000/');
+					// }, 2000);
+				console.log('window.location.href="/"');
+				//window.location.replace('/');
+				//window.location.reload(true);
+				window.location.replace('/');
+			
+			// $(location).attr('href', 'http://www.sitefinity.com');
+					// window.location.reload(true);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+  		});
+		//window.location.reload(true);
+		window.location.replace('/');
+					
+
+	});
+
 	$("#myModal").click(function(){
+
 			$.ajax({
 			method: "POST",
 			url: "/autocomplete_games",
 			//data: data_new,
 			success: function(res) {
-				console.log(res);
+				// console.log(res);
 				var username = res.username;
 				$("#user-name").html(username);
 				game_name=res.game_name;
-				// console.log(game_name)
+				console.log(game_name);
+				$( "#autocomplete" ).autocomplete({
+					source: game_name	
+			});
+
 				// $.cookie("user", res);
 				// availableTags=game_name;
 				// console.log(availableTags)
@@ -154,39 +194,11 @@ $(document).ready(function(){
   		});
 	});
 	
+	
+	setTimeout(function() {
+		console.log(availableTags);
+	}, 2000);
 
-	// availableTags = [
-	// 	"ActionScriptmn",
-	// 	"AppleScript",
-	// 	"Asp",
-	// 	"BASIC",
-	// 	"C",
-	// 	"C++",
-	// 	"Clojure",
-	// 	"COBOL",
-	// 	"ColdFusion",
-	// 	"Erlang",
-	// 	"Fortran",
-	// 	"Groovy",
-	// 	"Haskell",
-	// 	"Java",
-	// 	"JavaScript",
-	// 	"Lisp",
-	// 	"Perl",
-	// 	"PHP",
-	// 	"Python",
-	// 	"Ruby",
-	// 	"Scala",
-	// 	"Scheme"
-	// ];
-	availableTags=game_name;
-	console.log(availableTags)
-		
-	
-	$( "#autocomplete" ).autocomplete({
-		source: availableTags	
-	});
-	
 	$("#add").click(function(){
 		var field=$("#autocomplete").val();
 		//alert(field);

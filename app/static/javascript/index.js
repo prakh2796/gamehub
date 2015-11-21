@@ -51,7 +51,7 @@ function dosignup()
   // data.cpwd = ;
 
   if(data.pwd !== $('#cpwd_signup').val()) {
-    console.log(data.pwd);
+    console.log("Password do not match");
     // alert("password do not match");
   }
   else {
@@ -64,7 +64,8 @@ function dosignup()
       success: function(res) {
         console.log(res);
         $.cookie("user", res);
-        window.location.href = "/home";
+        window.location.href = "/";
+        alert("Account Successfully created Now login");
         // append(res);
       },
       error: function(err) {
@@ -100,7 +101,7 @@ $("#checkbox span").click(function(){
     do_login();
   });
 
-   $("#signup-frm").on('submit', function(event) {
+   $("#button3").on('click', function(event) {
     event.preventDefault();
     console.log('Submitted');
     dosignup();
