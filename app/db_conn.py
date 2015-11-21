@@ -12,9 +12,6 @@ app = Flask(__name__)
 app.secret_key = 'yghghghgfhfhgfbgfbgfbgfbgf'
 
 
-user_id = 1
-
-
 def connect_db():
     """Connects to the specific database."""
     rv = sqlite3.connect(app.config['DATABASE'])
@@ -82,7 +79,6 @@ def login():
 
         elif request.method == 'POST':
             f=0
-            global user_id
             email = request.form['email']
             password = request.form['password']
             cursor.execute('SELECT user_id,count(*) FROM user_login WHERE email="{0}" AND password="{1}"'.format(email,password))
@@ -92,13 +88,8 @@ def login():
             if count > 0:
                 f=1
                 session['logged_in'] = True
-                '''if session.get('logged_in'):
-                    # User logged in
-                else:
-                    # Not logged in'''
-                print session['logged_in']
                 # return render_template('home.html',status='success', msg='Login Successfull')
-                return jsonify(status='success', msg='Login Successfull',check=f)
+                return jsonify(status='success', msg='Login Successfull',check=f,user_id=user_id)
 
             else:
                 # return jsonify(status='error', error_msg='Invalid Username or Password')
@@ -153,15 +144,11 @@ def signup():
 @app.route('/logout', methods=['POST'])
 def logout():
     session['logged_in'] = False
-    print session['logged_in']
     # return jsonify(status='success', msg='logout')
     return render_template('signup.html')
-#     session.pop('logged_in', None)
-#     flash('You were logged out')
-#     return redirect(url_for('show_entries'))
 
-@app.route('/home', methods=['GET','POST'])
-def home():
+@app.route('/home<user_id>', methods=['GET','POST'])
+def home(user_id):
     if session.get('logged_in'):
         if request.method == 'GET':
             return render_template('home.html')
@@ -169,19 +156,15 @@ def home():
         elif request.method == 'POST':
             db,cursor = get_db()
             arr = []
-            global user_id
             arr2 = []
             p_id = []
             question = []
             articles = []
             game_name_user = []
-            # data = json.loads(request.data)
-            # session.pop('logged_in', None)
-            # flash('You were logged out')
             cursor.execute('SELECT username FROM user_login WHERE user_id="{0}"'.format(user_id))
             entries=cursor.fetchall()
-            username=entries[0]
-            print username
+            username=entries[0][0]
+            # print username
             cursor.execute('SELECT fname,lname,age,descp,sex FROM user_descp WHERE user_id="{0}"'.format(user_id))
             for row in cursor.fetchall():
                 user_desp_dict=dict({'fname':row[0],'lname':row[1],'age':row[2],'descp':row[3],'sex':row[4]})
@@ -214,12 +197,6 @@ def home():
         return jsonify(status='error', msg='Login to Continue')
 
 
-# @app.route('/home', methods=['GET'])
-# def home():
-#     # session.pop('logged_in', None)
-#     # flash('You were logged out')
-    # return render_template('home.html')
-
 @app.route('/all_games', methods=['POST'])
 def all_games():
     game_name = []
@@ -231,29 +208,39 @@ def all_games():
     # print all_games
     return jsonify(game_name=game_name)
 
-# @app.route('/add_interest', methods=['GET','POST'])
-# def add_interest():
-#     db,cursor = get_db()
-#     arr = []
-#     global user_id
-#     data = json.loads(request.data)
-#     for i in range(0,len(data['game_name'])):
-#         cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(data['game_name'][0]['name']))
-#         entries = cursor.fetchall()
-#         game_id = entries[0][0]
-#         cursor.execute('INSERT INTO interest VALUES ("{0}","{1}")'.format(user_id,game_id))
-#         db.commit()
-#     return jsonify(status='success', msg='Interests Successfully Added')
+@app.route('/add_interest<user_id>', methods=['POST'])
+def add_interest(user_id):
+    db,cursor = get_db()
+    arr = []
+    # print 'down'
+    # print request.data
+    # print 'up'
+    # import pdb;pdb.set_trace()
+    # data = json.loads(request.data)
+    interest_list = json.loads(request.form['interest_list'])
+    #import pdb;pdb.set_trace()
+    print interest_list
+    for i in range(0,len(interest_list)):
+        print interest_list['x'][i]
+        if interest_list['x'][i] != NULL:
+            cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list['x'][i]))
+            entries = cursor.fetchall()
+            #import pdb;pdb.set_trace()
+            game_id = entries[0][0]
+            print game_id
+            cursor.execute('INSERT INTO interest VALUES ("{0}","{1}")'.format(user_id,game_id))
+            db.commit()
+    return jsonify(status='success', msg='Interests Successfully Added')
 
 
-@app.route('/autocomplete_games', methods=['POST'])
-def autocomplete_games():
+@app.route('/autocomplete_games<user_id>', methods=['POST'])
+def autocomplete_games(user_id):
     arr = []
     arr2 = []
     arr3 = []
     game_name = []
     db,cursor = get_db()
-    global user_id
+    # print user_id
     cursor.execute('SELECT game_id FROM interest WHERE user_id="{0}"'.format(user_id))
     entries = cursor.fetchall()
     for a in entries:
@@ -267,7 +254,7 @@ def autocomplete_games():
     for i in range(0,len(arr2)):
         flag=0
         for j in range(0,len(arr)):
-            if arr2[i] == arr[j]:
+            if arr2[i] == arr[j][0]:
                 flag=1
                 break
         if flag == 0:

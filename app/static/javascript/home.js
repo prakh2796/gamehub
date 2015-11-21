@@ -1,7 +1,9 @@
-//var feed_no=0;
+
 var feed_no=0;
 var total_interest=0;
 var availableTags;
+var user_id = localStorage.getItem('user_id');
+
 function create_feed(){
 	var d;	
 	var dContent;
@@ -56,23 +58,13 @@ $(window).load(function(){
 		event.preventDefault();
 		$.ajax({
 			method: "POST",
-			url: "/home",
+			url: "/home" + user_id,
 			//data: data_new,
 			success: function(res) {
 				console.log(res);
 				var username = res.username;
 				$("#user-name").html(username);
 				// $.cookie("user", res);
-			// 	if(res.check == 1)
-			// 	{
-		   //  		window.location.href = "/home";
-			// 	}
-			// 	else
-			// 	{
-		   //  		alert(res.msg);
-			// 	}
-			 // // window.location.href = "/home";
-				// append(res);
 			},
 			error: function(err) {
 				console.log(err);
@@ -131,22 +123,10 @@ $(document).ready(function(){
 			url: "/logout",
 			//data: data_new,
 			success: function(res) {
-				//window.location.href="/";
-			
-				// console.log(res);
-					//console.log("successfully logedout");
-					//window.location.reload(true);
-					// setTimeout(function() {
-						// window.location.pathname="/";
-						// window.location.assign('http://localhost:5000/');
-					// }, 2000);
 				console.log('window.location.href="/"');
 				//window.location.replace('/');
 				//window.location.reload(true);
 				window.location.replace('/');
-			
-			// $(location).attr('href', 'http://www.sitefinity.com');
-					// window.location.reload(true);
 			},
 			error: function(err) {
 				console.log(err);
@@ -159,10 +139,10 @@ $(document).ready(function(){
 	});
 
 	$("#myModal").click(function(){
-
+		// console.log(user_id);
 			$.ajax({
 			method: "POST",
-			url: "/autocomplete_games",
+			url: "/autocomplete_games" + user_id,
 			//data: data_new,
 			success: function(res) {
 				// console.log(res);
@@ -174,19 +154,6 @@ $(document).ready(function(){
 					source: game_name	
 			});
 
-				// $.cookie("user", res);
-				// availableTags=game_name;
-				// console.log(availableTags)
-			// 	if(res.check == 1)
-			// 	{
-		   //  		window.location.href = "/home";
-			// 	}
-			// 	else
-			// 	{
-		   //  		alert(res.msg);
-			// 	}
-			 // // window.location.href = "/home";
-				// append(res);
 			},
 			error: function(err) {
 				console.log(err);
@@ -196,13 +163,19 @@ $(document).ready(function(){
 	
 	
 	setTimeout(function() {
-		console.log(availableTags);
+		console.log(game_name);
 	}, 2000);
+
+	interest_list = [];
+	// addedcount = 0;
 
 	$("#add").click(function(){
 		var field=$("#autocomplete").val();
 		//alert(field);
 		//$("#interest-name").html(field);
+		// interest_list[addedcount++] = field;
+		interest_list.push(field);
+		// console.log(interest_list[addedcount-1]);
 		var interestP=document.createElement('p');
 		$(interestP).addClass('interest-added');
 		total_interest++;
@@ -212,46 +185,76 @@ $(document).ready(function(){
 		$(interestP).appendTo("#interest-name");
 		$("#autocomplete").val("");
 					
-	})
-		
-		
-		$("#games_drop").click(function(){
-			$("#db_menu").slideToggle("slow");
-		});
-		$("#user_drop").click(function(){
-			$("#drop_down").slideToggle("slow");
-		});		
-		$("#more a").click(function(){
-			//$("#more").remove();
-			for (var i = 0; i < 3; i++) {	
-				d=document.createElement('div');
-				$(d).addClass("new_feed")
-				.html("new one"+(feed_no+1))
-				.appendTo($("#feed"));
-				feed_no++;
+	});
+
+	$("#done").click(function(){
+	$.ajax({
+			method: "POST",
+			url: "/add_interest" + user_id,
+			// data: JSON.stringify(interest_list),
+			data: { 
+				interest_list: JSON.stringify({'x': interest_list}) 
+			},
+			success: function(res) {
+				console.log(interest_list);
+				console.log(res.msg);	
+			},
+			error: function(err) {
+				console.log('ajfkjsb');
 			}
-			 feed_no=feed_no+3;
-			/*var $newfeed = $('<div class="new_feed" />');
-			for (var i = 0; i < 3; i++) {
-				$newfeed = $('<div class="ball" />');
-				$("#feed").append(newfeed).text(i);
-			}*/
-			/*d=document.createElement('div');
-			$(d).addClass("more")
-			.html(" <a href=\"#\" style=\"text-decoration:none\"> more>> </a>")
-			
+	});
+	//window.location.reload(true);
+		/* var time = new Date().getTime();
+		$(document.body).bind("mousemove keypress", function(e) {
+			 time = new Date().getTime();
+		});
+		function refresh() {
+			 if(new Date().getTime() - time >= 60000) 
+				 window.location.reload(true);
+			 else 
+				 setTimeout(refresh, 10000);
+		}
+		setTimeout(refresh, 10000); */
+	});
+		
+		
+	$("#games_drop").click(function(){
+		$("#db_menu").slideToggle("slow");
+	});
+	$("#user_drop").click(function(){
+		$("#drop_down").slideToggle("slow");
+	});		
+	$("#more a").click(function(){
+		//$("#more").remove();
+		for (var i = 0; i < 3; i++) {	
+			d=document.createElement('div');
+			$(d).addClass("new_feed")
+			.html("new one"+(feed_no+1))
 			.appendTo($("#feed"));
-			*/
-			});
+			feed_no++;
+		}
+		 feed_no=feed_no+3;
+		/*var $newfeed = $('<div class="new_feed" />');
+		for (var i = 0; i < 3; i++) {
+			$newfeed = $('<div class="ball" />');
+			$("#feed").append(newfeed).text(i);
+		}*/
+		/*d=document.createElement('div');
+		$(d).addClass("more")
+		.html(" <a href=\"#\" style=\"text-decoration:none\"> more>> </a>")
+		
+		.appendTo($("#feed"));
+		*/
+		});
+		
+		
+			for (var i = 0; i < 3; i++) {	
 			
-			
-				for (var i = 0; i < 3; i++) {	
-				
-				var d=document.createElement('div');
-				$(d).addClass("new_discuss")
-				.html("new one" + 1)
-				.appendTo($("#discussion"));
-				}
+			var d=document.createElement('div');
+			$(d).addClass("new_discuss")
+			.html("new one" + 1)
+			.appendTo($("#discussion"));
+			}
 		
     $("#discussion").scroll(function(){
         //$("#newp").text( "aksndokjadokasmdoaksm");
@@ -261,6 +264,7 @@ $(document).ready(function(){
 				.appendTo($("#discussion"));
 			
 	});
+
 	
 	/* Anything that gets to the document
    will hide the dropdown */

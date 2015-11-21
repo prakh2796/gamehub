@@ -1,3 +1,4 @@
+var user_id;
 function do_login() 
 {
   var login={};
@@ -18,7 +19,11 @@ function do_login()
       $.cookie("user", res);
       if(res.check == 1)
       {
-        window.location.href = "/home";
+      	user_id = res.user_id;
+      	localStorage.setItem('user_id',user_id);
+      	window.location.href = "/home" + user_id;       
+        //user_id = res.user_id;
+        console.log(user_id);
       }
       else
       {
