@@ -68,6 +68,7 @@ def get_db():
 #     return jsonify({'a':'Hello World'})
 
 
+#######################################      Login Verification    ##################################################
 @app.route('/', methods=['GET','POST'])
 def login():
     if session.get('logged_in'):
@@ -105,7 +106,7 @@ def login():
 #     abc=line.split('=', 1)[-1]
 
 
-
+#######################################################     Signup   #######################################################
 @app.route('/signup', methods=['POST'])
 def signup():
     db,cursor = get_db()
@@ -168,6 +169,8 @@ def home(user_id):
             cursor.execute('SELECT fname,lname,age,descp,sex FROM user_descp WHERE user_id="{0}"'.format(user_id))
             for row in cursor.fetchall():
                 user_desp_dict=dict({'fname':row[0],'lname':row[1],'age':row[2],'descp':row[3],'sex':row[4]})
+
+            ####### All games user has in his interest ########
             cursor.execute('SELECT game_id FROM interest WHERE user_id="{0}"'.format(user_id))
             entries = cursor.fetchall()
             for a in entries:
@@ -178,6 +181,8 @@ def home(user_id):
                 cursor.execute('SELECT game_name FROM games WHERE game_id="{0}"'.format(a[0]))
                 for row in cursor.fetchall():
                     game_name_user.append(dict({'game_name':row[0]}))
+
+            ####### All articles and questions in separate list #######
             cursor.execute('SELECT post_id,post_type FROM posts')
             entries = cursor.fetchall()
             for a,b in entries:
@@ -197,6 +202,7 @@ def home(user_id):
         return jsonify(status='error', msg='Login to Continue')
 
 
+##############################################  All Games  ######################################################
 @app.route('/all_games', methods=['POST'])
 def all_games():
     game_name = []
@@ -208,31 +214,29 @@ def all_games():
     # print all_games
     return jsonify(game_name=game_name)
 
+
+##############################################  Add Interest  ######################################################
 @app.route('/add_interest<user_id>', methods=['POST'])
 def add_interest(user_id):
     db,cursor = get_db()
     arr = []
-    # print 'down'
-    # print request.data
-    # print 'up'
     # import pdb;pdb.set_trace()
     # data = json.loads(request.data)
     interest_list = json.loads(request.form['interest_list'])
-    #import pdb;pdb.set_trace()
     print interest_list
     for i in range(0,len(interest_list)):
         print interest_list['x'][i]
         if interest_list['x'][i] != NULL:
             cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list['x'][i]))
             entries = cursor.fetchall()
-            #import pdb;pdb.set_trace()
             game_id = entries[0][0]
-            print game_id
+            # print game_id
             cursor.execute('INSERT INTO interest VALUES ("{0}","{1}")'.format(user_id,game_id))
             db.commit()
     return jsonify(status='success', msg='Interests Successfully Added')
 
 
+##########################################  Autocompelete for a user  #################################################
 @app.route('/autocomplete_games<user_id>', methods=['POST'])
 def autocomplete_games(user_id):
     arr = []
@@ -261,6 +265,174 @@ def autocomplete_games(user_id):
             game_name.append(arr3[i])
     # print game_name
     return jsonify(game_name=game_name)
+
+
+##################################################    Users Timiline ########################################################
+@app.route('/timeline<user_id>', methods=['GET','POST'])
+def timeline(user_id):
+
+    u_id = []
+    p_id = []
+    game_id = []
+    tag_id= []
+    arr = []
+    arr2 = []
+    arr3 = []
+    post = []
+    post_id = []
+    post_date = []
+    post_type = []
+
+    db,cursor = get_db()
+    cursor.execute('SELECT following FROM user_following WHERE user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    for row in entries:
+        u_id.append(row)
+    cursor.execute('SELECT user_id FROM user_login WHERE user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    u_id.append(entries[0])
+    # print u_id
+    for i in range(0,len(u_id)):
+        cursor.execute('SELECT post_id FROM user_posts WHERE user_id="{0}"'.format(u_id[i][0]))
+        entries=cursor.fetchall()
+        for a in entries:
+            p_id.append(a[0])
+    # print p_id
+    cursor.execute('SELECT game_id FROM interest WHERE user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    for a in entries:
+        game_id.append(a)
+    for i in range(0,len(game_id)):
+        cursor.execute('SELECT tag_id FROM games_tags WHERE game_id="{0}"'.format(game_id[i][0]))
+        entries = cursor.fetchall()
+        for a in entries:
+            tag_id.append(a)
+        # print game_id[i]
+        # print tag_id  
+    for i in range(0,len(tag_id)):
+        cursor.execute('SELECT post_id FROM posts_tags WHERE tag_id="{0}"'.format(tag_id[i][0]))
+        entries = cursor.fetchall()
+        for a in entries:
+            p_id.append(a[0])
+    p_id = remove_duplicates(p_id)
+    # print p_id
+    cursor.execute('SELECT post_id,post_date,post_type FROM posts ORDER BY post_date DESC')
+    entries = cursor.fetchall()
+    for a,b,c in entries:
+        arr.append(a)
+        arr2.append(b)
+        arr3.append(c)
+    # print arr
+    # print arr2
+    for i in range(0,len(arr)):
+        for j in range(0,len(p_id)):
+            if p_id[j] == arr[i]:
+                post_id.append(arr[i])
+                post_date.append(str(arr2[i]))
+                post_type.append(arr3[i])
+                break
+    # print post_id
+    for i in range(0,len(post_type)):
+        if(post_type[i] == 'QS'):
+            cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(post_id[i]))
+            for row in cursor.fetchall():
+                post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+        if(post_type[i] == 'AR'):
+            cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(post_id[i]))
+            for row in cursor.fetchall():
+                post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+        count = len(post)
+    # print post
+    return jsonify(post=post, post_date=post_date, post_type=post_type, count=count)
+
+
+###########################################    Remove duplicates form a list #####################################
+def remove_duplicates(values):
+    output = []
+    seen = set()
+    for value in values:
+        # If value has not been encountered yet,
+        # ... add it to both list and set.
+        if value not in seen:
+            output.append(value)
+            seen.add(value)
+    return output
+
+
+#####################################    Profile Page  ##################################################
+@app.route('/profile<user_id>', methods=['GET','POST'])
+def profile(user_id):
+
+    arr = []
+    user_desp_dict = []
+    following= []
+    followers = []
+    post_type = []
+    post_id = []
+    question = []
+    answer = []
+    article = []
+    comment = []
+
+    db,cursor = get_db()
+    ######  Username  ######
+    cursor.execute('SELECT username FROM user_login WHERE user_id="{0}"'.format(user_id))
+    entries=cursor.fetchall()
+    username=entries[0][0]
+
+    ######  Following  ######
+    cursor.execute('SELECT fname,lname,age,descp,sex FROM user_descp WHERE user_id="{0}"'.format(user_id))
+    for row in cursor.fetchall():
+        user_desp_dict=dict({'fname':row[0],'lname':row[1],'age':row[2],'descp':row[3],'sex':row[4]})
+    cursor.execute('SELECT following FROM user_following where user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    for a in entries:
+        arr.append(a[0])
+    for i in range(0,len(arr)):
+        cursor.execute('SELECT fname,lname FROM user_descp WHERE user_id="{0}"'.format(arr[i]))
+        entries = cursor.fetchall()
+        for a,b in entries:
+            # print a,b
+            name = a + b
+        following.append(name)
+    # print following
+
+    ######  Followers  ######
+    arr = []
+    cursor.execute('SELECT followers FROM user_followers where user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    for a in entries:
+        arr.append(a[0])
+    # print arr
+    for i in range(0,len(arr)):
+        cursor.execute('SELECT fname,lname FROM user_descp WHERE user_id="{0}"'.format(arr[i]))
+        entries = cursor.fetchall()
+        for a,b in entries:
+            # print a,b
+            name = a + b
+        followers.append(name)
+    # print followers
+
+    ######  User's Questions and Articles along with Answers and Comments  ######
+    cursor.execute('SELECT post_id FROM user_posts WHERE user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    for a in entries:
+        post_id.append(a[0])
+    for i in range(0,len(post_id)):
+        cursor.execute('SELECT post_type FROM posts WHERE post_id="{0}"'.format(post_id[i]))
+        entries = cursor.fetchall()
+        for a in entries:
+            post_type.append(a[0])
+    for i in range(0,len(post_type)):
+        if(post_type[i] == 'QS'):
+            cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(post_id[i]))
+            for row in cursor.fetchall():
+                question.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+        if(post_type[i] == 'AR'):
+            cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(post_id[i]))
+            for row in cursor.fetchall():
+                article.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+    return jsonify(username=username, followers=followers, following=following, question=question, article=article)
 
 
 

@@ -55,6 +55,7 @@ $( "#autocomplete" ).click({
 			console.log("No more post to Load")
 		}
 		else{
+			var flag=feed_no;
 			for (var i = 0; i < 3; i++) {	
 				d=document.createElement('div');
 				//.html("new one"+(feed_no+1));
@@ -97,7 +98,16 @@ $( "#autocomplete" ).click({
 				.html('<span style=""class="glyphicon glyphicon-comment">4</span><span style="font-size:1.2em"class="glyphicon glyphicon-heart">10</span><div id="expand" class="expand_class">expand<span style="padding:3px;"class="glyphicon glyphicon-fast-forward"></span></div>');
 				$(like_bar).appendTo(dContent);
 				$('#feed').append(d).masonry( 'appended',d );
+				
 			}
+				for(var i=flag-1;i<feed_no;i++)
+				{
+					console.log("in for");
+					$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
+					$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
+					$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
+				}	
+				
 		}
 		
 	}

@@ -1,9 +1,10 @@
 
-var feed_no=0;
+var feed_no=1;
 var total_interest=0;
 var availableTags;
+var game_name;
 var user_id = localStorage.getItem('user_id');
-
+var js_res;
 function create_feed(){
 	var d;	
 	var dContent;
@@ -17,14 +18,19 @@ function create_feed(){
 				$(d).addClass("grid-item"+' '+heightClass);
 				dContent=document.createElement('div');
 				$(dContent).addClass('grid-item-content')
-				var feed_id='feed'+(feed_no+1);
+				var feed_id='feed'+(feed_no);
 				$(dContent).attr('id',feed_id);
 				//$("#"+feed_id).html("kjdsfnkja");
 				
 				var upper_div=document.createElement("div");
 				$(upper_div).addClass('feed-div feed-upper-div');
 				$(upper_div).appendTo(dContent);
-									
+					var oImg=document.createElement("img");
+					$(oImg).attr('src', '../static/images/profile-dribbble.png');
+					$(oImg).attr('alt', 'profile image'); 
+					$(oImg).addClass("feed-user-image");		
+					$(oImg).appendTo(upper_div);
+								
 					var feed_username=document.createElement("div");
 					$(feed_username).addClass("feed-username").html("new one"+(feed_no+1));
 					$(feed_username).appendTo(upper_div);
@@ -32,22 +38,25 @@ function create_feed(){
 					$(follow_btn).addClass("follow-btn")
 					.html('Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
 					$(follow_btn).appendTo(upper_div);
-					var oImg=document.createElement("img");
-					$(oImg).attr('src', '../static/images/profile-dribbble.png');
-					$(oImg).attr('alt', 'profile image'); 
-					$(oImg).addClass("feed-user-image");		
-					$(oImg).appendTo(upper_div);
-				
+					
 				var lower_div=document.createElement("div");
 				$(lower_div).addClass("feed-div feed-lower-div");
+				$(lower_div).attr('id','feedTitle'+feed_no);
+				$(lower_div).html('<h2>How to download CS maps??</h2><p></p>');
 				$(lower_div).appendTo(dContent);
 				$(dContent).appendTo(d);
 				
 				var like_bar=document.createElement("div");
-				$(like_bar).addClass("like-bar")
-				.html('<span style=""class="glyphicon glyphicon-comment">4</span><span style="font-size:1.2em"class="glyphicon glyphicon-heart">10</span><div id="expand" class="expand_class">expand<span style="padding:3px;"class="glyphicon glyphicon-fast-forward"></span></div>');
+				$(like_bar).addClass("like-bar");
+				$(like_bar).attr('id','likeBar'+feed_no);
+				$(like_bar).html('<span style=""class="glyphicon glyphicon-comment">4</span><span style="font-size:1.2em"class="glyphicon glyphicon-heart">10</span><div id="expand" class="expand_class">expand<span style="padding:3px;"class="glyphicon glyphicon-fast-forward"></span></div>');
 				$(like_bar).appendTo(dContent);
 				//.html("new one"+(feed_no+1)).appendTo(d);
+				//console.log(risk);
+				// $("#feedTitle1 h2").html(risk.post[0].title);
+				// $("#feedTitle1 p").html(risk.post[0].content);
+				// $("#likeBar1 #like").html(risk.post[0].likes);
+				
 				$('#feed').append(d).masonry( 'appended',d );
 	}
 	
@@ -71,7 +80,47 @@ $(window).load(function(){
 			}
   		});
 
-  
+		$.ajax({
+			method: "POST",
+			url: "/timeline" + user_id,
+			//data: data_new,
+			success: function(res) {
+				//console.log(res);
+				//event.preventDefault();
+				js_res=res;
+				console.log(js_res);
+				//create_feed();
+				// setTimeout(function() {
+				// 	create_feed(res);
+				// 	//console.log(game_name);
+				// }, 2000);
+				setTimeout(function() {
+					//create_feed(res);
+				for(var i=0;i<feed_no;i++)
+				{
+					$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
+					$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
+					$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
+				}	
+				
+					//console.log(game_name);
+				}, 2000);
+				// // console.log(res.post[0].title);
+				// $("#feedTitle1 h2").html(res.post[0].title);
+				// $("#feedTitle1 p").html(res.post[0].content);
+				// $("#likeBar1 #like").html(res.post[0].likes);
+				// //var username = res.username;
+				//$("#user-name").html(username);
+				// $.cookie("user", res);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+				
+		// create_feed(js_res);
+				
+
 	/* $("#more").hide();
 			for (var i = 0; i < 4; i++) {	
 				d=document.createElement('div');
