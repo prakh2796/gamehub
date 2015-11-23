@@ -320,3 +320,13 @@ body {
 	text-align:center;
 	display:flex;
 }
+
+#no-more{
+	width: 100%;
+	padding: 10px;
+	background: yellow;
+	height: auto;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.3em;
+}

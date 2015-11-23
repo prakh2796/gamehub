@@ -223,17 +223,20 @@ def add_interest(user_id):
     # import pdb;pdb.set_trace()
     # data = json.loads(request.data)
     interest_list = json.loads(request.form['interest_list'])
-    print interest_list
-    for i in range(0,len(interest_list)):
-        print interest_list['x'][i]
-        if interest_list['x'][i] != NULL:
-            cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list['x'][i]))
-            entries = cursor.fetchall()
-            game_id = entries[0][0]
-            # print game_id
-            cursor.execute('INSERT INTO interest VALUES ("{0}","{1}")'.format(user_id,game_id))
-            db.commit()
-    return jsonify(status='success', msg='Interests Successfully Added')
+    # print interest_list
+    if interest_list:
+        for i in range(0,len(interest_list)):
+            print interest_list['x'][i]
+            if interest_list['x'][i] != NULL:
+                cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list['x'][i]))
+                entries = cursor.fetchall()
+                game_id = entries[0][0]
+                # print game_id
+                cursor.execute('INSERT INTO interest VALUES ("{0}","{1}")'.format(user_id,game_id))
+                db.commit()
+        return jsonify(status='success', msg='Interests Successfully Added')
+    else:
+        return jsonify(status='error', msg='No Interest Added')
 
 
 ##########################################  Autocompelete for a user  #################################################
@@ -267,7 +270,7 @@ def autocomplete_games(user_id):
     return jsonify(game_name=game_name)
 
 
-##################################################    Users Timiline ########################################################
+##################################################   Users Timiline  ########################################################
 @app.route('/timeline<user_id>', methods=['GET','POST'])
 def timeline(user_id):
 
@@ -282,6 +285,7 @@ def timeline(user_id):
     post_id = []
     post_date = []
     post_type = []
+    username = []
 
     db,cursor = get_db()
     cursor.execute('SELECT following FROM user_following WHERE user_id="{0}"'.format(user_id))
@@ -331,7 +335,7 @@ def timeline(user_id):
                 post_date.append(str(arr2[i]))
                 post_type.append(arr3[i])
                 break
-    # print post_id
+    print post_id
     for i in range(0,len(post_type)):
         if(post_type[i] == 'QS'):
             cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(post_id[i]))
@@ -341,8 +345,18 @@ def timeline(user_id):
             cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(post_id[i]))
             for row in cursor.fetchall():
                 post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
-        count = len(post)
-    # print post
+        # print post
+        cursor.execute('SELECT user_id FROM user_posts WHERE post_id="{0}"'.format(post_id[i]))
+        entries = cursor.fetchall()
+        temp = entries[0][0]
+        # print p_id[i]
+        # print temp
+        cursor.execute('SELECT username FROM user_login WHERE user_id="{0}"'.format(temp))
+        entries = cursor.fetchall()
+        username.append(entries[0][0])
+        # print username
+    count = len(post)
+    print username
     return jsonify(post=post, post_date=post_date, post_type=post_type, count=count)
 
 
@@ -376,9 +390,10 @@ def profile(user_id):
 
     db,cursor = get_db()
     ######  Username  ######
-    cursor.execute('SELECT username FROM user_login WHERE user_id="{0}"'.format(user_id))
+    cursor.execute('SELECT username,email FROM user_login WHERE user_id="{0}"'.format(user_id))
     entries=cursor.fetchall()
-    username=entries[0][0]
+    username = entries[0][0]
+    email = entries[0][1]
 
     ######  Following  ######
     cursor.execute('SELECT fname,lname,age,descp,sex FROM user_descp WHERE user_id="{0}"'.format(user_id))
@@ -432,7 +447,7 @@ def profile(user_id):
             cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(post_id[i]))
             for row in cursor.fetchall():
                 article.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
-    return jsonify(username=username, followers=followers, following=following, question=question, article=article)
+    return jsonify(username=username, email=email, followers=followers, following=following, question=question, article=article)
 
 
 

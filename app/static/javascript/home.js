@@ -1,14 +1,17 @@
 
-var feed_no=1;
-var total_interest=0;
+var feed_no=0;
+var js_res;
+//var total_interest=0;
 var availableTags;
 var game_name;
 var user_id = localStorage.getItem('user_id');
-var js_res;
+//var global_feed_cnt=localStorage.getItem('global_feed_cnt');
+var global_feed_cnt=0;
 function create_feed(){
 	var d;	
 	var dContent;
 	for (var i = 0; i < 6; i++) {	
+
 				d=document.createElement('div');
 				//.html("new one"+(feed_no+1));
 				//.appendTo($("#feed"));
@@ -61,7 +64,6 @@ function create_feed(){
 	}
 	
 }
-
 $(window).load(function(){
 		create_feed();		//calling of function
 		event.preventDefault();
@@ -96,15 +98,35 @@ $(window).load(function(){
 				// }, 2000);
 				setTimeout(function() {
 					//create_feed(res);
-				for(var i=0;i<feed_no;i++)
-				{
-					$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
-					$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
-					$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
-				}	
-				
+					var global_feed_cnt=js_res.count;
+					if(js_res.count>feed_no)
+					{
+						for(var i=0;i<feed_no;i++)
+						{
+							$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
+							$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
+							$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
+							js_res.count--;
+						}	
+					//	global_feed_cnt=global_feed_cnt-feed_no;
+						//console.log(global_feed_cnt);
+					}
+					else{
+					//	console.log("else"+global_feed_cnt);
+						for(var i=0;i<js_res.count;i++)
+						{
+							$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
+							$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
+							$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
+							js_res.count--;
+						}	
+
+					}
+					//console.log("in home.js"+global_feed_cnt);
+					//js_res.count=global_feed_cnt;
+					//console.log("js count"+js_res.count);
 					//console.log(game_name);
-				}, 2000);
+				}, 1000);
 				// // console.log(res.post[0].title);
 				// $("#feedTitle1 h2").html(res.post[0].title);
 				// $("#feedTitle1 p").html(res.post[0].content);
@@ -134,6 +156,7 @@ $(window).load(function(){
 	
 //$("#new-user").hide();
 //$("#new-user").show();
+$("#no-more").hide();
 });
 
 /* 
