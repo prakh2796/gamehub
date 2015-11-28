@@ -1,21 +1,23 @@
-
+//var feed_no=0;
 var feed_no=0;
-var js_res;
-//var total_interest=0;
+//var feed_no=1;
+var total_interest=0;
 var availableTags;
 var game_name;
 var user_id = localStorage.getItem('user_id');
-//var global_feed_cnt=localStorage.getItem('global_feed_cnt');
-var global_feed_cnt=0;
-function create_feed(){
-	var d;	
-	var dContent;
-	for (var i = 0; i < 6; i++) {	
+var username;
+var js_res;
 
-				d=document.createElement('div');
+var total_interest=0;
+var trending_cnt=0;
+var ans_count=0;
+
+function in_feed(i){
+	var dContent;
+	var d=document.createElement('div');
 				//.html("new one"+(feed_no+1));
 				//.appendTo($("#feed"));
-				feed_no++;
+				
 				var hRand = Math.random();
 				var heightClass = hRand > 0.65 ? 'grid-item--height2' : hRand > 0.25 ? 'grid-item--height3' : '';
 				$(d).addClass("grid-item"+' '+heightClass);
@@ -35,9 +37,19 @@ function create_feed(){
 					$(oImg).appendTo(upper_div);
 								
 					var feed_username=document.createElement("div");
-					$(feed_username).addClass("feed-username").html("new one"+(feed_no+1));
+					$(feed_username).addClass("feed-username").html("new one"+(feed_no));
 					$(feed_username).appendTo(upper_div);
+								
+					var post_type=document.createElement("div");
+					$(post_type).addClass("post-type");
+					$(post_type).appendTo(upper_div);
+								
+					var feed_date=document.createElement("div");
+					$(feed_date).addClass("feed-date");
+					$(feed_date).appendTo(upper_div);
+					
 					var follow_btn=document.createElement("div");
+					$(follow_btn).attr('id','follow-btn');
 					$(follow_btn).addClass("follow-btn")
 					.html('Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
 					$(follow_btn).appendTo(upper_div);
@@ -49,10 +61,16 @@ function create_feed(){
 				$(lower_div).appendTo(dContent);
 				$(dContent).appendTo(d);
 				
+				var answers=document.createElement("div");
+				$(answers).addClass("feed-user-answers");
+				$(answers).attr('id','feed-user-answers');
+				$(answers).html('<h4>Answers:</h4><textarea id="t1" class="t1" data-action="fit" placeholder="Write your text here..."></textarea>');
+				$(answers).appendTo(dContent);
+				
 				var like_bar=document.createElement("div");
 				$(like_bar).addClass("like-bar");
 				$(like_bar).attr('id','likeBar'+feed_no);
-				$(like_bar).html('<span style=""class="glyphicon glyphicon-comment">4</span><span style="font-size:1.2em"class="glyphicon glyphicon-heart">10</span><div id="expand" class="expand_class">expand<span style="padding:3px;"class="glyphicon glyphicon-fast-forward"></span></div>');
+				$(like_bar).html('<span style="" id="answer"><i class="fa fa-comments">4</i></span><span  id="like"><i class="fa fa-heart">10</i></span><div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div><div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>');
 				$(like_bar).appendTo(dContent);
 				//.html("new one"+(feed_no+1)).appendTo(d);
 				//console.log(risk);
@@ -61,27 +79,108 @@ function create_feed(){
 				// $("#likeBar1 #like").html(risk.post[0].likes);
 				
 				$('#feed').append(d).masonry( 'appended',d );
+				feed_no++;
+				$("#feed #compress").hide();
+}
+
+
+var global_feed_cnt=0;
+function create_feed(){
+	//var d;	
+	//var dContent;
+	for (var i = 0; i < 6; i++) {	
+		in_feed(i);
+			
 	}
 	
 }
+
+function createTrending(){
+	for(var i=0;i<6;i++)
+	{
+		console.log("yes");
+		trending_cnt++;
+		var li=document.createElement('li');
+		var liDiv=document.createElement('div');
+		$(liDiv).addClass('trending-story');
+		var imageUrl="../static/images/wallpapers/"+trending_cnt+".jpg";
+		$(liDiv).css('background-image', 'url(' + imageUrl + ')');
+		
+		//$(liDiv).attr('id','');
+		var liUpperDiv=document.createElement('div');
+		 $(liUpperDiv).addClass('liUpperDiv');
+			$(liUpperDiv).appendTo(liDiv);
+		
+			var liGameName=document.createElement('div');
+			var liGameName_id='li_name'+trending_cnt;
+			$(liGameName).addClass('liGameName btn btn-dark pull-left');
+			$(liGameName).attr('id',liGameName_id).html("Counter Strike");
+			$(liGameName).appendTo(liUpperDiv);
+			var add_to_int=document.createElement('div');
+			$(add_to_int).addClass("liFollbtn pull-right btn btn-dark").html('<span class="glyphicon glyphicon-plus" style="display:inline-block"></span></div>');
+			//$(liGameName).appendTo("liUpperDiv");
+			$(add_to_int).appendTo(liUpperDiv); 
+		
+		var liSecondDiv=document.createElement('div');
+		$(liSecondDiv).addClass('liSecondDiv');
+		$(liSecondDiv).appendTo(liDiv);
+		var p=document.createElement('p');
+		$(p).addClass('liGenre');
+		$(p).html(' genre');
+		$(p).appendTo(liDiv);
+		//$(liUpperDiv).appendTo(liDiv);
+		//$(liSecondDiv).appendTo(liDiv);
+		//$(p).appendTo(liDiv);		 
+		//$(liDiv).appendTo(li);
+		$(li).appendTo(".sidebar-nav");	
+		$(liDiv).appendTo(li);
+	}
+	var liImg=document.createElement('li');
+	$(liImg).addClass('trending-img');//.html("Loading IMG...");
+	var imageUrl="../static/images/imgur.gif";
+	$(liImg).css('background', 'url(' + imageUrl + ') no-repeat ');
+	$(liImg).attr('id','trending-img');
+	$(liImg).appendTo('.sidebar-nav');
+	//$(liImg).hide();
+}
+
+var time = new Date().getTime();
+$(document.body).bind("mousemove keypress", function(e) {
+	 time = new Date().getTime();
+});
+function refresh() {
+	if(new Date().getTime() - time >= 60000) 
+		window.location.reload(true);
+	else 
+		setTimeout(refresh, 10000);
+}
+
+setTimeout(refresh, 10000);
+			
 $(window).load(function(){
-		create_feed();		//calling of function
+		create_feed();		//calling of function (displaying feed on load of homepage)
+		createTrending();	//calling of Treanding Sidebar Function on load
 		event.preventDefault();
-		$.ajax({
+  		$.ajax({
 			method: "POST",
 			url: "/home" + user_id,
-			//data: data_new,
+			// data: data,
 			success: function(res) {
 				console.log(res);
-				var username = res.username;
-				$("#user-name").html(username);
-				// $.cookie("user", res);
+
+				username = res.username;
+				console.log("username-"+username);
+				$("#profileBtn").html(res.username);
+				localStorage.setItem('username',username);
+			//	$.cookie("user", res);
+			
 			},
 			error: function(err) {
 				console.log(err);
 			}
   		});
-
+	
+		
 		$.ajax({
 			method: "POST",
 			url: "/timeline" + user_id,
@@ -96,17 +195,31 @@ $(window).load(function(){
 				// 	create_feed(res);
 				// 	//console.log(game_name);
 				// }, 2000);
-				setTimeout(function() {
+				setTimeout(function(){
 					//create_feed(res);
 					var global_feed_cnt=js_res.count;
 					if(js_res.count>feed_no)
 					{
+						console.log(res.fun);
+							
 						for(var i=0;i<feed_no;i++)
 						{
-							$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
-							$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
-							$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
+							$("#feedTitle"+i+" h2").html(js_res.post[i].title);
+							$("#feedTitle"+i+" p").html(js_res.post[i].content);
+							$("#likeBar"+i+" #like i").html(js_res.post[i].likes);
+							$('#feed'+i+' .feed-username').html(js_res.users[i]);
+							$('#feed'+i+' .feed-date').html(js_res.post_date[i]);
+							$('#feed'+i+' .post-type').html(js_res.post_type[i]);
+							
+							
 							js_res.count--;
+
+						if(js_res.fun[i]==1)
+							{
+								console.log("infor"+res.fun[i]);
+								$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+						
+							}
 						}	
 					//	global_feed_cnt=global_feed_cnt-feed_no;
 						//console.log(global_feed_cnt);
@@ -115,9 +228,9 @@ $(window).load(function(){
 					//	console.log("else"+global_feed_cnt);
 						for(var i=0;i<js_res.count;i++)
 						{
-							$("#feedTitle"+(i+1)+" h2").html(js_res.post[i].title);
-							$("#feedTitle"+(i+1)+" p").html(js_res.post[i].content);
-							$("#likeBar"+(i+1)+" #like").html(js_res.post[i].likes);
+							$("#feedTitle"+i+" h2").html(js_res.post[i].title);
+							$("#feedTitle"+i+" p").html(js_res.post[i].content);
+							$("#likeBar"+i+" #like").html(js_res.post[i].likes);
 							js_res.count--;
 						}	
 
@@ -139,24 +252,11 @@ $(window).load(function(){
 				console.log(err);
 			}
 		});
+		// createFeed(js_res);
 				
-		// create_feed(js_res);
-				
-
-	/* $("#more").hide();
-			for (var i = 0; i < 4; i++) {	
-				d=document.createElement('div');
-				$(d).addClass("new_feed")
-				.html("new one"+(i+1)+" asddddddddddddddddddddddddddddddddddddddddddddddddddddddddadwafafcasf")
-				.wrap("<a href='#'></a>")
-				.appendTo($("#feed"));
-				feed_no++;
-			}
-	$("#more").show(); */
-	
+$("#no-more").hide();	
 //$("#new-user").hide();
 //$("#new-user").show();
-$("#no-more").hide();
 });
 
 /* 
@@ -164,6 +264,7 @@ $("#no-more").hide();
   
 */
 
+	
 $(function(){
   var header = $("header"),
       yOffset = 0,
@@ -180,14 +281,110 @@ $(function(){
   });
 });
 
+$(function() {
+	$('a[href*=#]:not([href=#])').click(function() {
+		if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
 
-
+			var target = $(this.hash);
+			target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+			if (target.length) {
+				$('html,body').animate({
+					scrollTop: target.offset().top
+				}, 1000);
+				return false;
+			}
+		}
+	});
+});
 
 $(document).ready(function(){
-
-	// availableTags = [];
-	// game_name = [];
-
+	$("#feed").on('click','#expand,#answer', function(){
+		//alert("clicked");
+		var id=$(this).parent("div").attr('id');
+		id="#"+id;
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		
+		
+		//alert(id);
+		
+		console.log("in"+id);
+		$(id+" #expand").hide();
+		$(id+" #compress").show();
+		ans_count=3;
+		var type=$(id+" .post-type").text();
+		var title=$(id+" .feed-lower-div h2").text();
+		console.log("dat-"+type+" "+title);
+		var data={
+			type:type,
+			title:title
+		};
+		$.ajax({
+			method: "POST",
+			url: "/expand",
+			data: data,
+			success: function(res) {
+				console.log(res);
+				ans_count=res.count;
+				//	$.cookie("user", res);
+				var loop=ans_count;
+				if(ans_count>4){
+					
+					for(var i=0;i<5;i++)
+					{
+						$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+'</p></div>');
+						ans_count--;
+					}	
+					$(id+" .feed-user-answers div:last-child").after('<button class="btn btn-dark">View more>>></button>');
+				}	
+				else{
+					for(var i=0;i<loop;i++)
+					{
+						$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+'</p></div>');
+						ans_count--;
+					}	
+				}
+			},
+			error: function(err) {
+				console.log(err);
+			}
+  		});
+		
+				// if(ans_count>4){
+				// 	for(var i=0;i<5;i++)
+				// 	{
+				// 		$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>bittu</a><p>NEW ONE'+(i)+'adskjndkjasd k </p></div>');
+				// 		ans_count--;
+				// 	}	
+				// 	$(id+" .feed-user-answers div:last-child").after('<a href="#" id="more-answers" style="">View more>>></a>');
+				// }	
+				// else{
+				// 	var loop=ans_count;
+				// 	for(var i=0;i<loop;i++)
+				// 	{
+				// 		$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>bittu</a><p>NEW ONE'+(i)+'adskjndkjasd k </p></div>');
+				// 		ans_count--;
+				// 	}			
+				// }
+		
+		//id=id+" #feed-answers h4"
+		//$("#feed-answers h4").after('<div class="post-user-answer" id="post-user-answer"><a href="#" style=""><i class="fa fa-at"></i>bittu</a><p  style="">NEW ONEadskjndkjasd k </p></div>');
+		
+			//$(id).remove();
+	});
+	
+	
+	
+	$("#feed").on('click','#compress', function(){
+		var id=$(this).parent("div").attr('id');
+		id="#"+id;
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		
+		$(id+' div.post-user-answer').remove();
+		$(id+" #compress").hide();
+		$(id+" #expand").show();
+	})
 	$("#logout").click(function(){
 			event.preventDefault();
 			$.ajax({
@@ -206,10 +403,8 @@ $(document).ready(function(){
   		});
 		//window.location.reload(true);
 		window.location.replace('/');
-					
-
 	});
-
+	
 	$("#myModal").click(function(){
 		// console.log(user_id);
 			$.ajax({
@@ -218,8 +413,8 @@ $(document).ready(function(){
 			//data: data_new,
 			success: function(res) {
 				// console.log(res);
-				var username = res.username;
-				$("#user-name").html(username);
+				// username = res.username;
+				// $("#user-name").html(username);
 				game_name=res.game_name;
 				console.log(game_name);
 				$( "#autocomplete" ).autocomplete({
@@ -233,34 +428,37 @@ $(document).ready(function(){
   		});
 	});
 	
-	
 	setTimeout(function() {
 		console.log(game_name);
 	}, 2000);
-
+	
 	interest_list = [];
-	// addedcount = 0;
-
+	
+	
+	/* $( "#autocomplete" ).autocomplete({
+		source: availableTags	
+	}); */
+	
 	$("#add").click(function(){
 		var field=$("#autocomplete").val();
+		//console.log(field);
 		//alert(field);
 		//$("#interest-name").html(field);
-		// interest_list[addedcount++] = field;
-		interest_list.push(field);
-		// console.log(interest_list[addedcount-1]);
-		var interestP=document.createElement('p');
-		$(interestP).addClass('interest-added');
-		total_interest++;
-		var id='interest-added'+total_interest;
-		$(interestP).attr('id',id);
-		$(interestP).html(field+'<span class="remove-int">&times;</span>');
-		$(interestP).appendTo("#interest-name");
-		$("#autocomplete").val("");
-					
+		if(field==""){}		
+		else{
+			interest_list.push(field);
+			var interestP=document.createElement('p');
+			$(interestP).addClass('interest-added');
+			total_interest++;
+			var id='interest-added'+total_interest;
+			$(interestP).attr('id',id);
+			$(interestP).html(field+'<span class="remove-int">&times;</span>');
+			$(interestP).appendTo("#interest-name");
+			$("#autocomplete").val("");
+		}
 	});
-
 	$("#done").click(function(){
-	$.ajax({
+		$.ajax({
 			method: "POST",
 			url: "/add_interest" + user_id,
 			// data: JSON.stringify(interest_list),
@@ -274,91 +472,189 @@ $(document).ready(function(){
 			error: function(err) {
 				console.log('ajfkjsb');
 			}
-	});
-	//window.location.reload(true);
-		/* var time = new Date().getTime();
-		$(document.body).bind("mousemove keypress", function(e) {
-			 time = new Date().getTime();
 		});
-		function refresh() {
-			 if(new Date().getTime() - time >= 60000) 
-				 window.location.reload(true);
-			 else 
-				 setTimeout(refresh, 10000);
-		}
-		setTimeout(refresh, 10000); */
+		//window.location.reload(true);
+			/* var time = new Date().getTime();
+			$(document.body).bind("mousemove keypress", function(e) {
+				 time = new Date().getTime();
+			});
+			function refresh() {
+				 if(new Date().getTime() - time >= 60000) 
+					 window.location.reload(true);
+				 else 
+					 setTimeout(refresh, 10000);
+			}
+			setTimeout(refresh, 10000); */
 	});
-		
-		
+	$("#interest-name").delegate("p span", "click", function(){
+		//alert("clicked");
+		var id=$(this).closest("p").attr('id');
+		id="#"+id;
+		//alert(id);
+		$(id).remove();
+
+	});
+	/* $('.section').scrollTop(function(){
+			//window.location.reload(true);
+			//var yOffset = $(window).scrollTop();
+			
+		});
+		 */
 	$("#games_drop").click(function(){
 		$("#db_menu").slideToggle("slow");
 	});
 	$("#user_drop").click(function(){
 		$("#drop_down").slideToggle("slow");
 	});		
-	$("#more a").click(function(){
-		//$("#more").remove();
-		for (var i = 0; i < 3; i++) {	
-			d=document.createElement('div');
-			$(d).addClass("new_feed")
-			.html("new one"+(feed_no+1))
-			.appendTo($("#feed"));
-			feed_no++;
-		}
-		 feed_no=feed_no+3;
-		/*var $newfeed = $('<div class="new_feed" />');
-		for (var i = 0; i < 3; i++) {
-			$newfeed = $('<div class="ball" />');
-			$("#feed").append(newfeed).text(i);
-		}*/
-		/*d=document.createElement('div');
-		$(d).addClass("more")
-		.html(" <a href=\"#\" style=\"text-decoration:none\"> more>> </a>")
-		
-		.appendTo($("#feed"));
-		*/
-		});
-		
-		
-			for (var i = 0; i < 3; i++) {	
-			
-			var d=document.createElement('div');
-			$(d).addClass("new_discuss")
-			.html("new one" + 1)
-			.appendTo($("#discussion"));
-			}
-		
-    $("#discussion").scroll(function(){
-        //$("#newp").text( "aksndokjadokasmdoaksm");
-    	var d=document.createElement('div');
-				$(d).addClass("new_discuss")
-				.html("new one" + 1)
-				.appendTo($("#discussion"));
-			
-	});
-
 	
 	/* Anything that gets to the document
    will hide the dropdown */
-$(document).click(function(){
-  $("#db_menu ,#drop_down").hide("slow");
-});
+	$(document).click(function(){
+	  $("#db_menu ,#drop_down").hide("slow");
+	});
 
 
-/* Clicks within the dropdown won't make
-   it past the dropdown itself */
-$("#games_drop").click(function(e){
-  e.stopPropagation();
-   $("#drop_down" ).hide("slow");
-   
+	/* Clicks within the dropdown won't make
+	   it past the dropdown itself */
+	$("#games_drop").click(function(e){
+	  e.stopPropagation();
+	   $("#drop_down" ).hide("slow");
+	   
+	});
+
+	$("#user_drop").click(function(e){
+	  e.stopPropagation();
+	   $("#db_menu ").hide("slow")	
+	});
+
+
+	
+	$("#menu-close").click(function(e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+	});
+		
+	$("#sidebar-wrapper	").scroll(function(){
+		console.log("scroll");
+		var offsetHeight = $(window).height();
+		var windowHeight = $("#sidebar-wrapper").scrollTop();
+		console.log(offsetHeight);
+		console.log(" "+windowHeight);
+		if($("#sidebar-wrapper").scrollTop() >= $("#sidebar-nav").height()-$(window).height())
+		{	
+			//$("#trending-img").hide("slow");
+			setTimeout(function(){	
+			$("#trending-img").remove();
+			createTrending();
+			},2000); 
+			
+			//createTrending();
+	/* 		for(var i=0;i<6;i++)
+			{
+				console.log("in scroll");
+				trending_cnt++;
+				var li=document.createElement('li');
+				var liDiv=document.createElement('div');
+				$(liDiv).addClass('trending-story').html("New One"+trending_cnt);
+				//$(liDiv).attr('id','');
+				$(liDiv).appendTo(li);
+				$(li).appendTo(".sidebar-nav");	
+			}
+	 */		
+		}
+	});
+
+		// Opens the sidebar menu
+	$("#menu_toggle").click(function(e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+			//$('.section').fadeTo("slow",0.4);
+			//$('header').fadeTo("slow",0.4);
+		});	
+		
+	$("#profileBtn").click(function(){
+		//alert(1);
+		console.log("clicl"+username);
+
+		window.location.replace("/profile"+username);
+	});
+
+
+
 });
 
-$("#user_drop").click(function(e){
-  e.stopPropagation();
-   $("#db_menu ").hide("slow")
-    
-});
-				
-});
+function NotebookListCtrl($scope) {
+	$scope.notebooks = [
+    {"name": "Lenovo",
+     "procesor": "Intel i5",
+     "age": 2011},
+    {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2010},
+    {"name": "Toshiba",
+     "procesor": "Intel core 2 duo",
+     "age": 2008},
+    {"name": "HP",
+     "procesor": "Intel core 2 duo",
+     "age": 2012},
+    {"name": "Acer",
+     "procesor": "AMD",
+     "age": 2006},
+    {"name": "Lenovo",
+     "procesor": "Intel i5",
+     "age": 2009},
+    {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2008},
+    {"name": "Lenovo",
+     "procesor": "Intel i5",
+     "age": 2011},
+    {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2010},
+    {"name": "Toshiba",
+     "procesor": "Intel core 2 duo",
+     "age": 2008},
+    {"name": "HP",
+     "procesor": "Intel core 2 duo",
+     "age": 2012},
+    {"name": "Acer",
+     "procesor": "AMD",
+     "age": 2006},
+    {"name": "Lenovo",
+     "procesor": "Intel i5",
+     "age": 2009},
+    {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2008},
+    {"name": "Lenovo",
+     "procesor": "Intel i5",
+     "age": 2011},
+    {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2010},
+    {"name": "Toshiba",
+     "procesor": "Intel core 2 duo",
+     "age": 2008},
+    {"name": "HP",
+     "procesor": "Intel core 2 duo",
+     "age": 2012},
+    {"name": "Acer",
+     "procesor": "AMD",
+     "age": 2006},
+    {"name": "Lenovo",
+     "procesor": "Intel i5",
+     "age": 2009},
+    {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2008},
+	 {"name": "Toshiba",
+     "procesor": "Intel i7",
+     "age": 2008}
+	 
+  ];
+  $scope.orderList = "name";
+	console.log("came");	
 
+}
 

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="../static/css/profile.css"/>
+	<link rel="stylesheet" href="../static/css/style.css">
+		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" href="../static/css/home.css">
+		<link rel="stylesheet" href="../static/css/style_home_header.css">
+		<link href="../static/css/jquery-ui.css" rel="stylesheet">
+		
+	<!-- 	<link href="../static/css/bootstrap1.min.css" rel="stylesheet">
+ -->
+    <link href="../static/css/stylish-portfolio1.css" rel="stylesheet">
+
+    <link href="../static/font-awesome/css/font-awesome1.min.css" rel="stylesheet" type="text/css">
+	
+	<title></title>
+	  <script src="../static/javascript/prefixfree.min.js"></script>
+</head>
+<style>
+body{
+		background:url("../static/images/profile-background.png") repeat ;
+		background:cover;
+		font-family: Courier, Monaco, monospace;
+	}
+	
+	      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+      html, body {
+  height: 100%;
+}
+
+
+.right {
+  float: right;
+}
+
+.top {
+  margin-top: -30px;
+}
+
+#notebooks {
+  background: whitesmoke;
+ // position: absolute;
+ // left: 50%;
+  margin-left: 9%;
+  //margin-top: 35px;
+  margin-bottom:10px;
+  width: 80%;
+  //display:flex;
+  padding: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 0 white;
+ // max-height: 450px;
+  overflow:hidden;
+}
+
+#intModal ul {
+  margin: 0 auto;
+  padding: 0;
+  max-height: 390px;
+  overflow-y: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px 5px 0 5px;
+  border-left: none;
+  border-right: none;
+}
+
+#intModal li {
+  list-style: none;
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: 
+    linear-gradient(
+      90deg,
+      #FFD32E 10px,
+      #EEE 10px,
+      #EEE 11px,
+      transparent 11px);
+  padding: 10px 15px 10px 25px;
+  border: 1px solid #CCC;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.5);
+  margin-bottom: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+#query {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 19px;
+  padding: 5px;
+  font-family: calibri light;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+#notebooks span {
+  display: inline-block;
+  //position: absolute;
+  background: #FFD32E;
+  bottom: -35px;
+  //left: -1px;
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+#notebooks select {
+  width: 120px;
+  margin-left:51%;
+  margin-top: -49px;
+  float:right;
+  border-radius: 0 3px 3px 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  position: absolute;
+  padding: 9px;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
+  
+}
+
+#notebooks select:focus, #query:focus {
+  border: 1px solid #FFD32E;
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.1);
+  outline: none;
+}
+
+@media (max-width: 800px) {
+#notebooks select{
+	margin-left:38%;
+}
+.grid-item-profile{
+	width:100%;
+	max-width:100%;
+}
+}
+		
+		
+		
+.grid-profile{
+// background: white;
+    position: relative;
+  //background: #EEE;
+  max-width: 1200px;
+ 
+  //max-width: 1200px;
+ //width:100%;
+ // width:1200px;
+  //position:relative;
+  //padding:10px;
+//overflow:hidden;
+
+  }
+
+  .grid-profile:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.grid-item-profile{
+  //float: left;
+  //width:100%;
+  //position:absolute;
+  margin-bottom:20px;
+  //transition:height 0.4s;
+ margin-left:20px; 
+ display:block;
+  height:auto;
+  width:auto;
+  //min-width:200px;
+  //min-height:200px;
+  max-height: 400px;
+  max-width:400px;
+ //width:200px;
+ box-shadow: 2px 2px 2px #888888;
+ overflow:hidden;
+}
+
+/* item is invisible, but used for layout */
+
+
+/* grid-item-content is visible, and transitions size */
+.grid-item-content-profile{
+ width: 100%;
+  //width:300px;
+  height: 100%;
+  //background: #D26;
+  padding:5px;
+  padding-right:0px;
+  background:rgb(248,248,248) ;
+  border: 3px solid #333;
+  border-color: hsla(0, 0%, 0%, 0.1);
+  border-radius: 5px;
+  -webkit-transition: width 0.4s, height 0.4s,border 0.4s ;
+          transition: width 0.4s, height 0.4s,border 0.4s;
+ //opacity:0.4;
+  //background:url("../images/Tree.jpg") repeat ;
+}
+
+.grid-item-profile:hover .grid-item-content-profile{
+  border-color: black ;
+  //background: #A2C;
+  cursor: pointer;
+  box-shadow:0px;
+}
+
+/* both item and item content change size */
+.grid-item-profile.is-expanded,
+.grid-item-profile.is-expanded .grid-item-content-profile {
+  //width: 440px;
+  height: 460px;
+  width:100%;
+  //transition :width 0.4s ,height 0.4s,border 0.6s;
+ //transition :border 0.6s;
+  }
+
+.grid-item-profile.is-expanded {
+  z-index: 2;
+  //transition :all 1s;
+}
+
+.grid-item-profile.is-expanded .grid-item-content-profile {
+  background: #F90;
+  //transition :all 1s;
+}
+.grid-item-profile.is-expanded .feed-user-image{
+	width:7%;
+}
+
+.gutter-sizer-profile {
+//  width: 4%;
+}
+.grid-item--height2 {  max-height:400px}
+.grid-item--height3 { max-height:400px;}
+
+
+.profile-post-type{
+	font-weight:bold;
+	font-size:1.3em;
+	border:2px solid red;
+	
+}
+
+.profile-date{
+	border:2px solid red;
+
+}
+
+.grid-item-content-profile p{
+	//border:2px solid green;
+	display:block;
+	margin-top:5px;
+	//padding:4px;
+	letter-spacing:0.070em;
+}
+
+.self-header{
+	height:20px;
+	border-bottom:2px solid gray;
+}
+.self-type{
+	width:50%;
+	display:inline-block;
+	font-weight:bold;
+	letter-spacing:0.075em;
+}
+.self-date{
+	width:50%;
+	display:inline-block;
+	float:right;
+	text-align:right;
+}
+.self-body{
+	border-bottom:2px solid gray;
+	
+}
+.self-footer{
+	dispaly:block;
+	height:20px;
+	background:gray;
+}
+</style>
+<body>
+	<header>
+
+  <div class="header1" style="">
+    <div class="top-left">
+		<h1>
+			<a href="/"><strong><span style="">G</span>ame <span style="">W</span>orld</strong>
+			</a>
+		</h1>
+	</div>
+	<div class="form-inline search" style="">
+		<input type="text" name="search" class="form-control" style="width:100%;" id="search" placeholder="Search"></input>		
+	</div>
+	<div class="top-right">
+		<nav>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
+					<span class="glyphicon glyphicon-user"></span> 
+				</button>
+				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>						
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
+						<li><a href="#">Settings</a></li>
+						<li><a href="#">Tods</a>
+						<li><a href="signup.html">Logout</a></li>
+						<li><a href="#">Help</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+  </div>
+  <div class="header2 navbar navbar-inverse">
+  	
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" style=""data-toggle="collapse" data-target="#menunavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>  
+	  </button>
+     </div>
+	
+	 <div class="collapse navbar-collapse" id="menunavbar">
+		 <ul class="nav navbar-nav ">
+        <li ><a href="home.html">Home</a></li>
+        <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
+        <li><a href="article.html" onclick="make_link_active()">Post</a></li>
+		<li class="dropdown " >
+          <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
+          <ul class="dropdown-menu " id="db_menu" style="">
+			<li><a href="#">Game1</a></li>
+            <li><a href="#">Game2</a></li>
+            <li><a href="#">Game3</a></li>   
+		  </ul>
+        </li>
+        <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
+					</ul>
+		 <ul class="nav navbar-nav navbar-right">
+			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
+			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
+		</ul>
+     </div>
+	
+  </div>
+  
+  <div class="clearfix visible-lg"></div>
+  
+	</header>
+	
+
+<div class="section container" style="font-family: 'PT Sans'">
+
+
+<div id="profile" class="grid-profile">
+  		<div class="left stamp-profile" id="leftbar">
+				<div class="imageDiv">
+					<!-- <img id="profilePic" src="https://pbs.twimg.com/profile_images/1306594497/20-savita-bhabhi-230211_400x400.jpg" style="width:100%;height:100%"> -->
+				</div>
+				<div id="name" class="name">
+					Yugal Jain
+				</div>
+				<div id="description" class="description">
+				Born to be Gamer...@#$%^&*
+				</div>
+
+				<div class="back" id="profile-edit" data-toggle="modal" data-target="#editModal">
+					<span class="glyphicon glyphicon-pencil"></span>
+					&nbspEdit Your Profile
+				</div>
+
+
+
+				<div class="back">
+					<span class="glyphicon glyphicon-magnet"></span>
+					&nbspQuestions
+				</div>
+
+
+				<div class="back">
+					<span class="glyphicon glyphicon-text-color"></span>
+					&nbspAnswers
+				</div>
+				
+				<div class="back">
+					<span class="glyphicon glyphicon-list-alt"></span>
+					&nbspArticle
+				</div>
+				
+				<div class="back" id="profile-int" data-toggle="modal" data-target="#intModal">
+					<span class="glyphicon glyphicon-heart-empty"></span>
+					&nbspInterest
+				</div>
+			
+				<div class="back" id="profile-played" data-toggle="modal" data-target="#playedModal">
+					<span class="glyphicon glyphicon-headphones"></span>
+					&nbspGames Played
+				</div>
+				
+		</div>
+
+		<div class="profile-top stamp-profile">
+			<div id="profile-username"class="username">
+				lOvinGyuGs
+			</div>
+
+			<div class="line1">
+
+			</div>
+
+			<div>
+				<div class="followers">
+				Followers
+				<div style="text-align:center;font-size:1.3em">
+					49
+				</div>
+				</div>
+
+				<div>
+					
+				</div>
+
+				<div class="following">
+				Following
+				<div style="text-align:center;font-size:1.3em">
+					100
+				</div>
+				</div>
+
+			</div>
+
+		</div>
+
+  
+ <!--  <div class="grid-item-profile grid-item--height2">
+    <div class="grid-item-content-profile" id="profile-feed" >
+		<div class="self-header">
+			<div class="self-type">Article</div>
+			<div class="self-date">21-12-2015</div>
+		</div>
+		<div class="self-body">
+			<h3>	
+				WHAT THIS HANDOUT IS ABOUT ?		
+			</h3>
+			<p>
+				This handout will help you understand how paragraphs are formed, how to develop stronger paragraphs, and how to completely and clearly express your ideas.
+			</p>
+		</div>
+		<div class="self-footer">		
+				<i id="self-post-comment" class="fa fa-comments">4</i>
+				<i id="self-post-like" class="fa fa-heart">10</i>
+				<div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div>
+				<div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>
+		</div>
+		
+		
+	</div>
+  </div>
+  
+   <div class="grid-item-profile grid-item--height2">
+    <div class="grid-item-content-profile" >
+		<p>WHAT IS A PARAGRAPH?
+
+Paragraphs are the building blocks of papers. Many students define paragraphs in terms of length: a paragraph is a group of at least five sentences, a paragraph is half a page long, etc. In reality, though, the unity and coherence of ideas among sentences is what constitutes a paragraph. A paragraph is defined as “a group of sentences or a single sentence that forms a unit” (Lunsford and Connors 116). Length and appearance do not determine whether a section in a paper is a paragraph. For instance, in some styles of writing, particularly journalistic styles, a paragraph can be just one sentence long. Ultimately, a paragraph is a sentence or group of sentences that support one main idea. In this handout, we will refer to this as the “controlling idea,” because it controls what happens in the rest of the paragraph.
+</p>
+	</div>
+  </div>
+  
+   -->
+  
+</div>
+</div>	
+
+
+  
+  <div class="modal fade" id="playedModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body" style="">
+			<ul>
+				<li>game</li>
+				<li>game</li><li>game</li><li>game</li><li>game</li><li>game</li><li>game</li><li>game</li>
+			</ul>
+        </div>
+      </div>
+      
+    </div>
+</div>
+ 
+
+	<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
+	 <script src="../static/javascript/angular.min.js"></script>
+	<script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
+	<script src="../static/javascript/index.js"></script>
+
+	
+	<script type="text/javascript" src="../static/javascript/home.js"></script>
+		<script src="../static/javascript/profile_new.js"></script>
+	<script src="../static/javascript/home_index.js"></script>
+	
+	<script src="../static/javascript/masonry.pkgd.js"></script>
+	<script>
+//var $scope.notebooks=[];
+	
+
+
+	</script>
+
+     
+
+</body>
+
+</html>

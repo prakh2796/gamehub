@@ -2,6 +2,10 @@
 <html >
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>Game World-gameworld.pythonanywhere.com</title>
     
     
@@ -12,20 +16,64 @@
 		<link rel="stylesheet" href="../static/css/home.css">
 		<link rel="stylesheet" href="../static/css/style_home_header.css">
 		<link href="../static/css/jquery-ui.css" rel="stylesheet">
+		
+	<!-- 	<link href="../static/css/bootstrap1.min.css" rel="stylesheet">
+ -->
+    <link href="../static/css/stylish-portfolio1.css" rel="stylesheet">
+
+    <link href="../static/font-awesome/css/font-awesome1.min.css" rel="stylesheet" type="text/css">
 	
     <style>
-	body{
+	
+body{
 		background:url("../static/images/profile-background.png") repeat ;
 		background:cover;
-
+		font-family: Courier, Monaco, monospace;
 	}
+	#sidebar-wrapper{
+		top:0;
+		margin-top:0px;
+	}
+	#sidebar-wrapper.active{
+		top:0;
+		margin-top:0px;
+		//padding-right:50px;
+		//border:2px solid green;
+		overflow-x:hidden;
+	}
+	.sidebar-brand ,.sidebar-brand a {
+		font-weight:bold;
+		font-size:1.3em;
+		padding:0px;
+		padding-right:0px;	
+	}
+	.sidebar-nav li{
+		text-indent:0px;
+		//line-height:0px;
+	}
+		
+@media (max-width: 800px) {
+.header1{
+display:none;
+}
+header{
+height:100px;
+}
+.grid-item{width:100%;}
+.stamp{
+display:none;
+}
+.section{
+margin-top:25%;
+}
+}
 
 	</style>
     
     
   </head>
 
-  <body>
+<body>
 <header>
 	
   
@@ -45,7 +93,7 @@
 				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
 					<span class="glyphicon glyphicon-user"></span> 
 				</button>
-				<button type="button" id="user-name" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >username</button>		
+				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">username</a></button>						
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
 						<span class="caret"></span>
@@ -53,7 +101,7 @@
 					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
 						<li><a href="#">Settings</a></li>
 						<li><a href="#">Tods</a>
-						<li ><a href="#" id="logout">Logout</a></li>
+						<li><a href="#" id="logout">Logout</a></li>
 						<li><a href="#">Help</a></li>
 					</ul>
 				</div>
@@ -73,9 +121,9 @@
 	
 	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
-        <li ><a href="/home">Home</a></li>
-        <li><a href="/ask" onclick="make_link_active()">Ask</a></li>
-        <li><a href="/article" onclick="make_link_active()">Post</a></li>
+        <li ><a href="#">Home</a></li>
+        <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
+        <li><a href="article.html" onclick="make_link_active()">Post</a></li>
 		<li class="dropdown " >
           <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
           <ul class="dropdown-menu " id="db_menu" style="">
@@ -87,8 +135,8 @@
         <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
 					</ul>
 		 <ul class="nav navbar-nav navbar-right">
-			<li><a href="/Walkthroughs"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
-			<li><a href="/gallery"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
+			<li><a href="Walkthroughs.html">Walkthroughs</a></li>
+			<li><a href="gallery.html">Gallery</a></li>
 		</ul>
      </div>
 	
@@ -97,13 +145,38 @@
   <div class="clearfix visible-lg"></div>
   
 </header>
-<div class="section container">
+
+ 	<div id="sidebar-wrapper" >
+    	<ul class="sidebar-nav" style="float:left" id="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+			
+			<li class="sidebar-brand" id="sidebar-brand">
+				<a href="#top"  onclick = $("#menu-close").click(); >Trending Out</a>
+            </li>
+			<li>
+				<div class="trending-story">
+					<div class="liUpperDiv">
+						<div class="liGameName btn btn-dark pull-left" style="" id="li_name">Counter strike</div>
+						<div class=" liFollbtn pull-right btn btn-dark" style=""><span class="glyphicon glyphicon-plus" style="display:inline-block"></span></div>
+					</div>
+					<div class="liSecondDiv">
+					</div>
+					<p class="liGenre">jkenkejn</p>
+				</div>
+			</li>
+			<li class="loding-img"></li>
+		</ul>	
+		<!-- <button class="btn btn-info" style="display:block">click me!</button> -->
+    </div>
+
+	
+<div class="section container"  >
 <div class="section-head">
 <!-- <p style="font-size:1.2em;display:inline-block;">Add Games:</p>
 		  <input type="text" class="form-control" style="width:30%;" id="autocomplete" placeholder="Enter here"></input>
 		  <button type="button" id="add" class="btn btn-info" >ADD</button>	
 		 -->
-<div id="new-user" class="new-user"><p>Follow atleast Five Games of your choice to start your feed.<button class="btn-btn-info" data-toggle="modal" data-target="#myModal" id="fill_int">Click Here!</button><p></div>
+<div id="new-user" class="new-user"><p>Follow atleast Five Games of your choice to start your feed.<a href="#" data-toggle="modal" data-target="#myModal">Click Here!</a><p></div>
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
@@ -120,7 +193,7 @@
 			<!-- <p class="interest-added" id="interest-added"></p>		 
 		  -->
 		  <div class="interest-name" style="display:block;" id="interest-name">
-			<!-- <p class="interest-added" id="interest-added"><span class="remove-int"></span></p>
+			<!-- <p class="interest-added" id="interest-added">sandkjqwn<span class="remove-int">&times;</span></p>
 		   --></div>
 		</div>
         <div class="modal-footer">
@@ -131,7 +204,7 @@
       
     </div>
 </div>
-  
+ 
 <h1>Masonry - animate item size</h1>
 
 <p>Click items to toggle size</p>
@@ -150,33 +223,48 @@
 	<div class="story" id="story1"></div>
 	<div class="line"></div>
 	<a id="more-story" href="#">
-		<div class="more-story-link stamp-head" style="font-size:1.2sem;float:right">more >>></div>
+		<div class="more-story-link stamp-head" style="font-size:1.2sem;float:right" id="menu_toggle"> more >>></div>
 	</a>
   </div>
   
   <div class="grid-item grid-item--height2">
-    <div class="grid-item-content" id="feed1">
+    <div class="grid-item-content" id="feed0">
 		<div class="feed-div feed-upper-div">
 			<img src="../static/images/profile-dribbble.png" class="feed-user-image"></img>
-			<div class="feed-username">lovingyugs</div>
-			<div class="follow-btn">Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span></div>
+			<div id="feed-username" class="feed-username">lovingyugs</div>
+			<div id="post-type" class="post-type">AR</div>
+			<div id="feed-date" class="feed-date">12-12-2015</div>
+			<div id="follow-btn" class="follow-btn">Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span></div>
 		</div>
-		<div class="feed-div feed-lower-div" id="feedTitle1">
+		<div class="feed-div feed-lower-div" id="feedTitle0">
 			<h2>How to download CS maps??</h2>
-			<p></p>
+			<p>kjasbdkjasnd amnsd kjasndksan  asjdkjasksjd </p>
 		</div>
-		<div class="like-bar" id="likeBar1">
-			<span style=""class="glyphicon glyphicon-comment">4</span>
-			<span style="font-size:1.2em"class="glyphicon glyphicon-heart" id="like">10</span>
-			<div id="expand" class="expand_class">expand<span style="padding:3px;"class="glyphicon glyphicon-fast-forward"></span></div>
+		<div class="feed-user-answers" id="feed-answers">
+			
+			<h4 style="">Answers:</h4>
+			<textarea id="t1" class="t1" data-action="fit"></textarea>
+			<a href="#" id="more-answers" style="">View more>>></a>
+			<!-- <p style="width:80%;border:2px solid red;overflow:hidden;display:inline-block">jdnfkjdankfjks</p>
+			<p id="post-answer-username">bittu</p> -->
+		</div>
+		<div class="like-bar" id="likeBar0">
+			<span style="" id="answer"><i class="fa fa-comments">4</i></span>
+			<span  id="like"><i class="fa fa-heart">10</i></span>
+			<div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div>
+			<div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>
+			
 			<!-- <div id="less" class="expand_class">less<span style="padding:3px;"class="glyphicon glyphicon-fast-backward"></span></div>
-		 --></div>
+		 -->
+		</div>
+		
 	</div>
   </div>
   
 </div>
 <!-- <div class="view-more btn btn-info" id="view-more"> View More +
 </div> -->
+
 <div id="no-more">
 	No more post to Load
 </div>
@@ -192,9 +280,14 @@
 	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
 	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
 	<script src="../static/javascript/index.js"></script>
+	
 	<script type="text/javascript" src="../static/javascript/home.js"></script>
 	<script src="../static/javascript/home_index.js"></script>
+	
 	<script src="../static/javascript/masonry.pkgd.js"></script>
+	
+	   <!-- <script src="../static/javascript/jquery1.js"></script>
+ -->
 	<!-- <script src="../static/javascript/jquery.infinitescroll.min"></script>
 	<script src="../static/javascript/jquery.endless-scroll"></script>
 	 --><!-- <script src="../static/javascript/index.js"></script>
