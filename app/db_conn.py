@@ -6,6 +6,8 @@ if inspect.getouterframes(inspect.currentframe(), 2)[1][3] == 'xxx':
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, jsonify
 import json
+import requests
+from bs4 import BeautifulSoup
 import MySQLdb
 import inspect
 import time
@@ -374,7 +376,10 @@ def expand():
     # print users
     # print display
     count = len(display)
-    return jsonify(display=display, users=users, count=count)
+    if count == 0:
+        return jsonify(status="no comments")
+    else:
+        return jsonify(status="comments", display=display, users=users, count=count)
 
 
 ####################################################  Add Reply ###############################################
@@ -582,7 +587,7 @@ def profile(username):
         post_count = len(post)
         print post_count
         print post
-        return jsonify(username=username, email=email, user_desp_dict=user_desp_dict, fer_count=fer_count, followers=followers, fing_count=fing_count, following=following, post=post, post_count=18, post_type=post_type, post_date=post_date)
+        return jsonify(username=username, email=email, user_desp_dict=user_desp_dict, fer_count=fer_count, followers=followers, fing_count=fing_count, following=following, post=post, post_count=post_count, post_type=post_type, post_date=post_date)
 
 
 
@@ -679,6 +684,46 @@ def videos():
     count=len(channel)
     # print channel
     return jsonify(channel=channel, count=count)
+
+
+##########################################  Walkthroughs  #################################################
+# @app.route('/check',methods=['GET','POST'])
+# def check():
+#     # import ipdb;ipdb.set_trace()
+#     db,cursor=get_db()
+#     url = "https://en.wi kipedia.org/wiki/List_of_video_games_considered_the_best"
+#     r = requests.get(url)
+#     soup = BeautifulSoup(r.content,"html.parser")
+#     div = soup.find("div",{"id":"mw-content-text"})
+#     table = div.find("table",{"class":"wikitable sortable"})
+#     tr = table.find_all("tr")
+#     i=0
+#     for each_row in tr:
+#         td = each_row.find_all("td")
+#         if i==0:
+#             i+=1
+#             continue
+#         else:
+#             year = td[1].text
+#             genre = td[2].text
+#             number_lists = td[3].text
+#             game_text = td[0].text
+#             link = td[0].find("a")
+#             game_link = link.get("href")
+#             game_link = "https://en.wikipedia,org" + game_link
+#             print year,' ',genre,' ',game_text,' ',game_link,' ',number_lists
+#             # cursor.execute("INSERT INTO game (genre,year) values (%s) ",([genre.encode('latin-1','replace')],[year.encode('latin-1','replace')]))
+#             # cursor.execute('INSERT INTO genre VALUES (DEFAULT,"{0}")'.format(genre))
+#             # db.commit()
+#             # cursor.execute('SELECT genre_id FROM genre ORDER BY genre_id DESC')
+#             # entries = cursor.fetchall()
+#             # genre_id = entries[0][0]
+#             # cursor.execute('INSERT INTO games(game_id,game_name,genre_id,release_date,rating,game_links) VALUES (DEFAULT,"{0}","{1}","{2}","{3}","{4}")'.format(game_text,genre_id,year,number_lists,game_link))
+#             # db.commit()
+#             i+=1
+#     print len(tr)
+#     return jsonify({'a':'Hello World'})
+
 
 @app.route('/ask', methods=['GET'])
 def ask():
