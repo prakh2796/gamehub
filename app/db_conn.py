@@ -601,12 +601,11 @@ def users_articles(username):
 
 
 ##########################################  Users Interest  #################################################
-@app.route('/users_interest<username>', methods=['GET','POST'])
-def users_interest(username):
+@app.route('/users_interest<user_id>', methods=['GET','POST'])
+def users_interest(user_id):
     arr = []
     game_name_user = []
     db,cursor = get_db()
-    user_id = get_user_id(username)
     cursor.execute('SELECT game_id FROM interest WHERE user_id="{0}"'.format(user_id))
     entries = cursor.fetchall()
     for a in entries:
