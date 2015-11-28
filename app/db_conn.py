@@ -341,8 +341,6 @@ def expand():
     # request.form = json.loads(request.data)
     post_type = request.form['type']
     title = request.form['title']
-    print post_type
-    print title
     if post_type == 'QS':
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
@@ -387,12 +385,11 @@ def add_reply(user_id):
     post_type = request.form['type']
     title = request.form['title']
     content = request.form['content']
-    date = str(time.strftime("%x"))
     if post_type == 'QS':
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
-        cursor.execute('INSERT INTO answers VALUES (DEFAULT,"{0}","{1}","{2}",0)'.format(date,user_id,content))
+        cursor.execute('INSERT INTO answers VALUES (DEFAULT,CURRENT_TIMESTAMP,"{1}","{2}",0)'.format(user_id,content))
         db.commit()
         cursor.execute('SELECT ans_id FROM answers WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
@@ -473,17 +470,16 @@ def add_post(user_id):
     post_type = request.form['type']
     title = request.form['title']
     content = request.form['content']
-    date = time.strftime("%x")
+    # date = time.strftime("%x")
     # print content
-    print type(date)
-    cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}","{1}")'.format(post_type,date))
+    # print type(date)
+    cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}",CURRENT_TIMESTAMP)'.format(post_type))
     db.commit()
     cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
     entries = cursor.fetchall()
     post_id = entries[0][0]
     print post_id
     for i in range(0,len(tag_list['x'])):
-        print tag_list['x'][0]
         cursor.execute('SELECT tag_id FROM tags WHERE tag_name="{0}"'.format(tag_list['x'][i]))
         entries = cursor.fetchall()
         tag_id = entries[0][0]
