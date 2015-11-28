@@ -1,13 +1,29 @@
 <!Doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="../static/css/bootstrap.css">
-<link rel="stylesheet" href= "../static/css/home.css">
-<link rel="stylesheet" href="../static/css/style_home_header.css">
- 
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Game World-gameworld.pythonanywhere.com</title>
+    
+    
+    
+    
+        <link rel="stylesheet" href="../static/css/style.css">
+		<link rel="stylesheet" href="../static/css/bootstrap.css">
+		<link rel="stylesheet" href="../static/css/home.css">
+		<link rel="stylesheet" href="../static/css/style_home_header.css">
+		<link href="../static/css/jquery-ui.css" rel="stylesheet">
+		
+	<!-- 	<link href="../static/css/bootstrap1.min.css" rel="stylesheet">
+ -->
+    <link href="../static/css/stylish-portfolio1.css" rel="stylesheet">
+
+    <link href="../static/font-awesome/css/font-awesome1.min.css" rel="stylesheet" type="text/css">
+	
 <style>
 body{
 background-image:url("..static/images/galaxy-wallpapers-10.jpg");
@@ -32,10 +48,22 @@ font-family:Courier, Monaco, monospace;
     width: 85%;
  }
  
+ #tag-add{
+	display:inline-block;
+	font-weight:bold;
+	}
+ 
+ #post{
+	font-weight:bold;
+	
+ }
+ 
 </style>
 </head>
 <body>
-  <header class="">
+ <header>
+	
+  
   <div class="header1" style="">
     <div class="top-left">
 		<h1>
@@ -52,7 +80,7 @@ font-family:Courier, Monaco, monospace;
 				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
 					<span class="glyphicon glyphicon-user"></span> 
 				</button>
-				<button type="button" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>						
+				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">lovingyugs</a></button>						
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
 						<span class="caret"></span>
@@ -80,8 +108,8 @@ font-family:Courier, Monaco, monospace;
 	
 	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
-        <li ><a href="home.html">Home</a></li>
-        <li><a href="ask.html" onclick="make_link_active()">Ask</a></li>
+        <li ><a href="/home">Home</a></li>
+        <li><a href="/ask" onclick="make_link_active()">Ask</a></li>
         <li><a href="article.html" onclick="make_link_active()">Post</a></li>
 		<li class="dropdown " >
           <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
@@ -94,8 +122,8 @@ font-family:Courier, Monaco, monospace;
         <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
 					</ul>
 		 <ul class="nav navbar-nav navbar-right">
-			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
-			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
+			<li><a href="Walkthroughs.html">Walkthroughs</a></li>
+			<li><a href="gallery.html">Gallery</a></li>
 		</ul>
      </div>
 	
@@ -104,7 +132,8 @@ font-family:Courier, Monaco, monospace;
   <div class="clearfix visible-lg"></div>
   
 </header>
-<!-- ask section -->
+
+ <!-- ask section -->
 <div class="section container">
 <div class="ask_section">
 	<div class="type_btn" value="Type">
@@ -124,21 +153,36 @@ font-family:Courier, Monaco, monospace;
 	</div>
 	<div class="ask_section1">
 		<div id="on_ar">			
-			<p style="font-size:2em ; color:#505050 ;"><strong>Add Title.</strong></p>
+			<p style="font-size:2em ; color:#505050 ;"><strong>Add Title</strong></p>
 			<div>
-			<textarea  class="txtarea" placeholder="Title" cols="25" rows="2" name="txtarea" ></textarea>
+			<textarea  class="txtarea" placeholder="Title" cols="25" rows="2" name="txtarea" id="title" required></textarea>
 			</div>		
 		</div>
 		
 		<div id="on_qs">
 			<p style="font-size:2em ; color:#505050 ;"><strong>Ask Question.</strong></p>
 			<div>
-			<textarea class="txtarea" placeholder="Enter text Here" cols="40" rows="5" name="txtarea" id="txtarea"></textarea>
+			<textarea class="txtarea" placeholder="Enter text Here" cols="40" rows="5" name="txtarea" id="content"></textarea>
 			</div>
 		</div>
 	</div>
 	<div class="ask_section2">
-		<p style="font-size:2em; color:#505050  "><strong>Add Tags</strong></p>
+	<p style="font-size:2em; color:#505050  "><strong>Add Tags</strong></p>
+		<div class="panel panel-default">
+		  <div class="panel-heading"><h3 style="font-size:1.0em;font-weight:bold">Tags are used to relate one's post with other.In order to post your Question/Article you need to include tags .Tags may be the game name your post belongs or the genre of the game.<p>More the tags you include more the response your post may get.</p><p>So Add Tags.Add Atleast Two tags. </p></h3></div>
+		  <div class="panel-body" style="">
+			<p style="font-size:1.2em;font-weight:bold;display:inline-block;">Include Tags:</p>
+			<input type="text" class="form-control" style="width:50%;display:inline-block" id="tag-autocomplete" placeholder="Enter here"></input>
+			<button type="button" id="tag-add" style=""class="btn btn-info">ADD <i class="fa fa-plus"></i></button>	
+				<!-- <p class="tag-added" id="tag-added"></p>		 
+			  -->
+			<div class="tag-name" style="display:block;" id="tag-name">
+				<!-- <p class="tag-added" id="tag-added">sandkjqwn<span class="remove-int">&times;</span></p>
+			   -->
+			</div>
+		  </div>
+		</div>
+		 <button type="button" id="post" class="btn btn-info btn-lg" >POST <i class="fa fa-globe"></i></button>	
 			<!button value="click" id="tag_btn"click<!/button>
 			<div id="tag_div" class="tag_div">
 				<div class="tag">
@@ -155,38 +199,7 @@ font-family:Courier, Monaco, monospace;
 					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
 					<p style="display:inline-block">Tag03</p>
 				</div>
-			<!-- 	<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-					<p style="display:inline-block">Tag04</p>
-				</div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-					 <p style="display:inline-block">Tag05</p></div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-						 <p style="display:inline-block">Tag06</p>
-				</div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-					 <p style="display:inline-block">Tag07</p>
-				</div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-						 <p style="display:inline-block">Tag08</p>
-				</div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-					 <p style="display:inline-block">Tag09</p>
-				</div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-					 <p style="display:inline-block">Tag10</p>
-				</div>
-				<div class="tag">
-					<span id="uncheck_box" class="glyphicon glyphicon-unchecked" style="display:inline-block;margin:0px;"></span>
-					 <p style="display:inline-block">Tag11</p>
-				</div>
-			 --></div>
+			</div>
 				<div>
 				<p class="add_plus_txt"><strong>Add more</strong></p>
 				<div  id="plus" class="plus">
@@ -196,24 +209,30 @@ font-family:Courier, Monaco, monospace;
 				</div>	
 			
 	</div>
-				<div class="suggest">
-					<div class="container" style="color:#585858;width:60%;text-align:center;">
-						<hr>
-						<hr>
-						<hr>
-					</div>
-				</div>
+	<div class="suggest">
+		<div class="container" style="color:#585858;width:60%;text-align:center;">
+			<hr>
+			<hr>
+			<hr>
+		</div>
+	</div>
 </div>	
 </div>
 <footer>
 </footer>
-<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
-<!-- <script src="../static/javascript/home.js"></script>
- -->
-<script src="../static/javascript/ask.js"></script>
-<script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
-<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
 
+
+<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
+	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
+	<script src="../static/javascript/index.js"></script>
+	
+	<script type="text/javascript" src="../static/javascript/home.js"></script>
+	<script src="../static/javascript/home_index.js"></script>
+	<script src="../static/javascript/ask.js"></script>
+	<script src="../static/javascript/masonry.pkgd.js"></script>
 <!-- <script src="../static/javascript/home.js"></script>
  -->    
 

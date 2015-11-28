@@ -215,7 +215,8 @@ def autocomplete_games(user_id):
         if flag == 0:
             game_name.append(arr3[i])
     # print game_name
-    return jsonify(game_name=game_name)
+    count = len(game_name)
+    return jsonify(game_name=game_name, count=count)
     
 
 
@@ -386,7 +387,7 @@ def add_reply(user_id):
     post_type = request.form['type']
     title = request.form['title']
     content = request.form['content']
-    day = str(time.strftime("%x"))
+    date = str(time.strftime("%x"))
     if post_type == 'QS':
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
@@ -408,7 +409,7 @@ def add_reply(user_id):
         cursor.execute('SELECT comm_id FROM comments WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
         comm_id = entries[0][0]
-        cursor.execute('INSERT INTO articles_comments VALUES ("{0}","{1}")'.format(post_id,ans_id))
+        cursor.execute('INSERT INTO articles_comments VALUES ("{0}","{1}")'.format(post_id,comm_id))
         db.commit()
         return jsonify(status="success", msg="Comments added")
 
@@ -450,6 +451,54 @@ def remove_duplicates(values):
             output.append(value)
             seen.add(value)
     return output
+
+#########################################    Return Tags  ####################################################
+@app.route('/tags', methods=['GET','POST'])
+def tags():
+    db,cursor = get_db()
+    tags_name = []
+    cursor.execute('SELECT tag_name FROM tags')
+    entries = cursor.fetchall()
+    for a in entries:
+        tags_name.append(a[0])
+    return jsonify(tags_name=tags_name)
+
+
+#########################################    Add Post  #######################################################
+@app.route('/add_post<user_id>', methods=['GET','POST'])
+def add_post(user_id):
+    db,cursor = get_db()
+    # request.form = json.loads(request.data)
+    tag_list = json.loads(request.form['tag_list'])
+    post_type = request.form['type']
+    title = request.form['title']
+    content = request.form['content']
+    date = time.strftime("%x")
+    # print content
+    print type(date)
+    cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}","{1}")'.format(post_type,date))
+    db.commit()
+    cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
+    entries = cursor.fetchall()
+    post_id = entries[0][0]
+    print post_id
+    for i in range(0,len(tag_list['x'])):
+        print tag_list['x'][0]
+        cursor.execute('SELECT tag_id FROM tags WHERE tag_name="{0}"'.format(tag_list['x'][i]))
+        entries = cursor.fetchall()
+        tag_id = entries[0][0]
+        cursor.execute('INSERT INTO posts_tags VALUES ("{0}","{1}")'.format(post_id,tag_id))
+        db.commit()
+    cursor.execute('INSERT INTO user_posts VALUES ("{0}","{1}")'.format(user_id,post_id))
+    db.commit()
+    if post_type == 'QS':
+        cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+        db.commit()
+    elif post_type == 'AR':
+        cursor.execute('INSERT INTO articles VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+        db.commit()
+    return jsonify(status="success", msg="Post Added")
+
 
 
 #####################################    Profile Page  ##################################################

@@ -296,6 +296,24 @@ iframe[seamless] {
 	  padding:2px;
 	  //display:block;
   }
+  
+.tag-added{
+	padding:3px;
+	display:inline-block;
+	background:rgb(204, 242, 255);
+	border-radius:5px ;
+	padding-left:2px;
+	font-weight:bold;
+	margin:3px;
+	//position:relative;
+}
+.remove-int{
+	margin-left:8px;
+	cursor:pointer;
+	font-size:1.5em;
+	vertical-align:middle;
+	position:relative;
+}
   .new{
 	width:20px;
 	height:20px;	  
