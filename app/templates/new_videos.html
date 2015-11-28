@@ -176,7 +176,7 @@ $(function () {
 					
 					// Add a <li></li> line before the last-child
 					// Including the complete structure: the li ID, the <a href=""></a> etc... check the Bootstrap togglable tabs structure
-					$('ul#myTab li:last-child').after('<li id="li' + (nbrLiElem + 1) + '"><a href="#tab' + (nbrLiElem + 1) + '" role="tab" data-toggle="tab">VIDEOS</a>');
+					$('ul#myTab li:last-child').after('<li id="li' + (nbrLiElem + 1) + '"><a href="#tab' + (nbrLiElem + 1) + '" role="tab" data-toggle="tab">'+(res.channel[i])+'</a>');
 					
 					// Add a <div></div> markup after the last-child of the <div class="tab-content">
 					$('div.tab_content div:last-child').after('<div class="tabs_item" id="tab' + (nbrLiElem + 1) + '"><ul id="result' + (nbrLiElem + 1) + '"></ul></div>');

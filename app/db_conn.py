@@ -671,19 +671,22 @@ def users_interest(user_id):
 
 
 ##########################################  Channels  #################################################
-@app.route('/videos', methods=['POST'])
+@app.route('/videos', methods=['GET','POST'])
 def videos():
-    channel = []
-    db,cursor = get_db()
-    # print user_id
-    cursor.execute('SELECT channel_name FROM user_channels')
-    entries = cursor.fetchall()
-    for a in entries:
-        channel.append(a[0])
-    channel=remove_duplicates(channel)
-    count=len(channel)
-    # print channel
-    return jsonify(channel=channel, count=count)
+    if request.method == 'GET':
+            return render_template('new_videos.html')
+    elif request.method == 'POST':
+        channel = []
+        db,cursor = get_db()
+        # print user_id
+        cursor.execute('SELECT channel_name FROM user_channels')
+        entries = cursor.fetchall()
+        for a in entries:
+            channel.append(a[0])
+        channel=remove_duplicates(channel)
+        count=len(channel)
+        # print channel
+        return jsonify(channel=channel, count=count)
 
 
 ##########################################  Walkthroughs  #################################################
@@ -736,21 +739,19 @@ def article():
     # session.pop('logged_in', None)
     # flash('You were logged out')
     return render_template('article.html')
+
 @app.route('/walkthroughs', methods=['GET'])
 def walkthroughs():
     # session.pop('logged_in', None)
     # flash('You were logged out')
     return render_template('walkthroughs.html')
+
 @app.route('/gallery', methods=['GET'])
 def gallery():
     # session.pop('logged_in', None)
     # flash('You were logged out')
     return render_template('gallery.html')
-@app.route('/new_videos', methods=['GET'])
-def new_videos():
-    # session.pop('logged_in', None)
-    # flash('You were logged out')
-    return render_template('new_videos.html')
+
 
 if __name__=='__main__':
     app.run(debug=True)
