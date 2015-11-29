@@ -135,7 +135,7 @@ margin-top:25%;
         <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
 					</ul>
 		 <ul class="nav navbar-nav navbar-right">
-			<li><a href="/videos">Walkthroughs</a></li>
+			<li><a href="#" id="videos">Walkthroughs</a></li>
 			<li><a href="gallery.html">Gallery</a></li>
 		</ul>
      </div>
@@ -226,8 +226,8 @@ margin-top:25%;
 		<div class="more-story-link stamp-head" style="font-size:1.2sem;float:right" id="menu_toggle"> more >>></div>
 	</a>
   </div>
-  <!-- 
-  <div class="grid-item grid-item--height2">
+  
+<!--   <div class="grid-item grid-item--height2">
     <div class="grid-item-content" id="feed0">
 		<div class="feed-div feed-upper-div">
 			<img src="../static/images/profile-dribbble.png" class="feed-user-image"></img>
@@ -243,7 +243,9 @@ margin-top:25%;
 		<div class="feed-user-answers" id="feed-answers">
 			
 			<h4 style="">Answers:</h4>
-			<textarea id="t1" class="t1" data-action="fit"></textarea>
+			<div id="after-div" class="after-div">
+				<textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button>
+			</div>
 			<a href="#" id="more-answers" style="">View more>>></a>
 		</div>
 		<div class="like-bar" id="likeBar0">

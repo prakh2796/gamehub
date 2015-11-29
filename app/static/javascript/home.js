@@ -63,8 +63,8 @@ function in_feed(i){
 				
 				var answers=document.createElement("div");
 				$(answers).addClass("feed-user-answers");
-				$(answers).attr('id','feed-user-answers');
-				$(answers).html('<h4>Answers:</h4><textarea id="t1" class="t1" data-action="fit" placeholder="Write your text here..."></textarea>');
+				$(answers).attr('id','feed-user-answers'+feed_no);
+				$(answers).html('<h4>Answers:</h4><div id="after-div'+(feed_no)+'" class="after-div"><textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button></div>');
 				$(answers).appendTo(dContent);
 				
 				var like_bar=document.createElement("div");
@@ -144,18 +144,18 @@ function createTrending(){
 	//$(liImg).hide();
 }
 
-var time = new Date().getTime();
-$(document.body).bind("mousemove keypress", function(e) {
-	 time = new Date().getTime();
-});
-function refresh() {
-	if(new Date().getTime() - time >= 60000) 
-		window.location.reload(true);
-	else 
-		setTimeout(refresh, 10000);
-}
+// var time = new Date().getTime();
+// $(document.body).bind("mousemove keypress", function(e) {
+// 	 time = new Date().getTime();
+// });
+// function refresh() {
+// 	if(new Date().getTime() - time >= 60000) 
+// 		window.location.reload(true);
+// 	else 
+// 		setTimeout(refresh, 10000);
+// }
 
-setTimeout(refresh, 10000);
+// setTimeout(refresh, 10000);
 			
 $(window).load(function(){
 		create_feed();		//calling of function (displaying feed on load of homepage)
@@ -211,14 +211,26 @@ $(window).load(function(){
 							$('#feed'+i+' .feed-date').html(js_res.post_date[i]);
 							$('#feed'+i+' .post-type').html(js_res.post_type[i]);
 							
+							if(res.post_type=="AR")
+							{
+								$("feed"+i+' .feed-user-answers h4').html("Article");
+							
+							}
+							else{
+								$("feed"+i+' .feed-user-answers h4').html("Question");
+							}
 							
 							js_res.count--;
 
-						if(js_res.fun[i]==1)
+							if(js_res.fun[i]==1)
 							{
 								console.log("infor"+res.fun[i]);
 								$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
 						
+							}
+							else if(js_res.fun[i]==2)
+							{
+								$('#feed'+i+' .follow-btn').hide();
 							}
 						}	
 					//	global_feed_cnt=global_feed_cnt-feed_no;
@@ -228,10 +240,27 @@ $(window).load(function(){
 					//	console.log("else"+global_feed_cnt);
 						for(var i=0;i<js_res.count;i++)
 						{
-							$("#feedTitle"+i+" h2").html(js_res.post[i].title);
-							$("#feedTitle"+i+" p").html(js_res.post[i].content);
-							$("#likeBar"+i+" #like").html(js_res.post[i].likes);
+							if(res.post_type=="AR")
+							{
+								$("feed"+i+' .feed-user-answers h4').html("Article");
+							
+							}
+							else{
+								$("feed"+i+' .feed-user-answers h4').html("Question");
+							}
+							
 							js_res.count--;
+
+							if(js_res.fun[i]==1)
+							{
+								console.log("infor"+res.fun[i]);
+								$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+						
+							}
+							else if(js_res.fun[i]==1)
+							{
+								$('#feed'+i+' .follow-btn').hide();
+							}
 						}	
 
 					}
@@ -239,7 +268,7 @@ $(window).load(function(){
 					//js_res.count=global_feed_cnt;
 					//console.log("js count"+js_res.count);
 					//console.log(game_name);
-				}, 1000);
+				}, 000);
 				// // console.log(res.post[0].title);
 				// $("#feedTitle1 h2").html(res.post[0].title);
 				// $("#feedTitle1 p").html(res.post[0].content);
@@ -298,7 +327,10 @@ $(function() {
 });
 
 $(document).ready(function(){
-	$("#feed").on('click','#expand,#answer', function(){
+	
+	//ans_count=8;
+
+	$("#feed").on('click','#expand', function(){
 		//alert("clicked");
 		var id=$(this).parent("div").attr('id');
 		id="#"+id;
@@ -332,7 +364,7 @@ $(document).ready(function(){
 					
 					for(var i=0;i<5;i++)
 					{
-						$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+'</p></div>');
+						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
 						ans_count--;
 					}	
 					$(id+" .feed-user-answers div:last-child").after('<button class="btn btn-dark">View more>>></button>');
@@ -340,7 +372,7 @@ $(document).ready(function(){
 				else{
 					for(var i=0;i<loop;i++)
 					{
-						$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+'</p></div>');
+						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
 						ans_count--;
 					}	
 				}
@@ -384,7 +416,73 @@ $(document).ready(function(){
 		$(id+' div.post-user-answer').remove();
 		$(id+" #compress").hide();
 		$(id+" #expand").show();
-	})
+	});
+
+	$("#feed").on('click','#comment-answer',function(){
+		
+//		var real=$(this).attr('id');
+
+		var id=$(this).parent("div").attr('id');
+		id="#"+id;
+		
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		console.log("in post"+id);
+		//alert(id);
+		
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		console.log("in post"+id);
+		//console.log("in post"+id);
+		var response=$(id+" .after-div"+" #t1").val()
+		console.log("response - "+response);
+		if(response=="")
+		{		}
+		else{
+			var type=$(id+"	 .post-type").text();
+			var title=$(id+" .feed-lower-div h2").text();
+			console.log(response+" "+type+" "+title);
+			var data={
+				content:response,
+				type:type,
+				title:title
+			}
+			$.ajax({
+			method: "POST",
+			url: "/add_reply" + user_id,
+			data:data,
+				success: function(res) {
+					console.log(res);
+					
+					//	$.cookie("user", res);
+				
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			});
+		}
+	});
+
+	$("#feed").on('click','#cancel-answer',function(){
+		$(this).closest('div').remove();
+
+		// var id=$(this).closest('div').attr('id');
+		// id="#"+id;
+		// console.log("in"+id);
+		// id=$(id).parent('div').attr('id');
+		// id="#"+id;
+		// //alert(id);
+		// id=$(id).parent('div').attr('id');
+		// id="#"+id;
+		// console.log("in"+id);
+		//var response=$(id+" #t1").val()
+		//console.log(response);
+		//$("#feed "+id+" .cancel-answer").remove();
+		
+	});
+	
+
 	$("#logout").click(function(){
 			event.preventDefault();
 			$.ajax({
@@ -578,83 +676,14 @@ $(document).ready(function(){
 
 		window.location.replace("/profile"+username);
 	});
+	$("#videos").click(function(){
+		//alert(1);
+		console.log("clicl"+username);
+
+		window.location.replace("/videos"+user_id);
+	});
 
 
 
 });
-
-function NotebookListCtrl($scope) {
-	$scope.notebooks = [
-    {"name": "Lenovo",
-     "procesor": "Intel i5",
-     "age": 2011},
-    {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2010},
-    {"name": "Toshiba",
-     "procesor": "Intel core 2 duo",
-     "age": 2008},
-    {"name": "HP",
-     "procesor": "Intel core 2 duo",
-     "age": 2012},
-    {"name": "Acer",
-     "procesor": "AMD",
-     "age": 2006},
-    {"name": "Lenovo",
-     "procesor": "Intel i5",
-     "age": 2009},
-    {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2008},
-    {"name": "Lenovo",
-     "procesor": "Intel i5",
-     "age": 2011},
-    {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2010},
-    {"name": "Toshiba",
-     "procesor": "Intel core 2 duo",
-     "age": 2008},
-    {"name": "HP",
-     "procesor": "Intel core 2 duo",
-     "age": 2012},
-    {"name": "Acer",
-     "procesor": "AMD",
-     "age": 2006},
-    {"name": "Lenovo",
-     "procesor": "Intel i5",
-     "age": 2009},
-    {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2008},
-    {"name": "Lenovo",
-     "procesor": "Intel i5",
-     "age": 2011},
-    {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2010},
-    {"name": "Toshiba",
-     "procesor": "Intel core 2 duo",
-     "age": 2008},
-    {"name": "HP",
-     "procesor": "Intel core 2 duo",
-     "age": 2012},
-    {"name": "Acer",
-     "procesor": "AMD",
-     "age": 2006},
-    {"name": "Lenovo",
-     "procesor": "Intel i5",
-     "age": 2009},
-    {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2008},
-	 {"name": "Toshiba",
-     "procesor": "Intel i7",
-     "age": 2008}
-	 
-  ];
-  $scope.orderList = "name";
-	console.log("came");	
-
-}
 

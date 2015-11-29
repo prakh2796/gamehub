@@ -1,5 +1,5 @@
 DB_CONN = dict(
-    DATABASE='minor_01',
+    DATABASE='gameworld',
     DEBUG=True,
     USERNAME='root',
     PASSWORD='12345',

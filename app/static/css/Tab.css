@@ -2,9 +2,9 @@
 	padding-top: 50px;
 	margin-bottom: 20px;
 	position: relative;
-	overflow: auto;
+	overflow: hidden;
 	background: #fff;
-	width: 100%;
+	width: 70%;
 	margin: 0 auto;
 	font-family: 'Roboto', sans-serif;
 	line-height: 1.5;
@@ -67,7 +67,7 @@
 		float: left;
 		margin-right: 30px;
 	}
-.tabs_item:first-child {display: block;}
+.tabs_item 	&:first-child {display: block;}
 .current a {
 	color: #fff;
 	background: #87d3b7;

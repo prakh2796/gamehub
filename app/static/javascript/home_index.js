@@ -34,9 +34,14 @@ $( "#autocomplete" ).click({
     isStamped = !isStamped;
 		
   });
-  
-  $grid.on( 'click', '.grid-item-content', function() {
-    $( this ).parent('.grid-item').toggleClass('is-expanded');
+  $grid.on( 'click', '.grid-item-content #expand,.grid-item-content #compress', function() {
+	//$( this ).parent('.grid-item').toggleClass('is-expanded');
+	var v=$(this).parent('div').attr('id');
+	v=$("#"+v).parent('div').attr('id');
+	v="#"+v;
+	console.log("in Expand"+v);
+	$( v ).parent('.grid-item').toggleClass('is-expanded');
+	//$("#start0").toggleClass('is-expanded');
 	//$("#expand").hide;
 	//$("#less").show;
     $grid.masonry();
@@ -88,12 +93,27 @@ $( "#autocomplete" ).click({
 				$('#feed'+i+' .feed-username').html(js_res.users[i]);
 				$('#feed'+i+' .feed-date').html(js_res.post_date[i]);
 				$('#feed'+i+' .post-type').html(js_res.post_type[i]);					
+				if(js_res.post_type=="AR")
+				{
+					$("feed"+i+' .feed-user-answers h4').html("Article");
+				
+				}
+				else{
+					$("feed"+i+' .feed-user-answers h4').html("Question");
+				}
+				
+				js_res.count--;
+
 				if(js_res.fun[i]==1)
 				{
 					console.log("infor"+js_res.fun[i]);
-					$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-skull" style="display:inline-block;font-size:15px;"></span>');
-
-				}	
+					$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+			
+				}
+				else if(js_res.fun[i]==1)
+				{
+					$('#feed'+i+' .follow-btn').hide();
+				}
 			}
 		}
 	}

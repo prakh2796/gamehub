@@ -182,7 +182,7 @@ def add_interest(user_id):
                 entries = cursor.fetchall()
                 game_id = entries[0][0]
                 # print game_id
-                cursor.execute('INSERT INTO interest VALUES ("{0}","{1}")'.format(user_id,game_id))
+                cursor.execute('INSERT INTO interest(user_id,game_id) VALUES ("{0}","{1}")'.format(user_id,game_id))
                 db.commit()
         return jsonify(status='success', msg='Interests Successfully Added')
     else:
@@ -347,9 +347,11 @@ def expand():
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
+        print post_id
         cursor.execute('SELECT ans_id FROM questions_answers WHERE post_id="{0}"'.format(post_id))
         for a in cursor.fetchall():
             ans_id.append(a[0])
+        print ans_id
         for i in range(0,len(ans_id)):
             cursor.execute('SELECT ans_date,content,user_id FROM answers WHERE ans_id="{0}" ORDER BY ans_date DESC'.format(ans_id[i]))
             for row in cursor.fetchall():
@@ -390,28 +392,29 @@ def add_reply(user_id):
     post_type = request.form['type']
     title = request.form['title']
     content = request.form['content']
+    print content,user_id
     if post_type == 'QS':
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
-        cursor.execute('INSERT INTO answers VALUES (DEFAULT,CURRENT_TIMESTAMP,"{1}","{2}",0)'.format(user_id,content))
+        cursor.execute('INSERT INTO answers VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}",0)'.format(user_id,content))
         db.commit()
         cursor.execute('SELECT ans_id FROM answers WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
         ans_id = entries[0][0]
-        cursor.execute('INSERT INTO questions_answers VALUES ("{0}","{1}")'.format(post_id,ans_id))
+        cursor.execute('INSERT INTO questions_answers(post_id,ans_id) VALUES ("{0}","{1}")'.format(post_id,ans_id))
         db.commit()
         return jsonify(status="success", msg="Answer added")
     elif post_type == 'AR':
         cursor.execute('SELECT post_id FROM articles WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
-        cursor.execute('INSERT INTO comments VALUES (DEFAULT,"{0}","{1}","{2}",0)'.format(date,user_id,content))
+        cursor.execute('INSERT INTO comments VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}",0)'.format(date,user_id,content))
         db.commit()
         cursor.execute('SELECT comm_id FROM comments WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
         comm_id = entries[0][0]
-        cursor.execute('INSERT INTO articles_comments VALUES ("{0}","{1}")'.format(post_id,comm_id))
+        cursor.execute('INSERT INTO articles_comments(post_id,comm_id) VALUES ("{0}","{1}")'.format(post_id,comm_id))
         db.commit()
         return jsonify(status="success", msg="Comments added")
 
@@ -488,9 +491,9 @@ def add_post(user_id):
         cursor.execute('SELECT tag_id FROM tags WHERE tag_name="{0}"'.format(tag_list['x'][i]))
         entries = cursor.fetchall()
         tag_id = entries[0][0]
-        cursor.execute('INSERT INTO posts_tags VALUES ("{0}","{1}")'.format(post_id,tag_id))
+        cursor.execute('INSERT INTO posts_tags(post_id,tag_id) VALUES ("{0}","{1}")'.format(post_id,tag_id))
         db.commit()
-    cursor.execute('INSERT INTO user_posts VALUES ("{0}","{1}")'.format(user_id,post_id))
+    cursor.execute('INSERT INTO user_posts(user_id,post_id) VALUES ("{0}","{1}")'.format(user_id,post_id))
     db.commit()
     if post_type == 'QS':
         cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
@@ -532,9 +535,9 @@ def profile(username):
         # print username
 
         ###### User Description  ######
-        cursor.execute('SELECT fname,lname,DOB,descp,sex,address FROM user_descp WHERE user_id="{0}"'.format(user_id))
+        cursor.execute('SELECT fname,lname,DOB,descp,sex,country FROM user_descp WHERE user_id="{0}"'.format(user_id))
         for row in cursor.fetchall():
-            user_desp_dict=dict({'fname':row[0],'lname':row[1],'dob':str(row[2]),'descp':row[3],'sex':row[4],'address':str(row[5])})
+            user_desp_dict=dict({'fname':row[0],'lname':row[1],'dob':str(row[2]),'descp':row[3],'sex':row[4],'country':str(row[5])})
 
         ######  Following  ######
         cursor.execute('SELECT following FROM user_following where user_id="{0}"'.format(user_id))
@@ -669,24 +672,45 @@ def users_interest(user_id):
     return jsonify(game_name_user=game_name_user)
 
 
+################################################ Remove Following ###########################################
+@app.route('/unfollw<user_id>', methods=['GET','POST'])
+def unfollow(user_id):
+    db,cursor = get_db()
+    username = request.form['username']
+    cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
+    entries= cursor.fetchall()
+    u_id = entries[0][0]
+    cursor.execute('DELETE FROM user_following WHERE user_id="{0}" AND following="{1}"'.format(user_id,u_id))
+    db.commit()
+    return jsonify(status="success", msg="Unfollowed")
+
+
 
 ##########################################  Channels  #################################################
-@app.route('/videos', methods=['GET','POST'])
-def videos():
+@app.route('/videos<user_id>', methods=['GET','POST'])
+def videos(user_id):
+    print user_id
     if request.method == 'GET':
-            return render_template('new_videos.html')
+        return render_template('new_videos.html')
     elif request.method == 'POST':
-        channel = []
+        channel_name = []
+        channel_id = []
         db,cursor = get_db()
         # print user_id
-        cursor.execute('SELECT channel_name FROM user_channels')
+        cursor.execute('SELECT channel_id FROM user_channel WHERE user_id="{0}"'.format(user_id))
         entries = cursor.fetchall()
         for a in entries:
-            channel.append(a[0])
-        channel=remove_duplicates(channel)
-        count=len(channel)
-        # print channel
-        return jsonify(channel=channel, count=count)
+            channel_id.append(a[0])
+        print channel_id
+        for i in range(0,len(channel_id)):
+            cursor.execute('SELECT channel_name FROM channels WHERE channel_id="{0}"'.format(channel_id[i]))
+            entries = cursor.fetchall()
+            for a in entries:
+                channel_name.append(a[0])
+        channel_name=remove_duplicates(channel_name)
+        count=len(channel_name)
+        print channel_name
+        return jsonify(channel_name=channel_name, count=count)
 
 
 ##########################################  Walkthroughs  #################################################
@@ -752,6 +776,11 @@ def gallery():
     # flash('You were logged out')
     return render_template('gallery.html')
 
+@app.route('/tab', methods=['GET'])
+def tab():
+    # session.pop('logged_in', None)
+    # flash('You were logged out')
+    return render_template('Tab2.html')
 
 if __name__=='__main__':
     app.run(debug=True)
