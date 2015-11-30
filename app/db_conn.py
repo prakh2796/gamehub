@@ -82,9 +82,7 @@ def signup():
     username = request.form['username']
     email = request.form['email']
     password = request.form['pwd']
-    day = request.form['day']
-    month = request.form['month']
-    year = request.form['year']
+    dob = request.form['dob']
     sex = request.form['sex']
     descp = request.form['descp']
     country = request.form['country']
@@ -102,7 +100,7 @@ def signup():
         cursor.execute('SELECT user_id FROM user_login WHERE email="{0}" AND password="{1}"'.format(email,password))
         entries=cursor.fetchall()
         user_id=entries[0][0]
-        cursor.execute('INSERT INTO user_descp VALUES ("{0}","{1}","{2}","{3}","{4}","{5}","{6}","{7}","{8}","{9}")'.format(user_id,firstname,lastname,age,descp,sex,country,day,month,year))
+        cursor.execute('INSERT INTO user_descp(user_id,fname,lname,descp,sex,country,dob) VALUES ("{0}","{1}","{2}","{3}","{4}","{5}","{6}")'.format(user_id,firstname,lastname,descp,sex,country,dob))
         db.commit()
         db.close()
         return jsonify(status='success', msg='Account Successfully Created')
@@ -238,9 +236,11 @@ def timeline(user_id):
     post_type = []
     users = []
     fun = []
+    like = []
+    reply_count = []
 
     db,cursor = get_db()
-    print user_id
+    # print user_id
     # user_id=get_user_id(username)
     cursor.execute('SELECT following FROM user_following WHERE user_id="{0}"'.format(user_id))
     entries = cursor.fetchall()
@@ -296,10 +296,25 @@ def timeline(user_id):
             cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(post_id[i]))
             for row in cursor.fetchall():
                 post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+            cursor.execute('SELECT count(*) FROM questions_answers WHERE post_id="{0}"'.format(post_id[i]))
+            entries = cursor.fetchall()
+            reply_count.append(entries[0][0])
+
         if(post_type[i] == 'AR'):
             cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(post_id[i]))
             for row in cursor.fetchall():
                 post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+            cursor.execute('SELECT count(*) FROM articles_comments WHERE post_id="{0}"'.format(post_id[i]))
+            entries = cursor.fetchall()
+            reply_count.append(entries[0][0])
+
+        cursor.execute('SELECT count(*) FROM user_post_likes WHERE post_id="{0}" AND user_id="{1}"'.format(post_id[i],user_id))
+        entries = cursor.fetchall()
+        temp_var = entries[0][0]
+        if temp_var == 0:
+            like.append(0)
+        else:
+            like.append(1)
         # print post
         cursor.execute('SELECT user_id FROM user_posts WHERE post_id="{0}"'.format(post_id[i]))
         entries = cursor.fetchall()
@@ -325,7 +340,7 @@ def timeline(user_id):
             fun.append(1)
         else:
             fun.append(0)
-    return jsonify(post=post, post_date=post_date, post_type=post_type, count=count, fun=fun, users=users)
+    return jsonify(post=post, post_date=post_date, post_type=post_type, count=count, fun=fun, users=users, like=like, reply_count=reply_count)
 
 
 
@@ -396,8 +411,9 @@ def add_reply(user_id):
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
-        cursor.execute('INSERT INTO answers VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}",0)'.format(user_id,content))
+        cursor.execute('INSERT INTO answers VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}")'.format(user_id,content))
         db.commit()
+        print post_id
         cursor.execute('SELECT ans_id FROM answers WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
         ans_id = entries[0][0]
@@ -408,7 +424,7 @@ def add_reply(user_id):
         cursor.execute('SELECT post_id FROM articles WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
-        cursor.execute('INSERT INTO comments VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}",0)'.format(date,user_id,content))
+        cursor.execute('INSERT INTO comments VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}")'.format(user_id,content))
         db.commit()
         cursor.execute('SELECT comm_id FROM comments WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
@@ -418,28 +434,54 @@ def add_reply(user_id):
         return jsonify(status="success", msg="Comments added")
 
 
-##################################################  Like Increament ###########################################
-@app.route('/like_inc', methods=['GET','POST'])
-def like_inc():
+#######################################  Like Increament/Decreament ########################################
+@app.route('/like<username>', methods=['GET','POST'])
+def like(username):
     db,cursor = get_db()
-    request.form = json.loads(request.data)
+    # request.form = json.loads(request.data)
+    check = request.form['check']
     post_type = request.form['type']
     title = request.form['title']
+    user_id = get_user_id(username)
+    # print check,post_type,title
+    check = int(check)
+    # print type(check)
     if post_type == 'QS':
+        cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
+        entries = cursor.fetchall()
+        post_id = entries[0][0]
         cursor.execute('SELECT likes FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         likes = entries[0][0]
-        likes = likes + 1
-        cursor.execute('INSERT INTO questions(likes) VALUES ("{0}")'.format(likes))
+        if check == 0:
+            likes = likes + 1
+            cursor.execute('INSERT INTO user_post_likes VALUES (DEFAULT,"{0}","{1}")'.format(post_id,user_id))
+        elif check == 1:
+            likes = likes - 1
+            cursor.execute('DELETE FROM user_post_likes WHERE post_id="{0}" AND user_id="{1}"'.format(post_id,user_id))
+        db.commit()
+        cursor.execute('UPDATE questions SET likes="{0}" WHERE post_id="{1}"'.format(likes,post_id))
         db.commit()
     elif post_type == 'AR':
+        cursor.execute('SELECT post_id FROM articles WHERE title="{0}"'.format(title))
+        entries = cursor.fetchall()
+        post_id = entries[0][0]
         cursor.execute('SELECT likes FROM articles WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         likes = entries[0][0]
-        likes = likes + 1
-        cursor.execute('INSERT INTO articles(likes) VALUES ("{0}")'.format(likes))
+        if check == 0:
+            likes = likes + 1
+            print likes
+            cursor.execute('INSERT INTO user_post_likes VALUES (DEFAULT,"{0}","{1}")'.format(post_id,user_id))
+        elif check == 1:
+            likes = likes - 1
+            print likes
+            cursor.execute('DELETE FROM user_post_likes WHERE post_id="{0}" AND user_id="{1}"'.format(post_id,user_id))
         db.commit()
-    return jsonify(status="success", msg="Like +1")
+        cursor.execute('UPDATE articles SET likes="{0}" WHERE post_id="{1}"'.format(likes,post_id))
+        db.commit()
+        # print likes
+    return jsonify(status="success", msg="Likes updated", likes=likes)
 
 
 
@@ -521,6 +563,8 @@ def profile(username):
         post = []
         post_date = []
         arr2 = []
+        like = []
+        reply_count = []
 
         db,cursor = get_db()
         user_id = get_user_id(username)
@@ -565,7 +609,7 @@ def profile(username):
         fer_count = len(followers)
         # print followers
 
-        ######  User's Questions and Articles along  ######
+        ######  User's Questions and Articles  ######
         cursor.execute('SELECT post_id FROM user_posts WHERE user_id="{0}"'.format(user_id))
         entries = cursor.fetchall()
         for a in entries:
@@ -581,15 +625,28 @@ def profile(username):
                 cursor.execute('SELECT title,content,likes FROM questions WHERE post_id="{0}"'.format(post_id[i]))
                 for row in cursor.fetchall():
                     post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+                cursor.execute('SELECT count(*) FROM questions_answers WHERE post_id="{0}"'.format(post_id[i]))
+                entries = cursor.fetchall()
+                reply_count.append(entries[0][0])
             if(post_type[i] == 'AR'):
                 cursor.execute('SELECT title,content,likes FROM articles WHERE post_id="{0}"'.format(post_id[i]))
                 for row in cursor.fetchall():
                     post.append(dict({'title':row[0],'content':row[1],'likes':row[2]}))
+                cursor.execute('SELECT count(*) FROM articles_comments WHERE post_id="{0}"'.format(post_id[i]))
+                entries = cursor.fetchall()
+                reply_count.append(entries[0][0])
+            cursor.execute('SELECT count(*) FROM user_post_likes WHERE post_id="{0}" AND user_id="{1}"'.format(post_id[i],user_id))
+            entries = cursor.fetchall()
+            temp_var = entries[0][0]
+            if temp_var == 0:
+                like.append(0)
+            else:
+                like.append(1)
 
         post_count = len(post)
-        print post_count
-        print post
-        return jsonify(username=username, email=email, user_desp_dict=user_desp_dict, fer_count=fer_count, followers=followers, fing_count=fing_count, following=following, post=post, post_count=post_count, post_type=post_type, post_date=post_date)
+        # print post_count
+        # print post
+        return jsonify(username=username, email=email, user_desp_dict=user_desp_dict, fer_count=fer_count, followers=followers, fing_count=fing_count, following=following, post=post, post_count=post_count, post_type=post_type, post_date=post_date, like=like, reply_count=reply_count)
 
 
 
@@ -690,12 +747,12 @@ def unfollow(user_id):
 def delete_reply():
     db,cursor = get_db()
     # request.form = json.loads(request.data)
-    username = request.format['username']
+    username = request.form['username']
     post_type = request.form['type']
     content = request.form['content']
     cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
     entries = cursor.fetchall()
-    user_id = entries[0][0]
+    user_id = entries[0][0] 
     if post_type == 'QS':
         cursor.execute('SELECT ans_id FROM answers WHERE user_id="{0}" AND content="{1}"'.format(user_id,content))
         entries = cursor.fetchall()

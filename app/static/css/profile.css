@@ -4,12 +4,17 @@
 	position: relative;
 	float: left;
 	width: 300px;
-	height: 800px;
+	//height: 800px;
 	background-color: rgba(24,24,24,0.6);
 	border-radius: 10px;
 	//font-style: Verdana;
 	font-size: 1.3em;
 	margin-bottom:5px;
+	//overflow:hidden;	
+	height:auto;
+	word-break:keep-all;
+	word-wrap:break-word;
+	
 
 }
 
@@ -116,3 +121,38 @@
 	color: rgba(0,0,0,0.9);
 	background-color: rgba(255,255,255,0.9);
 }
+
+ .t2{
+	vertical-align:top;
+}
+
+.t2{
+	width:300px;
+	padding:8px 10px;
+	padding:10px;
+	border:5px solid #6ac554;
+	border-radius:6px;
+	font:20px serif;
+	min-height:100px;
+	max-height:500px;
+	margin-top:10px;
+	//overflow-y:scroll;
+}
+
+#edit-desp{
+	float:right;dsiplay:inline-block;color:black;cursor:pointer
+}
+#save_desp{
+//	position:absolute;
+	//bottom:10px;
+	//right:1%;
+}
+
+#male{
+	color:black;
+}
+#female{
+	color:black;
+}
+
+

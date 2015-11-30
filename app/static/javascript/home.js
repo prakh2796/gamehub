@@ -210,6 +210,12 @@ $(window).load(function(){
 							$('#feed'+i+' .feed-username').html(js_res.users[i]);
 							$('#feed'+i+' .feed-date').html(js_res.post_date[i]);
 							$('#feed'+i+' .post-type').html(js_res.post_type[i]);
+							$('#likeBar'+i+' #answer i').html(js_res.reply_count[i]);
+
+							if(js_res.like[i]==1)
+							{
+								$("#likeBar"+i+" #like i").addClass('red');	
+							}
 							
 							if(res.post_type=="AR")
 							{
@@ -230,7 +236,7 @@ $(window).load(function(){
 							}
 							else if(js_res.fun[i]==2)
 							{
-								$('#feed'+i+' .follow-btn').hide();
+								$('#feed #feed'+i+'.feed-upper-div #follow-btn').hide();
 							}
 						}	
 					//	global_feed_cnt=global_feed_cnt-feed_no;
@@ -360,26 +366,30 @@ $(document).ready(function(){
 				ans_count=res.count;
 				//	$.cookie("user", res);
 				var loop=ans_count;
+				var post_user_answer_id_cnt=0;
 				if(ans_count>4){
 					
 					for(var i=0;i<5;i++)
 					{
-						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
+						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer'+(post_user_answer_id_cnt)+'"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+'</a>'+' '+(res.display[i].date)+'<p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
 						ans_count--;
+						post_user_answer_id_cnt++;
 					}	
 					$(id+" .feed-user-answers div:last-child").after('<button class="btn btn-dark">View more>>></button>');
 				}	
 				else{
 					for(var i=0;i<loop;i++)
 					{
-						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+' '+(res.display[i].date)+'</a><p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
+						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer'+(post_user_answer_id_cnt)+'"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+'</a>'+' '+(res.display[i].date)+'<p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
 						ans_count--;
+						post_user_answer_id_cnt++;
 					}	
 				}
 			},
 			error: function(err) {
 				console.log(err);
 			}
+
   		});
 		
 				// if(ans_count>4){
@@ -453,7 +463,7 @@ $(document).ready(function(){
 			data:data,
 				success: function(res) {
 					console.log(res);
-					
+					window.location.replace("/home"+user_id);
 					//	$.cookie("user", res);
 				
 				},
@@ -465,23 +475,117 @@ $(document).ready(function(){
 	});
 
 	$("#feed").on('click','#cancel-answer',function(){
-		$(this).closest('div').remove();
-
-		// var id=$(this).closest('div').attr('id');
-		// id="#"+id;
-		// console.log("in"+id);
-		// id=$(id).parent('div').attr('id');
-		// id="#"+id;
-		// //alert(id);
-		// id=$(id).parent('div').attr('id');
-		// id="#"+id;
-		// console.log("in"+id);
-		//var response=$(id+" #t1").val()
-		//console.log(response);
-		//$("#feed "+id+" .cancel-answer").remove();
+		//$(this).closest('div').remove();
+		var p_id=$(this).closest('div').attr('id');
+		//console.log("text "+p_id);
+		var id=$("#"+p_id).parent('div').attr('id');
+		p_id="#"+p_id;
+		//console.log("text "+id);
+		id="#"+id;
+		var answered_username=$("#feed "+id+" "+p_id+" a").text();
+		var p=$("#feed "+id+" "+p_id+" p").text()
 		
+		var main_id=$(id).parent('div').attr('id');
+		//console.log("text "+main_id);
+		main_id="#"+main_id;
+		var type=$("#feed "+main_id+" .feed-upper-div .post-type").html()
+		var title=$("#feed "+main_id+" .feed-lower-div h2").html()
+		var post_username=$("#feed "+main_id+" .feed-upper-div .feed-username").html();
+		console.log("username "+answered_username+" "+p+" "+ type+" "+title+" "+post_username);
+			if(answered_username==username)
+			{
+				flag=1;
+				 $(this).closest('div').remove();
+			}
+			else if(username==post_username)
+			{
+				flag=1;
+				$(this).closest('div').remove();
+			}
+			else{
+				flag=0;
+			}
+			if(flag==1)
+			{
+					$.ajax({
+					method: "POST",
+					url: "/delete_reply",
+					data:{
+						username:answered_username,
+						content:p,
+						type:type
+					},
+					success: function(res) {
+						//console.log('window.location.href="/"');
+						//window.location.replace('/');
+						//window.location.reload(true);
+						//$(this).closest('div').remove();
+						//window.location.replace('/home'+user_id);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});	
+			}
+			else{
+				alert("This is not Your Post or anwer")
+			}
+			
 	});
 	
+
+	$("#feed").on('click','#like i',function(){
+		//$(this).removeClass('blue');
+		//$(this).closest('div').remove();
+		//var p_id=$(this).closest('div').attr('id');
+		var flag;
+		if($(this).hasClass("red"))
+		{
+			 flag=1;
+			$(this).removeClass('red');
+		}
+		else{
+			flag=0;
+			$(this).addClass('red');
+		}
+		var p_id=$(this).closest('div').attr('id');
+		console.log("text "+p_id);
+		var id=$("#"+p_id).parent('div').attr('id');
+		p_id="#"+p_id;
+		
+		id="#"+id;
+		console.log(" "+id);
+		// var answered_username=$("#feed "+id+" "+p_id+" a").text();
+		// var p=$("#feed "+id+" "+p_id+" p").text()
+		
+		var main_id=$(id).parent('div').attr('id');
+		//console.log("text "+main_id);
+		main_id="#"+main_id;
+		var type=$("#feed "+id+" .feed-upper-div .post-type").html()
+		var title=$("#feed "+id+" .feed-lower-div h2").html()
+		//var post_username=$("#feed "+main_id+" .feed-upper-div .feed-username").html();
+		console.log("username "+ type+" "+title+" "+flag);
+		// event.preventDefault();
+		$.ajax({
+			method:"POST",
+			url:"/like"+username,
+			data:{
+				check:flag,
+				title:title,
+				type:type
+			},
+			success: function(res) {
+				console.log(res);
+				//$(this).html(res.likes);
+				$("#feed "+id+" #like i").html(res.likes);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+  		});
+		console.log(flag);
+
+	});
 
 	$("#logout").click(function(){
 			event.preventDefault();

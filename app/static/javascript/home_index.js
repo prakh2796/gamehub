@@ -92,7 +92,14 @@ $( "#autocomplete" ).click({
 				$("#likeBar"+i+" #like i").html(js_res.post[i].likes);
 				$('#feed'+i+' .feed-username').html(js_res.users[i]);
 				$('#feed'+i+' .feed-date').html(js_res.post_date[i]);
-				$('#feed'+i+' .post-type').html(js_res.post_type[i]);					
+				$('#feed'+i+' .post-type').html(js_res.post_type[i]);	
+				$('#likeBar'+i+' #answer i').html(js_res.reply_count[i]);
+
+				if(js_res.like[i]==1)
+				{
+					$("#likeBar"+i+" #like i").addClass('blue');	
+				}
+											
 				if(js_res.post_type=="AR")
 				{
 					$("feed"+i+' .feed-user-answers h4').html("Article");
@@ -110,7 +117,7 @@ $( "#autocomplete" ).click({
 					$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
 			
 				}
-				else if(js_res.fun[i]==1)
+				else if(js_res.fun[i]==2)
 				{
 					$('#feed'+i+' .follow-btn').hide();
 				}
@@ -121,14 +128,7 @@ $( "#autocomplete" ).click({
     
   })
   
-  $("#expand").click(function(){
-	 // ("#less").show;
-	  //("#expand").hide();
-  })
-  $("#less").click(function(){
-	 // $("#expand").show;
-	 // $("#less").hide();
-  })
+
   /* $(function(){
   var header = $("header"),
       yOffset = window.he,

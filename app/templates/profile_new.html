@@ -176,7 +176,7 @@ body{
   width:auto;
   //min-width:200px;
   //min-height:200px;
-  max-height: 400px;
+  //max-height: 400px;
   max-width:400px;
  //width:200px;
  box-shadow: 2px 2px 2px #888888;
@@ -215,7 +215,7 @@ body{
 .grid-item-profile.is-expanded,
 .grid-item-profile.is-expanded .grid-item-content-profile {
   //width: 440px;
-  height: 460px;
+  //height: 460px;
   width:100%;
   //transition :width 0.4s ,height 0.4s,border 0.6s;
  //transition :border 0.6s;
@@ -223,22 +223,26 @@ body{
 
 .grid-item-profile.is-expanded {
   z-index: 2;
+  height:auto;
   //transition :all 1s;
 }
 
 .grid-item-profile.is-expanded .grid-item-content-profile {
   background: #F90;
   //transition :all 1s;
+  height:auto;
 }
-.grid-item-profile.is-expanded .feed-user-image{
-	width:7%;
+
+.grid-item-profile.is-expanded .profile-feed-answers{
+    //transition: display 1s;
+    display: block;
 }
 
 .gutter-sizer-profile {
 //  width: 4%;
 }
-.grid-item--height2 {  max-height:400px}
-.grid-item--height3 { max-height:400px;}
+.grid-item--height2 { }
+.grid-item--height3 { }
 
 
 .profile-post-type{
@@ -286,9 +290,153 @@ body{
 	height:20px;
 	background:gray;
 }
+
+.change_username
+{
+    display:none;
+    margin-left: 100px;
+	font-weight:bold;
+}
+
+.profile_cover
+{
+    width: calc(100% - 100px);
+    height: 300px;
+    background: #fff595;
+    margin-left:50px;
+    margin-bottom: 10px;
+}
+.main_section
+{
+    width: calc(100% - 100px);
+    margin-left:50px;
+}
+.side_bar
+{
+    float: left;
+    width: 20%;
+    text-align: center;
+    background: #d7e7e6;
+}
+.tab_box
+{
+    float: left;
+    width: calc(80% - 5px);
+    margin-left: 5px;
+}
+.change_username
+{
+    display:none;
+    margin-left: 100px;
+}
+.change_password
+{
+    display:none;
+    margin-left: 100px;
+	font-weight:bold;
+}
+.change-desp{
+	//display:none;
+    margin-left: 5px;
+	font-weight:bold;
+	//margin-bottom:30px;
+}
+.show
+{
+    display: block;
+}
+
+.edit-form{
+	width:40%;
+}
+
+.profile-feed-answers{
+	//display:inline-block;
+	display:none;
+	//border:2px solid green;
+	width:100%;
+	transition:display 1s;
+}
+.profile-feed-answers h4{
+	width:auto;
+	//border:2px solid gray;
+	font-weight:bold;
+	//transition:display 1s;
+}
+.profile-feed-answers p{
+	padding:3px;
+	font-weight:bold;
+	
+	//display:inline-block;
+	background:rgb(204, 242, 255);
+	margin:0px;
+	//position:relative;
+	border-radius:4px;
+	overflow:hidden;
+}
+
+.t1{
+	vertical-align:top;
+}
+.t1{
+	padding:3px;
+	width:80%;
+	font-size:1.0em;
+	font-weight:bold;
+	border:2px solid #6694d9;
+	border-radius:5px;
+	font:sans-serif;
+	//height:40px;
+	
+	margin-bottom:5px;
+}
+
+.post-user-answers a{
+	font-weight:bold;
+	color:#333399;
+}
+.post-user-answer{
+	display:inline-block;
+	width:80%;
+	//border:2px solid red;
+}
+.post-user-answer p{
+	width:90%;
+	//border:2px solid red;
+	
+}
+#post-answer-username {
+	display:inline-block;
+	//border:2px solid red;
+	//transition:display 1s;
+}
+
+#more-answers{
+	display:block;
+	font-size:1.2em;
+	font-weight:bold;
+	color:white;
+}
+#compress{
+	//display:none;
+}
+
+#cancel-answer{
+	//position:absolute;
+	//top:0px;
+	//border:2px solid red;
+	//margin-top:2px;
+	//display:inline-block;
+	//float:left
+}
+
+
+
+
+
 </style>
 <body>
-	<header>
+		<header>
 
   <div class="header1" style="">
     <div class="top-left">
@@ -358,21 +506,20 @@ body{
   <div class="clearfix visible-lg"></div>
   
 	</header>
-	
-
-<div class="section container" style="font-family: 'PT Sans'">
+	<div class="section container" style="font-family: 'PT Sans'">
 
 
 <div id="profile" class="grid-profile">
   		<div class="left stamp-profile" id="leftbar">
 				<div class="imageDiv">
-					<!-- <img id="profilePic" src="https://pbs.twimg.com/profile_images/1306594497/20-savita-bhabhi-230211_400x400.jpg" style="width:100%;height:100%"> -->
+					<img id="profilePic" src="..\static\images\profile-images\6.jpg" style="width:100%;height:100%">
 				</div>
 				<div id="name" class="name">
 					Yugal Jain
 				</div>
 				<div id="description" class="description">
-				Born to be Gamer...@#$%^&*
+				Born adfjjjklllllllllllllllllllllllllllllllllllllllllllllllllllaoijdoiend to be Gamer...@#$%^&*
+				<i data-toggle="modal" data-target="#editDespModal" id="edit-desp" title="Edit your Description"style=""class="fa fa-edit (alias) fa-lg"></i>
 				</div>
 
 				<div class="back" id="profile-edit" data-toggle="modal" data-target="#editModal">
@@ -382,28 +529,23 @@ body{
 
 
 
-				<div class="back">
-					<span class="glyphicon glyphicon-magnet"></span>
+				<div class="back" id="qs">
+					<i class="fa fa-question-circle"></i>
 					&nbspQuestions
 				</div>
 
-
-				<div class="back">
-					<span class="glyphicon glyphicon-text-color"></span>
-					&nbspAnswers
-				</div>
 				
-				<div class="back">
+				<div class="back" id="ar">
 					<span class="glyphicon glyphicon-list-alt"></span>
 					&nbspArticle
 				</div>
 				
 				<div class="back" id="profile-int" data-toggle="modal" data-target="#intModal">
-					<span class="glyphicon glyphicon-heart-empty"></span>
+					<i class="fa fa-gamepad"></i>
 					&nbspInterest
 				</div>
 			
-				<div class="back" id="profile-played" data-toggle="modal" data-target="#playedModal">
+				<div class="back" id="profile-played">
 					<span class="glyphicon glyphicon-headphones"></span>
 					&nbspGames Played
 				</div>
@@ -411,8 +553,8 @@ body{
 		</div>
 
 		<div class="profile-top stamp-profile">
-			<div id="profile-username"class="username">
-				lOvinGyuGs
+			<div class="username">
+				<i class="fa fa-gamepad fa-lg " style="margin-top:-15px"></i>&nbsp&nbsplOvinGyuGs
 			</div>
 
 			<div class="line1">
@@ -444,7 +586,7 @@ body{
 
   
  <!--  <div class="grid-item-profile grid-item--height2">
-    <div class="grid-item-content-profile" id="profile-feed" >
+    <div class="grid-item-content-profile" id="profile-feed0" >
 		<div class="self-header">
 			<div class="self-type">Article</div>
 			<div class="self-date">21-12-2015</div>
@@ -457,11 +599,21 @@ body{
 				This handout will help you understand how paragraphs are formed, how to develop stronger paragraphs, and how to completely and clearly express your ideas.
 			</p>
 		</div>
-		<div class="self-footer">		
-				<i id="self-post-comment" class="fa fa-comments">4</i>
-				<i id="self-post-like" class="fa fa-heart">10</i>
-				<div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div>
-				<div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>
+		<div class="profile-feed-answers" id="profile-feed-answers">
+			
+			<h4 style="">Answers:</h4>
+			<div id="after-div" class="after-div">
+				<textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button>
+			</div>
+			
+		</div>
+		<div class="self-footer" id="self-footer0">		
+		
+			<span style="" id="answer"><i class="fa fa-comments">4</i></span>
+			<span  id="like"><i class="fa fa-heart">10</i></span>
+			<div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div>
+			<div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>
+
 		</div>
 		
 		
@@ -477,17 +629,126 @@ Paragraphs are the building blocks of papers. Many students define paragraphs in
 	</div>
   </div>
   
-   -->
+   <div class="grid-item-profile grid-item--height2">
+    <div class="grid-item-content-profile" >
+		<p>
+			HOW DO I DECIDE WHAT TO PUT IN A PARAGRAPH?
+
+Before you can begin to determine what the composition of a particular paragraph will be, you must first decide on an argument and a working thesis statement for your paper. What is the most important idea that you are trying to convey to your reader? The information in each paragraph must be related to that idea. In other words, your paragraphs should remind your reader that there is a recurrent relationship between your thesis and the information in each paragraph. A working thesis functions like a seed from which your paper, and your ideas, will grow. The whole process is an organic one—a natural progression from a seed to a full-blown paper where there are direct, familial relationships between all of the ideas in the paper.
+		</p>
+	</div>
+  </div>
+  
+ 
+ -->
   
 </div>
 </div>	
 
+<div class="modal fade" id="editModal" role="dialog">
+    	<div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header" style="text-align:center;border-color:black">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Setting</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<div class="user_email"><i class="fa fa-user"></i>  Email</div><hr>
+	        	<div class="user_name"><i class="fa fa-user"></i>  Name:<p style="display:inline-block">Yugal</p><a style="float:right" id="e1"><i class="fa fa-pencil"></i></a>
+	        		<div id="change_name"class="change_username">
+	        			<form class="email-login" id="form-name"method="POST">
+	        				<p>Current Name:</p>
+	        				<input type="name" id="name-changed" class="edit-form form-control"placeholder="New Name" name="new_name"/><br><br>
+	        				<button type="button" id="submit1">Submit</button>
+	        				<button type="button" id="chng1">Cancel</button>
+	        			</form>
+	        		</div>
+	        	</div><hr>
+	        	<div class="user_name"><i class="fa fa-eye"></i>  Password<a style="float:right" id="e2"><i class="fa fa-pencil"></i></a>
+					<div id="change_password" class="change_password">
+	        			<form class="email-password" id="form-password" method="POST">
+							<input type="name" id="pwd"class="edit-form form-control" placeholder="Current Password" id="current_password" name="current_password"/><br><br>
+	        				<input type="name" id="npwd" class="edit-form form-control"placeholder="New Password" id="new_password"name="new_password"/><br><br>
+	        				<button type="button" id="submit2">Submit</button>
+	        				<button type="button" id="chng2">Cancel</button>
+	        			</form>
+	        		</div>
+				</div><hr>
+				<div class="user_name"><i class="fa fa-user"></i>  Age<a style="float:right" id="e3"><i class="fa fa-pencil"></i></a>
+					<div id="change_age" class="change_password">
+	        			<form class="email-login" id="form-age" method="POST">
+	        				<input type="number" id="age"class="edit-form form-control"placeholder="Age" id="new_age" style=""name="new_age"/><br><br>
+	        				<button type="button" id="submit3">Submit</button>
+	        				<button type="button" id="chng3">Cancel</button>
+	        			</form>
+	        		</div>
+				</div><hr>
+				<div class="user_name"><i class="fa fa-user"></i>  Username:<p style="display:inline-block">Yugal</p><a style="float:right" id="e4"><i class="fa fa-pencil"></i></a>
+	        		<div id="change_username"class="change_username">
+	        			<form class="email-login" id="form-username" method="POST">
+	        				<p>Username Name:</p>
+	        				<input type="name" id="username"class="edit-form form-control" placeholder="New Userame" name="user_name"/><br><br>
+	        				<button type="button" id="submit4">Submit</button>
+	        				<button type="button" id="chng4">Cancel</button>
+	        			</form>
+	        		</div>
+	        	</div><hr>
+				<div class="user_name">Gender:<p style="display:inline-block"> &nbsp&nbsp <i class="fa fa-male fa-2x"></i></p><a style="float:right" id="e5"><i class="fa fa-pencil"></i></a>
+	        		<div id="change_gender"class="change_username">
+	        			<form class="email-login"id="form-gender" method="POST">
+							<div style="width:50%;color:#F0F0F0;text-align:left;display:inline-block;padding:5px;">
+								<label class="radio-inline" style="padding:20px"><input class="opt-gender" type="radio" id="male"  name="optradio"><p style="dispaly:inline-block;color:black;font-weight:bold"><i class="fa fa-male fa-2x"></i></p></label>
+								<label class="radio-inline" style="padding:20px"><input class="opt-gender" type="radio" id="female" name="optradio"><p style="dispaly:inline-block;color:black;font-weight:bold"><i class="fa fa-female fa-2x"></i></p></label>
+							</div>
+	        				<button type="button" id="submit5">Submit</button>
+	        				<button type="button" id="chng5">Cancel</button>
+	        			</form>
+	        		</div>
+	        	</div><hr>
+	        </div> 
+	        <div class="modal-footer"  style="border-color:black">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+      
+    	</div>
+  	</div>
 
-  
-  <div class="modal fade" id="playedModal" role="dialog">
+   <div class="modal fade" id="editDespModal" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
+      <div class="modal-content">
+	  <div class="modal-header" style="text-align:center;border-color:black">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Setting</h4>
+		</div>
+        <div class="modal-body" style="">
+			<div class="user_name change-desp">Description:<a style="float:right" id="e1"></a>
+				<div id="change_desp" class="change_desp">
+					<form class="email-login" method="POST">
+						<textarea class="t2" data-action="fit">asdkjadn</textarea>
+						
+					</form>
+				</div>
+	        </div>
+        </div>
+		 <div class="modal-footer">
+		  <button type="button" id="save_desp" class="btn btn-default" ><i class="fa fa-save (alias)"></i>&nbspSave</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>&nbspClose</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+ 
+  <div class="modal fade" id="playedModal" role="dialog">
+    <div class="modal-dialog">
+		<div class="modal-header" style="text-align:center;border-color:black">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Setting</h4>
+		</div>
+		  <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-body" style="">
 			<ul>
@@ -508,17 +769,14 @@ Paragraphs are the building blocks of papers. Many students define paragraphs in
 	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
 	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
 	<script src="../static/javascript/index.js"></script>
-
+	<script src="../static/javascript/profile_new.js"></script>
 	
 	<script type="text/javascript" src="../static/javascript/home.js"></script>
-		<script src="../static/javascript/profile_new.js"></script>
 	<script src="../static/javascript/home_index.js"></script>
 	
 	<script src="../static/javascript/masonry.pkgd.js"></script>
-	<script>
-//var $scope.notebooks=[];
-	
-
+	<scrispt>
+s
 
 	</script>
 
