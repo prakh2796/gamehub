@@ -685,9 +685,9 @@ def unfollow(user_id):
 
 
 
-##########################################  Delete Answer/Comments  ##############################################
-@app.route('/delete<>', methods=['GET','POST'])
-def delete():
+##########################################  Delete Reply  ##############################################
+@app.route('/delete_reply', methods=['GET','POST'])
+def delete_reply():
     db,cursor = get_db()
     # request.form = json.loads(request.data)
     username = request.format['username']
@@ -700,21 +700,68 @@ def delete():
         cursor.execute('SELECT ans_id FROM answers WHERE user_id="{0}" AND content="{1}"'.format(user_id,content))
         entries = cursor.fetchall()
         ans_id = entries[0][0]
-        cursor.execute('DELETE FROM answers WHERE ans_id="{0}" AND user_id="{1}"'.format(ans_id,user_id))
-        db.commit()
         cursor.execute('DELETE FROM questions_answers WHERE ans_id="{0}"'.format(ans_id))
+        db.commit()
+        cursor.execute('DELETE FROM answers WHERE ans_id="{0}" AND user_id="{1}"'.format(ans_id,user_id))
         db.commit()
     elif post_type == 'AR':
         cursor.execute('SELECT comm_id FROM comments WHERE user_id="{0}" AND content="{1}"'.format(user_id,content))
         entries = cursor.fetchall()
         comm_id = entries[0][0]
-        cursor.execute('DELETE FROM comments WHERE comm_id="{0}" AND user_id="{1}"'.format(comm_id,user_id))
-        db.commit()
         cursor.execute('DELETE FROM articles_comments WHERE comm_id="{0}"'.format(comm_id))
+        db.commit()
+        cursor.execute('DELETE FROM comments WHERE comm_id="{0}" AND user_id="{1}"'.format(comm_id,user_id))
         db.commit()
     return jsonify(status="success", msg="Answer/Comment Deleted")
 
 
+
+##########################################  Delete Post  ##############################################
+@app.route('/delete_post', methods=['GET','POST'])
+def delete_post():
+    db,cursor = get_db()
+    # request.form = json.loads(request.data)
+    username = request.format['username']
+    post_type = request.form['type']
+    title = request.form['title']
+    cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
+    entries = cursor.fetchall()
+    user_id = entries[0][0]
+    if post_type == 'QS':
+        ans_id = []
+        cursor.execute('SELECT post_id FROM questions WHERE title="{0}" AND user_id="{1}"'.format(title,user_id))
+        entries = cursor.fetchall()
+        post_id = entries[0][0]
+        cursor.execute('SELECT ans_id FROM questions_answers WHERE post_id="{0}"'.format(post_id))
+        entries = cursor.fetchall()
+        for a in entries:
+            ans_id.append(a)
+        cursor.execute('DELETE FROM questions_answers WHERE post_id="{0}"'.format(post_id))
+        db.commit()
+        for i in range(0,len(ans_id)):
+            cursor.execute('DELETE FROM answers WHERE ans_id="{0}"'.format(ans_id))
+            db.commit()
+        cursor.execute('DELETE FROM questions WHERE post_id="{0}"'.format(post_id))
+        db.commit()
+    elif post_type == 'AR':
+        comm_id = []
+        cursor.execute('SELECT post_id FROM articles WHERE title="{0}" AND user_id="{1}"'.format(title,user_id))
+        entries = cursor.fetchall()
+        post_id = entries[0][0]
+        cursor.execute('SELECT comm_id FROM articles_comments WHERE post_id="{0}"'.format(post_id))
+        entries = cursor.fetchall()
+        for a in entries:
+            comm_id.append(a)
+        cursor.execute('DELETE FROM articles_comments WHERE post_id="{0}"'.format(post_id))
+        db.commit()
+        for i in range(0,len(ans_id)):
+            cursor.execute('DELETE FROM comments WHERE comm_id="{0}"'.format(comm_id))
+            db.commit()
+        cursor.execute('DELETE FROM articles WHERE post_id="{0}"'.format(post_id))
+        db.commit()
+    cursor.execute('DELETE FROM posts WHERE post_id="{0}"'.format(post_id))
+    db.commit()
+    return jsonify(status="success", msg="Post Deleted")
 
 
 ##########################################  Channels  #################################################
