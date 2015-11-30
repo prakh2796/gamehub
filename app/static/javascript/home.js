@@ -561,7 +561,7 @@ $(document).ready(function(){
 			url: "/add_interest" + user_id,
 			// data: JSON.stringify(interest_list),
 			data: { 
-				interest_list: JSON.stringify({'x': interest_list}) 
+				interest_list: JSON.stringify(interest_list) 
 			},
 			success: function(res) {
 				console.log(interest_list);

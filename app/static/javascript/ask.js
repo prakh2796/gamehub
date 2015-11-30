@@ -134,7 +134,7 @@ $(document).ready(function(){
 			url: "/add_post" + user_id,
 			// data: JSON.stringify(interest_list),
 			data: { 
-				tag_list: JSON.stringify({'x': tag_list}),
+				tag_list: JSON.stringify(tag_list),
 				content:$("#content").val(),
 				title:$("#title").val(),
 				type:post_type

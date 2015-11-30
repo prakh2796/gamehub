@@ -176,14 +176,13 @@ def add_interest(user_id):
     # print interest_list
     if interest_list:
         for i in range(0,len(interest_list)):
-            # print interest_list['x'][i]
-            if interest_list['x'][i] != NULL:
-                cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list['x'][i]))
+            if interest_list[i] != '':
+                cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list[i]))
                 entries = cursor.fetchall()
                 game_id = entries[0][0]
                 # print game_id
-                cursor.execute('INSERT INTO interest(user_id,game_id) VALUES ("{0}","{1}")'.format(user_id,game_id))
-                db.commit()
+                # cursor.execute('INSERT INTO interest(user_id,game_id) VALUES ("{0}","{1}")'.format(user_id,game_id))
+                # db.commit()
         return jsonify(status='success', msg='Interests Successfully Added')
     else:
         return jsonify(status='error', msg='No Interest Added')
@@ -487,8 +486,8 @@ def add_post(user_id):
     entries = cursor.fetchall()
     post_id = entries[0][0]
     print post_id
-    for i in range(0,len(tag_list['x'])):
-        cursor.execute('SELECT tag_id FROM tags WHERE tag_name="{0}"'.format(tag_list['x'][i]))
+    for i in range(0,len(tag_list)):
+        cursor.execute('SELECT tag_id FROM tags WHERE tag_name="{0}"'.format(tag_list[i]))
         entries = cursor.fetchall()
         tag_id = entries[0][0]
         cursor.execute('INSERT INTO posts_tags(post_id,tag_id) VALUES ("{0}","{1}")'.format(post_id,tag_id))
@@ -686,6 +685,38 @@ def unfollow(user_id):
 
 
 
+##########################################  Delete Answer/Comments  ##############################################
+@app.route('/delete<>', methods=['GET','POST'])
+def delete():
+    db,cursor = get_db()
+    # request.form = json.loads(request.data)
+    username = request.format['username']
+    post_type = request.form['type']
+    content = request.form['content']
+    cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
+    entries = cursor.fetchall()
+    user_id = entries[0][0]
+    if post_type == 'QS':
+        cursor.execute('SELECT ans_id FROM answers WHERE user_id="{0}" AND content="{1}"'.format(user_id,content))
+        entries = cursor.fetchall()
+        ans_id = entries[0][0]
+        cursor.execute('DELETE FROM answers WHERE ans_id="{0}" AND user_id="{1}"'.format(ans_id,user_id))
+        db.commit()
+        cursor.execute('DELETE FROM questions_answers WHERE ans_id="{0}"'.format(ans_id))
+        db.commit()
+    elif post_type == 'AR':
+        cursor.execute('SELECT comm_id FROM comments WHERE user_id="{0}" AND content="{1}"'.format(user_id,content))
+        entries = cursor.fetchall()
+        comm_id = entries[0][0]
+        cursor.execute('DELETE FROM comments WHERE comm_id="{0}" AND user_id="{1}"'.format(comm_id,user_id))
+        db.commit()
+        cursor.execute('DELETE FROM articles_comments WHERE comm_id="{0}"'.format(comm_id))
+        db.commit()
+    return jsonify(status="success", msg="Answer/Comment Deleted")
+
+
+
+
 ##########################################  Channels  #################################################
 @app.route('/videos<user_id>', methods=['GET','POST'])
 def videos(user_id):
@@ -711,6 +742,8 @@ def videos(user_id):
         count=len(channel_name)
         print channel_name
         return jsonify(channel_name=channel_name, count=count)
+
+
 
 
 ##########################################  Walkthroughs  #################################################
@@ -754,32 +787,22 @@ def videos(user_id):
 
 @app.route('/ask', methods=['GET'])
 def ask():
-    # session.pop('logged_in', None)
-    # flash('You were logged out')
     return render_template('ask.html')
 
 @app.route('/article', methods=['GET'])
 def article():
-    # session.pop('logged_in', None)
-    # flash('You were logged out')
     return render_template('article.html')
 
 @app.route('/walkthroughs', methods=['GET'])
 def walkthroughs():
-    # session.pop('logged_in', None)
-    # flash('You were logged out')
     return render_template('walkthroughs.html')
 
 @app.route('/gallery', methods=['GET'])
 def gallery():
-    # session.pop('logged_in', None)
-    # flash('You were logged out')
     return render_template('gallery.html')
 
 @app.route('/tab', methods=['GET'])
 def tab():
-    # session.pop('logged_in', None)
-    # flash('You were logged out')
     return render_template('Tab2.html')
 
 if __name__=='__main__':
