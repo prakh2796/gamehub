@@ -97,7 +97,7 @@ $( "#autocomplete" ).click({
 
 				if(js_res.like[i]==1)
 				{
-					$("#likeBar"+i+" #like i").addClass('blue');	
+					$("#likeBar"+i+" #like i").addClass('red');	
 				}
 											
 				if(js_res.post_type=="AR")

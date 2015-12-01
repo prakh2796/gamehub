@@ -49,7 +49,7 @@ function profile(count){
 				var answers=document.createElement("div");
 				$(answers).addClass("profile-feed-answers");
 				$(answers).attr('id','profile-feed-answers'+profile_post_cnt);
-				$(answers).html('<h4>Answers:</h4><div id="after-div" class="after-div"><textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button></div>');
+				$(answers).html('<h4>Answers:</h4><div id="after-div'+(profile_post_cnt)+'" class="after-div"><textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button></div>');
 				$(answers).appendTo(dContent);
 				
 				var self_footer=document.createElement('div');
@@ -232,7 +232,7 @@ $(document).ready(function(){
 				var profile_post_answer_cnt=0;
 				for(var i=0;i<loop;i++)
 					{
-						$(id+" .profile-feed-answers #after-div").after('<div class="post-user-answer" id="post-user-answer'+(profile_post_answer_cnt)+'"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+'</a>'+' '+(res.display[i].date)+'<p>'+(res.display[i].content)+'<i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
+						$(id+" .profile-feed-answers .after-div").after('<div class="post-user-answer" id="post-user-answer'+(profile_post_answer_cnt)+'"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+'</a>'+' '+(res.display[i].date)+'<p>'+(res.display[i].content)+'<i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
 						profile_post_answer_cnt++;
 						ans_count--;
 					}	
@@ -278,6 +278,106 @@ $(document).ready(function(){
 		$(id+" #expand").show();
 	});
 
+	$("#profile").on('click','#comment-answer',function(){
+		
+//		var real=$(this).attr('id');
+
+		var id=$(this).parent("div").attr('id');
+		id="#"+id;
+		
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		console.log("in post"+id);
+		//alert(id);
+		
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		console.log("in post"+id);
+		//console.log("in post"+id);
+		var response=$(id+" .after-div"+" #t1").val()
+		console.log("response - "+response);
+		console.log(username);
+		if(response=="")
+		{		}
+		else{
+			var type=$("#profile "+id+"	 .self-type").text();
+			if(type=="Question")
+			{
+				type="QS";
+			}
+			else{type="AR"}
+
+			var title=$("#profile "+id+" .self-body h3").text();
+			console.log(response+" "+type+" "+title);
+			var data={
+				content:response,
+				type:type,
+				title:title
+			}
+			$.ajax({
+			method: "POST",
+			url: "/add_reply" + user_id,
+			data:data,
+				success: function(res) {
+					console.log(res);
+					window.location.replace("/profile"+username);
+					//	$.cookie("user", res);
+				
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			});
+		}
+	});
+
+$("#profile").on('click','#cancel-answer',function(){
+		//$(this).closest('div').remove();
+		var p_id=$(this).closest('div').attr('id');
+		//console.log("text "+p_id);
+		var id=$("#"+p_id).parent('div').attr('id');
+		p_id="#"+p_id;
+		console.log("text "+id);
+		id="#"+id;
+		var answered_username=$("#profile "+id+" "+p_id+" a").text();
+		var p=$("#profile "+id+" "+p_id+" p").text()
+		
+		var main_id=$(id).parent('div').attr('id');
+		console.log("text "+main_id);
+		main_id="#"+main_id;
+		var type=$("#profile "+main_id+" .self-type").html()
+			if(type=="Question")
+			{
+				type="QS";
+			}
+			else{type="AR"}
+		var title=$("#profile "+main_id+" .self-body h3").html()
+		//var post_username=$("#feed "+main_id+" .self-header").html();
+		var post_username=username;
+		console.log("username "+answered_username+" "+p+" "+ type+" "+title+" "+post_username);
+		$(this).closest('div').remove();
+			$.ajax({
+					method: "POST",
+					url: "/delete_reply",
+					data:{
+						username:answered_username,
+						content:p,
+						type:type
+					},
+					success: function(res) {
+						console.log('success');
+						//window.location.replace('/');
+						//window.location.reload(true);
+						//$(this).closest('div').remove();
+						//window.location.replace('/home'+user_id);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});	
+			
+	});
+	
 
 	$("#profile").on('click','#like i',function(){
 		//$(this).removeClass('blue');
