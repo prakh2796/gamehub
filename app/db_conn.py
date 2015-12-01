@@ -41,7 +41,7 @@ def login():
     else:
         db,cursor=get_db()
         if request.method == 'GET':
-            return render_template('signup.html')
+            return render_template('index.html')
 
         elif request.method == 'POST':
             f=0
@@ -86,7 +86,6 @@ def signup():
     sex = request.form['sex']
     descp = request.form['descp']
     country = request.form['country']
-    age = 10
     # print firstname
     # pro_pic=data['pro_pic']
     # acc_date=data['acc_date']
