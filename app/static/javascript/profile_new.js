@@ -1,7 +1,9 @@
 var profile_post_cnt=0;
 var username = localStorage.getItem('username');
+var user_id=localStorage.getItem('user_id');
 var profile_res;
 var grid;
+
 function profile(count){
 	var d;	
 	var loop;
@@ -77,13 +79,31 @@ $(window).load(function(){
 		success: function(res) {
 			console.log(res);
 			profile_res=res;
-			profile(res.post_count);
+			profile(profile_res.post_count);
 			console.log("count-pro"+profile_post_cnt);
-			$("#description").html(res.user_desp_dict.descp);
+			//displaying setails
+			$("#description p").text(res.user_desp_dict.descp);
 			$("#name").html(res.user_desp_dict.fname+" "+res.user_desp_dict.lname);
 			$("#profile-username").html(res.username);
 			$(".followers div").html(res.fer_count);
 			$(".following div").html(res.fing_count);
+
+
+			//edit-profile-section
+
+			$("#current_email").text(res.email);
+			$("#current_name").html(res.user_desp_dict.fname+" "+res.user_desp_dict.lname);
+			$("#current_username").html(res.username);
+			var sex=res.user_desp_dict.sex;
+			if(sex=="M")
+			{
+				$("#current_sex").addClass('fa-male');
+			}
+			else{
+				$("#current_sex").addClass('fa-female');
+			}
+			$("#t2").html(res.user_desp_dict.descp);
+			
 			if(profile_post_cnt>=0)
 			{
 				for(var i=0;i<profile_post_cnt;i++)
@@ -99,12 +119,26 @@ $(window).load(function(){
 					$("#profile-feed"+i+" .self-body h3").text(res.post[i].title);
 					$("#profile-feed"+i+" .self-body p").text(res.post[i].content);
 					$("#profile-feed"+i+" .fa-heart").text(res.post[i].likes);
+
 					if(profile_res.like[i]==1)
 					{
 						$("#profile-feed"+i+" .fa-heart").addClass('red');	
 					}
-			
+					$("#profile-feed"+i+" .fa-comments").text(res.reply_count[i]);	
 				}
+					var $grid = $('.grid-profile').masonry({
+			    itemSelector: '.grid-item-profile',
+				columnWidth:10,
+				stamp : ".stamp-profile",
+				gutter:20,
+				percentPosition:true,
+				isFitWidth: true,
+				transitionDuration: '0.8s',	
+				animationOptions: {
+			    duration: 1000
+				}
+			  });
+			$grid.masonry('layout');
 			}
 			//username = res.username;
 			//$("#user-name").html(username);
@@ -138,7 +172,7 @@ $(document).ready(function(){
     duration: 1000
 	}
   });
-
+$grid.masonry('layout');
  $grid.on( 'click', '.grid-item-content-profile #expand,.grid-item-content-profile #compress', function() {
     	
 	var v=$(this).parent('div').attr('id');
@@ -172,9 +206,26 @@ $(document).ready(function(){
 				$("#profile-feed"+i+" .self-date").html(res.post_date[i]);
 				$("#profile-feed"+i+" .self-body h3").text(res.post[i].title);
 				$("#profile-feed"+i+" .self-body p").text(res.post[i].content);
-				$("#profile-feed"+i+" .fa-comments").text(res.post[i].likes);
-					
+				$("#profile-feed"+i+" .fa-heart").text(res.post[i].likes);
+					if(profile_res.like[i]==1)
+					{
+						$("#profile-feed"+i+" .fa-heart").addClass('red');	
+					}
+				$("#profile-feed"+i+" .fa-comments").text(res.reply_count[i]);	
 			}
+			var $grid = $('.grid-profile').masonry({
+			    itemSelector: '.grid-item-profile',
+				columnWidth:10,
+				stamp : ".stamp-profile",
+				gutter:20,
+				percentPosition:true,
+				isFitWidth: true,
+				transitionDuration: '0.8s',	
+				animationOptions: {
+			    duration: 1000
+				}
+			  });
+			$grid.masonry('layout');
 		}
 		else{
 			console.log("No more post to Load")
@@ -475,19 +526,19 @@ $("#profile").on('click','#cancel-answer',function(){
   		});
   });
 	  $('#e1').click(function(){
-				$('#change_name').addClass('show');
+				$('#change_name').toggleClass('show');
 		});
 		$('#e2').click(function(){
-				$('#change_password').addClass('show');
+				$('#change_password').toggleClass('show');
 		});
 		$('#e3').click(function(){
-				$('#change_age').addClass('show');
+				$('#change_age').toggleClass('show');
 		});
 		$('#e4').click(function(){
-				$('#change_username').addClass('show');
+				$('#change_username').toggleClass('show');
 		});
 		$('#e5').click(function(){
-				$('#change_gender').addClass('show');
+				$('#change_gender').toggleClass('show');
 		});
 		
 		$('#chng1').click(function(){
@@ -506,53 +557,125 @@ $("#profile").on('click','#cancel-answer',function(){
 			$('#change_gender').removeClass('show');
 		});
 		
-		$('#submit1').on('click', function(event) {
-			event.preventDefault();
-			var name = $('#name-changed').val();
-			console.log("sex-"+name);
-			//backhand request();
-			//window.location.reload(true);
-			//$('#editModal').modal('show');
-			window.location = 'profile_new.html';
-			$('#editModal').modal('show');	
+		// $('#submit1').on('click', function(event) {
+		// 	event.preventDefault();
+		// 	var name = $('#name-changed').val();
+		// 	console.log("sex-"+name);
+		// 	window.location = 'profile_new.html';
+		// 	$('#editModal').modal('show');	
 			
-		});
-		$('#submit2').on('click', function(event) {
-			event.preventDefault();
+		// });
+		// $('#submit2').on('click', function(event) {
+		// 	event.preventDefault();
 			
-			var pwd = $('#pwd').val();
-			var npwd=$('#npwd').val();
-			console.log("sex-"+npwd);
-		});
-		$('#submit3').on('click', function(event) {
-			event.preventDefault();
-			//console.log("sex-"+sex);
-			var age = $('#age').val();
-			console.log("sex-"+age);
-		});
-		$('#submit4').on('click', function(event) {
-			event.preventDefault();
+		// 	var pwd = $('#pwd').val();
+		// 	var npwd=$('#npwd').val();
+		// 	console.log("sex-"+npwd);
+		// });
+		// $('#submit3').on('click', function(event) {
+		// 	event.preventDefault();
+		// 	var age = $('#age').val();
+		// 	console.log("sex-"+age);
+		// });
+		// $('#submit4').on('click', function(event) {
+		// 	event.preventDefault();
 			
-			var useraname = $('#username').val();
-			console.log("sex-"+username);
+		// 	var useraname = $('#username').val();
+		// 	console.log("sex-"+username);
 		
-		});
-		$('#submit5').on('click', function(event) {
-			event.preventDefault();
-			console.log('Submitted');
-			sex = $('.opt-gender:checked').attr('id');
-			console.log("sex-"+sex);
-			if(sex=="male")
-				sex="M";
-			else
-				sex="F";
+		// });
+		// $('#submit5').on('click', function(event) {
+		// 	event.preventDefault();
+		// 	console.log('Submitted');
+		// 	sex = $('.opt-gender:checked').attr('id');
+		// 	console.log("sex-"+sex);
+		// 	if(sex=="male")
+		// 		sex="M";
+		// 	else
+		// 		sex="F";
+			
+		// 	});
+		// $('#submit6').on('click', function(event) {
+		// 	event.preventDefault();
+		// 	console.log('Submitted');
+			
+		// });
+
+			$('#submitAll').on('click', function(event) {
+				event.preventDefault();
+				var name = $('#name-changed').val();
+				
+				if(name=="" || name==" "){
+					name=$("#current_name").html();
+				}
+				console.log("name-"+name);
+				//backhand request();
+				//window.location.reload(true);
+				//$('#editModal').modal('show');
+				//$('#editModal').modal('show');
+				var pwd = $('#pwd').val();
+				var npwd=$('#npwd').val();
+				if(npwd=="" || npwd==" "){
+					npwd="same";
+				}
+				console.log("npwd-"+npwd);
+				//var age = $('#age').val();
+				//console.log("age-"+age);
+				var profile_username = $('#posted_username').val();
+				
+				if(profile_username=="" || profile_username==" "){
+					profile_username=$("#current_username").html();
+				}
+				console.log("useranem-"+profile_username);
+				//console.log('Submitted');
+				sex = $('.opt-gender:checked').attr('id');
+				
+				if(sex=="male")
+					sex="M";
+				else
+					sex="F";
+				console.log("sex-"+sex);
+				$.ajax({
+					method: "POST",
+					url: "/edit_profile"+username,
+					data: {
+						name:name,
+						user_name:profile_username,
+						sex:sex,
+						npwd:npwd
+					},
+					success: function(res) {
+						console.log(res);
+						window.location = '/profile'+username;
+						
+					},
+					error: function(err) {
+						console.log(err);
+					}
+		  		});
 			
 			});
-		$('#submit6').on('click', function(event) {
-			event.preventDefault();
-			console.log('Submitted');
 			
-		});
+			$('#save_desp').on('click', function(event) {
+				event.preventDefault();
+				var desp=$("#t2").val();
+				console.log(desp);
+				$.ajax({
+					method: "POST",
+					url: "/edit_descp"+username,
+					data: {
+						content:desp
+						},
+					success: function(res) {
+						console.log(res);
+						window.location = '/profile'+username;
+						
+					},
+					error: function(err) {
+						console.log(err);
+					}
+		  		});
+			});
 		
 });
 

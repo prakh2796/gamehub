@@ -44,7 +44,19 @@ $( "#autocomplete" ).click({
 	//$("#start0").toggleClass('is-expanded');
 	//$("#expand").hide;
 	//$("#less").show;
-    $grid.masonry();
+
+				 var $grid = $('.grid').masonry({
+				    columnWidth:10,
+				    itemSelector: '.grid-item',
+					gutter:20,
+					percentPosition:true,
+					isFitWidth: true,
+					transitionDuration: '0.8s'
+					/* animationOptions: {
+				    duration: 1000
+					} */
+				  });
+				  $grid.masonry();
 	
   });
   //var feed_no=0;
@@ -114,13 +126,26 @@ $( "#autocomplete" ).click({
 				if(js_res.fun[i]==1)
 				{
 					console.log("infor"+js_res.fun[i]);
-					$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+					$('#feed'+i+' .follow-btn').html('<p style="display:inline-block">UnFollow</p><span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
 			
 				}
 				else if(js_res.fun[i]==2)
 				{
 					$('#feed'+i+' .follow-btn').hide();
 				}
+
+				 var $grid = $('.grid').masonry({
+				    columnWidth:10,
+				    itemSelector: '.grid-item',
+					gutter:20,
+					percentPosition:true,
+					isFitWidth: true,
+					transitionDuration: '0.8s'
+					/* animationOptions: {
+				    duration: 1000
+					} */
+				  });
+				  $grid.masonry();
 			}
 		}
 	}

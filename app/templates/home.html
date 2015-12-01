@@ -99,7 +99,7 @@ margin-top:25%;
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
-						<li><a href="#">Settings</a></li>
+						<li><a href="#" id="profile-edit" data-toggle="modal" data-target="#editModal">Settings</a></li>
 						<li><a href="#">Tods</a>
 						<li><a href="#" id="logout">Logout</a></li>
 						<li><a href="#">Help</a></li>
@@ -121,22 +121,13 @@ margin-top:25%;
 	
 	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
-        <li ><a href="/home">Home</a></li>
-        <li><a href="/ask" onclick="make_link_active()">Ask</a></li>
-        <li><a href="article.html" onclick="make_link_active()">Post</a></li>
-		<li class="dropdown " >
-          <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
-          <ul class="dropdown-menu " id="db_menu" style="">
-			<li><a href="#">Game1</a></li>
-            <li><a href="#">Game2</a></li>
-            <li><a href="#">Game3</a></li>   
-		  </ul>
-        </li>
-        <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
-					</ul>
+	        <li ><a href="#" id="home_btn">Home</a></li>
+	        <li><a href="/ask">Post</a></li>
+	        <li ><a href="#" id="menu_toggle">Games</a></li>
+		</ul>
 		 <ul class="nav navbar-nav navbar-right">
 			<li><a href="#" id="videos">Walkthroughs</a></li>
-			<li><a href="gallery.html">Gallery</a></li>
+			<li><a href="/gallery">Gallery</a></li>
 		</ul>
      </div>
 	
@@ -176,7 +167,8 @@ margin-top:25%;
 		  <input type="text" class="form-control" style="width:30%;" id="autocomplete" placeholder="Enter here"></input>
 		  <button type="button" id="add" class="btn btn-info" >ADD</button>	
 		 -->
-<div id="new-user" class="new-user"><p>Follow atleast Five Games of your choice to start your feed.<a href="#" data-toggle="modal" data-target="#myModal">Click Here!</a><p></div>
+<div id="new-user" class="new-user"><p>Follow atleast Three Games of your choice to start your feed.<a href="#" data-toggle="modal" title="Click Here to add Interest"data-target="#myModal">Click Here!</a><p></div>
+
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
@@ -205,13 +197,9 @@ margin-top:25%;
     </div>
 </div>
  
-<h1>Masonry - animate item size</h1>
 
-<p>Click items to toggle size</p>
-</div>
-<p><button class="stamp-button">Toggle stamp</button></p>
 <div id="feed" class="grid">
-  <div class="stamp">
+  <!-- <div class="stamp">
 	<div class="stamp-head">
 		Top Stories
 	</div>
@@ -226,7 +214,7 @@ margin-top:25%;
 		<div class="more-story-link stamp-head" style="font-size:1.2sem;float:right" id="menu_toggle"> more >>></div>
 	</a>
   </div>
-  
+ -->  
 <!--   <div class="grid-item grid-item--height2">
     <div class="grid-item-content" id="feed0">
 		<div class="feed-div feed-upper-div">
@@ -276,7 +264,7 @@ margin-top:25%;
 	<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
 	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
 	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
-	<script src="../static/javascript/index.js"></script>
+
 	
 	<script type="text/javascript" src="../static/javascript/home.js"></script>
 	<script src="../static/javascript/home_index.js"></script>

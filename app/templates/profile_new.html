@@ -140,6 +140,9 @@ body{
 	width:100%;
 	max-width:100%;
 }
+.modal-dailog{
+	width:100%;
+}
 }
 		
 		
@@ -436,8 +439,9 @@ body{
 
 </style>
 <body>
-		<header>
-
+	<header>
+	
+  
   <div class="header1" style="">
     <div class="top-left">
 		<h1>
@@ -454,15 +458,15 @@ body{
 				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
 					<span class="glyphicon glyphicon-user"></span> 
 				</button>
-				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;" >lovingyugs</button>						
+				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">username</a></button>						
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
-						<li><a href="#">Settings</a></li>
+						<li><a href="#" id="profile-edit" data-toggle="modal" data-target="#editModal">Settings</a></li>
 						<li><a href="#">Tods</a>
-						<li><a href="signup.html">Logout</a></li>
+						<li><a href="#" id="logout">Logout</a></li>
 						<li><a href="#">Help</a></li>
 					</ul>
 				</div>
@@ -482,22 +486,12 @@ body{
 	
 	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
-        <li ><a href="/home">Home</a></li>
-        <li><a href="/ask" onclick="make_link_active()">Ask</a></li>
-        <li><a href="article.html" onclick="make_link_active()">Post</a></li>
-		<li class="dropdown " >
-          <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
-          <ul class="dropdown-menu " id="db_menu" style="">
-			<li><a href="#">Game1</a></li>
-            <li><a href="#">Game2</a></li>
-            <li><a href="#">Game3</a></li>   
-		  </ul>
-        </li>
-        <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
-					</ul>
+	        <li ><a href="#" id="home_btn">Home</a></li>
+	        <li><a href="/ask">Post</a></li>
+		</ul>
 		 <ul class="nav navbar-nav navbar-right">
-			<li><a href="Walkthroughs.html"><!-- <span class="glyphicon glyphicon-user"></span> -->Walkthroughs</a></li>
-			<li><a href="gallery.html"><!-- <span class="glyphicon glyphicon-log-in"> </span>--> Gallery</a></li>
+			<li><a href="#" id="videos">Walkthroughs</a></li>
+			<li><a href="/gallery">Gallery</a></li>
 		</ul>
      </div>
 	
@@ -505,30 +499,25 @@ body{
   
   <div class="clearfix visible-lg"></div>
   
-	</header>
+</header>
 	<div class="section container" style="font-family: 'PT Sans'">
 
 
 <div id="profile" class="grid-profile">
   		<div class="left stamp-profile" id="leftbar">
-				<div class="imageDiv">
+				<div class="imageDiv tilt">
 					<img id="profilePic" src="..\static\images\profile-images\6.jpg" style="width:100%;height:100%">
 				</div>
 				<div id="name" class="name">
 					Yugal Jain
 				</div>
 				<div id="description" class="description">
-				Born adfjjjklllllllllllllllllllllllllllllllllllllllllllllllllllaoijdoiend to be Gamer...@#$%^&*
+				<p>Born adfjjjklllllllllllllllllllllllllllllllllllllllllllllllllllaoijdoiend to be Gamer...@#$%^&*
+				</p>
 				<i data-toggle="modal" data-target="#editDespModal" id="edit-desp" title="Edit your Description"style=""class="fa fa-edit (alias) fa-lg"></i>
 				</div>
 
-				<div class="back" id="profile-edit" data-toggle="modal" data-target="#editModal">
-					<span class="glyphicon glyphicon-pencil"></span>
-					&nbspEdit Your Profile
-				</div>
-
-
-
+			
 				<div class="back" id="qs">
 					<i class="fa fa-question-circle"></i>
 					&nbspQuestions
@@ -545,11 +534,7 @@ body{
 					&nbspInterest
 				</div>
 			
-				<div class="back" id="profile-played">
-					<span class="glyphicon glyphicon-headphones"></span>
-					&nbspGames Played
-				</div>
-				
+			
 		</div>
 
 		<div class="profile-top stamp-profile">
@@ -584,63 +569,7 @@ body{
 
 		</div>
 
-  
- <!--  <div class="grid-item-profile grid-item--height2">
-    <div class="grid-item-content-profile" id="profile-feed0" >
-		<div class="self-header">
-			<div class="self-type">Article</div>
-			<div class="self-date">21-12-2015</div>
-		</div>
-		<div class="self-body">
-			<h3>	
-				WHAT THIS HANDOUT IS ABOUT ?		
-			</h3>
-			<p>
-				This handout will help you understand how paragraphs are formed, how to develop stronger paragraphs, and how to completely and clearly express your ideas.
-			</p>
-		</div>
-		<div class="profile-feed-answers" id="profile-feed-answers">
-			
-			<h4 style="">Answers:</h4>
-			<div id="after-div" class="after-div">
-				<textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button>
-			</div>
-			
-		</div>
-		<div class="self-footer" id="self-footer0">		
-		
-			<span style="" id="answer"><i class="fa fa-comments">4</i></span>
-			<span  id="like"><i class="fa fa-heart">10</i></span>
-			<div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div>
-			<div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>
-
-		</div>
-		
-		
-	</div>
-  </div>
-  
-   <div class="grid-item-profile grid-item--height2">
-    <div class="grid-item-content-profile" >
-		<p>WHAT IS A PARAGRAPH?
-
-Paragraphs are the building blocks of papers. Many students define paragraphs in terms of length: a paragraph is a group of at least five sentences, a paragraph is half a page long, etc. In reality, though, the unity and coherence of ideas among sentences is what constitutes a paragraph. A paragraph is defined as “a group of sentences or a single sentence that forms a unit” (Lunsford and Connors 116). Length and appearance do not determine whether a section in a paper is a paragraph. For instance, in some styles of writing, particularly journalistic styles, a paragraph can be just one sentence long. Ultimately, a paragraph is a sentence or group of sentences that support one main idea. In this handout, we will refer to this as the “controlling idea,” because it controls what happens in the rest of the paragraph.
-</p>
-	</div>
-  </div>
-  
-   <div class="grid-item-profile grid-item--height2">
-    <div class="grid-item-content-profile" >
-		<p>
-			HOW DO I DECIDE WHAT TO PUT IN A PARAGRAPH?
-
-Before you can begin to determine what the composition of a particular paragraph will be, you must first decide on an argument and a working thesis statement for your paper. What is the most important idea that you are trying to convey to your reader? The information in each paragraph must be related to that idea. In other words, your paragraphs should remind your reader that there is a recurrent relationship between your thesis and the information in each paragraph. A working thesis functions like a seed from which your paper, and your ideas, will grow. The whole process is an organic one—a natural progression from a seed to a full-blown paper where there are direct, familial relationships between all of the ideas in the paper.
-		</p>
-	</div>
-  </div>
-  
  
- -->
   
 </div>
 </div>	
@@ -653,13 +582,11 @@ Before you can begin to determine what the composition of a particular paragraph
 	          <h4 class="modal-title">Setting</h4>
 	        </div>
 	        <div class="modal-body">
-	        	<div class="user_email"><i class="fa fa-user"></i>  Email</div><hr>
-	        	<div class="user_name"><i class="fa fa-user"></i>  Name:<p style="display:inline-block">Yugal</p><a style="float:right" id="e1"><i class="fa fa-pencil"></i></a>
+	        	<div class="user_email"><i class="fa fa-user"></i>  Email:<p id="current_email" style="display:inline-block"></p></div><hr>
+	        	<div class="user_name"><i class="fa fa-user"></i> Name:<p id="current_name" style="display:inline-block">Yugal</p><a style="float:right" id="e1"><i class="fa fa-pencil"></i></a>
 	        		<div id="change_name"class="change_username">
 	        			<form class="email-login" id="form-name"method="POST">
-	        				<p>Current Name:</p>
 	        				<input type="name" id="name-changed" class="edit-form form-control"placeholder="New Name" name="new_name"/><br><br>
-	        				<button type="button" id="submit1">Submit</button>
 	        				<button type="button" id="chng1">Cancel</button>
 	        			</form>
 	        		</div>
@@ -669,45 +596,34 @@ Before you can begin to determine what the composition of a particular paragraph
 	        			<form class="email-password" id="form-password" method="POST">
 							<input type="name" id="pwd"class="edit-form form-control" placeholder="Current Password" id="current_password" name="current_password"/><br><br>
 	        				<input type="name" id="npwd" class="edit-form form-control"placeholder="New Password" id="new_password"name="new_password"/><br><br>
-	        				<button type="button" id="submit2">Submit</button>
 	        				<button type="button" id="chng2">Cancel</button>
 	        			</form>
 	        		</div>
 				</div><hr>
-				<div class="user_name"><i class="fa fa-user"></i>  Age<a style="float:right" id="e3"><i class="fa fa-pencil"></i></a>
-					<div id="change_age" class="change_password">
-	        			<form class="email-login" id="form-age" method="POST">
-	        				<input type="number" id="age"class="edit-form form-control"placeholder="Age" id="new_age" style=""name="new_age"/><br><br>
-	        				<button type="button" id="submit3">Submit</button>
-	        				<button type="button" id="chng3">Cancel</button>
-	        			</form>
-	        		</div>
-				</div><hr>
-				<div class="user_name"><i class="fa fa-user"></i>  Username:<p style="display:inline-block">Yugal</p><a style="float:right" id="e4"><i class="fa fa-pencil"></i></a>
-	        		<div id="change_username"class="change_username">
+			
+				<div class="user_name"><i class="fa fa-user"></i>  Username:<p id="current_username"style="display:inline-block">newbie</p></a>
+	        		<!-- <div id="change_username"class="change_username">
 	        			<form class="email-login" id="form-username" method="POST">
-	        				<p>Username Name:</p>
-	        				<input type="name" id="username"class="edit-form form-control" placeholder="New Userame" name="user_name"/><br><br>
-	        				<button type="button" id="submit4">Submit</button>
+	        				<input type="name" id="posted_username"class="edit-form form-control" placeholder="New Userame" name="user_name"/><br><br>
 	        				<button type="button" id="chng4">Cancel</button>
 	        			</form>
-	        		</div>
+	        		</div> -->
 	        	</div><hr>
-				<div class="user_name">Gender:<p style="display:inline-block"> &nbsp&nbsp <i class="fa fa-male fa-2x"></i></p><a style="float:right" id="e5"><i class="fa fa-pencil"></i></a>
+				<div class="user_name">Gender:<p style="display:inline-block"> &nbsp&nbsp <i id="current_sex"class="fa  fa-2x"></i></p><a style="float:right" id="e5"><i class="fa fa-pencil"></i></a>
 	        		<div id="change_gender"class="change_username">
 	        			<form class="email-login"id="form-gender" method="POST">
 							<div style="width:50%;color:#F0F0F0;text-align:left;display:inline-block;padding:5px;">
 								<label class="radio-inline" style="padding:20px"><input class="opt-gender" type="radio" id="male"  name="optradio"><p style="dispaly:inline-block;color:black;font-weight:bold"><i class="fa fa-male fa-2x"></i></p></label>
 								<label class="radio-inline" style="padding:20px"><input class="opt-gender" type="radio" id="female" name="optradio"><p style="dispaly:inline-block;color:black;font-weight:bold"><i class="fa fa-female fa-2x"></i></p></label>
 							</div>
-	        				<button type="button" id="submit5">Submit</button>
 	        				<button type="button" id="chng5">Cancel</button>
 	        			</form>
 	        		</div>
 	        	</div><hr>
 	        </div> 
 	        <div class="modal-footer"  style="border-color:black">
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	           <button type="button" id="submitAll" class="btn btn-default" ><i class="fa fa-save (alias)"></i>&nbspSave</button>
+          		<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>&nbspClose</button>
 	        </div>
 	      </div>
       
@@ -727,7 +643,7 @@ Before you can begin to determine what the composition of a particular paragraph
 			<div class="user_name change-desp">Description:<a style="float:right" id="e1"></a>
 				<div id="change_desp" class="change_desp">
 					<form class="email-login" method="POST">
-						<textarea class="t2" data-action="fit">asdkjadn</textarea>
+						<textarea class="t2" id="t2"data-action="fit">dadkmw</textarea>
 						
 					</form>
 				</div>
@@ -775,8 +691,7 @@ Before you can begin to determine what the composition of a particular paragraph
 	<script src="../static/javascript/home_index.js"></script>
 	
 	<script src="../static/javascript/masonry.pkgd.js"></script>
-	<scrispt>
-s
+	<script>
 
 	</script>
 

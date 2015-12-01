@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
 	   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-       <title>Creating a Simple Parallax Scrolling Website</title>
+       <title>Game World-gameworld.pythonanywhere.com</title>
        <link rel="stylesheet" href="../static/css/main.css"/>
        <link href='http://fonts.googleapis.com/css?family=Wellfleet' rel='stylesheet' type='text/css'>
 	   <link href='http://fonts.googleapis.com/css?family=Wellfleet' rel='stylesheet' type='text/css'>
@@ -297,8 +297,11 @@ console.log("sex- " +data.email+" "+data.pwd+" "+data.dob+"  "+data.lastname);
       data: data,
       success: function(res) {
         console.log(res);
-        $.cookie("user", res);
-        window.location.href = "/home";
+        //$.cookie("user", res);
+         
+         //alert("Successfully Signup Now Login...");
+        alert(res.msg)
+        window.location.replace("/");
         // append(res);
       },
       error: function(err) {

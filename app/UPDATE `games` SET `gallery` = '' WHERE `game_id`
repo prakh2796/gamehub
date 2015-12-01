@@ -1,0 +1,1 @@
+UPDATE `games` SET `gallery` = '' WHERE `game_id` = 105;

@@ -11,6 +11,7 @@ var js_res;
 var total_interest=0;
 var trending_cnt=0;
 var ans_count=0;
+var p_int_cnt=0;
 
 function in_feed(i){
 	var dContent;
@@ -18,9 +19,9 @@ function in_feed(i){
 				//.html("new one"+(feed_no+1));
 				//.appendTo($("#feed"));
 				
-				var hRand = Math.random();
-				var heightClass = hRand > 0.65 ? 'grid-item--height2' : hRand > 0.25 ? 'grid-item--height3' : '';
-				$(d).addClass("grid-item"+' '+heightClass);
+				//var hRand = Math.random();
+				//var heightClass = hRand > 0.65 ? 'grid-item--height2' : hRand > 0.25 ? 'grid-item--height3' : '';
+				$(d).addClass("grid-item");
 				dContent=document.createElement('div');
 				$(dContent).addClass('grid-item-content')
 				var feed_id='feed'+(feed_no);
@@ -29,6 +30,7 @@ function in_feed(i){
 				
 				var upper_div=document.createElement("div");
 				$(upper_div).addClass('feed-div feed-upper-div');
+				$(upper_div).attr('id','feed-upper-div'+feed_no);
 				$(upper_div).appendTo(dContent);
 					var oImg=document.createElement("img");
 					$(oImg).attr('src', '../static/images/profile-dribbble.png');
@@ -51,13 +53,13 @@ function in_feed(i){
 					var follow_btn=document.createElement("div");
 					$(follow_btn).attr('id','follow-btn');
 					$(follow_btn).addClass("follow-btn")
-					.html('Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+					.html('<p style="display:inline-block">Follow</p> <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
 					$(follow_btn).appendTo(upper_div);
 					
 				var lower_div=document.createElement("div");
 				$(lower_div).addClass("feed-div feed-lower-div");
 				$(lower_div).attr('id','feedTitle'+feed_no);
-				$(lower_div).html('<h2>How to download CS maps??</h2><p></p>');
+				$(lower_div).html('<h2></h2><p></p>');
 				$(lower_div).appendTo(dContent);
 				$(dContent).appendTo(d);
 				
@@ -77,18 +79,43 @@ function in_feed(i){
 				// $("#feedTitle1 h2").html(risk.post[0].title);
 				// $("#feedTitle1 p").html(risk.post[0].content);
 				// $("#likeBar1 #like").html(risk.post[0].likes);
-				
 				$('#feed').append(d).masonry( 'appended',d );
 				feed_no++;
 				$("#feed #compress").hide();
+
+				 var $grid = $('.grid').masonry({
+				    columnWidth:10,
+				    itemSelector: '.grid-item',
+					gutter:20,
+					percentPosition:true,
+					isFitWidth: true,
+					transitionDuration: '0.8s'
+					/* animationOptions: {
+				    duration: 1000
+					} */
+				  });
+				  $grid.masonry();
+				
 }
 
 
 var global_feed_cnt=0;
-function create_feed(){
+function create_feed(count){
 	//var d;	
 	//var dContent;
-	for (var i = 0; i < 6; i++) {	
+	if(count>5)
+	{
+		//profile_post_cnt=count;
+		loop=6;
+		js_res.count-=6;
+
+	}
+	else{
+		//profile_post_cnt=count;
+		loop=count;
+		js_res.count=0;
+	}
+	for (var i = 0; i < loop; i++) {	
 		in_feed(i);
 			
 	}
@@ -158,7 +185,7 @@ function createTrending(){
 // setTimeout(refresh, 10000);
 			
 $(window).load(function(){
-		create_feed();		//calling of function (displaying feed on load of homepage)
+			//calling of function (displaying feed on load of homepage)
 		createTrending();	//calling of Treanding Sidebar Function on load
 		event.preventDefault();
   		$.ajax({
@@ -186,19 +213,22 @@ $(window).load(function(){
 			url: "/timeline" + user_id,
 			//data: data_new,
 			success: function(res) {
-				//console.log(res);
+				console.log(res);
 				//event.preventDefault();
 				js_res=res;
-				console.log(js_res);
+				create_feed(js_res.count);
+				console.log(js_res.count);
 				//create_feed();
 				// setTimeout(function() {
 				// 	create_feed(res);
 				// 	//console.log(game_name);
 				// }, 2000);
+				//js_res=res;
+				//profile(res.post_count);
 				setTimeout(function(){
 					//create_feed(res);
 					var global_feed_cnt=js_res.count;
-					if(js_res.count>feed_no)
+					if(feed_no>0)
 					{
 						console.log(res.fun);
 							
@@ -231,50 +261,36 @@ $(window).load(function(){
 							if(js_res.fun[i]==1)
 							{
 								console.log("infor"+res.fun[i]);
-								$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+								$('#feed'+i+' .follow-btn').html('<p style="display:inline-block">UnFollow</p> <span class="glyphicon glyphicon-minus" style="display:inline-block;font-size:15px;"></span>');
 						
 							}
 							else if(js_res.fun[i]==2)
 							{
-								$('#feed #feed'+i+'.feed-upper-div #follow-btn').hide();
+								$('#feed'+i+' .feed-upper-div #follow-btn').hide();
 							}
 						}	
+
+				 var $grid = $('.grid').masonry({
+				    columnWidth:10,
+				    itemSelector: '.grid-item',
+					gutter:20,
+					percentPosition:true,
+					isFitWidth: true,
+					transitionDuration: '0.8s'
+					/* animationOptions: {
+				    duration: 1000
+					} */
+				  });
+				  $grid.masonry();
 					//	global_feed_cnt=global_feed_cnt-feed_no;
 						//console.log(global_feed_cnt);
 					}
-					else{
-					//	console.log("else"+global_feed_cnt);
-						for(var i=0;i<js_res.count;i++)
-						{
-							if(res.post_type=="AR")
-							{
-								$("feed"+i+' .feed-user-answers h4').html("Article");
-							
-							}
-							else{
-								$("feed"+i+' .feed-user-answers h4').html("Question");
-							}
-							
-							js_res.count--;
-
-							if(js_res.fun[i]==1)
-							{
-								console.log("infor"+res.fun[i]);
-								$('#feed'+i+' .follow-btn').html('UnFollow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
-						
-							}
-							else if(js_res.fun[i]==1)
-							{
-								$('#feed'+i+' .follow-btn').hide();
-							}
-						}	
-
-					}
+					
 					//console.log("in home.js"+global_feed_cnt);
 					//js_res.count=global_feed_cnt;
 					//console.log("js count"+js_res.count);
 					//console.log(game_name);
-				}, 000);
+				}, 2000);
 				// // console.log(res.post[0].title);
 				// $("#feedTitle1 h2").html(res.post[0].title);
 				// $("#feedTitle1 p").html(res.post[0].content);
@@ -336,6 +352,52 @@ $(document).ready(function(){
 	
 	//ans_count=8;
 
+			$("#feed").on('click','#follow-btn',function(){
+				//$(this).closest('div').remove();
+				var p_id=$(this).parent('div').attr('id');
+				console.log("text "+p_id);
+				//var id=$("#"+p_id).parent('div').attr('id');
+				p_id="#"+p_id;
+				//console.log("text "+id);
+				//id="#"+id;
+				var post_username=$("#feed "+p_id+" .feed-username").html();
+				var follow=$("#feed "+p_id+" .follow-btn p").html();
+				console.log(post_username+" "+follow);
+				if(follow=="UnFollow")
+				{
+					check=0;	
+				}
+				else{
+					check=1;
+				}
+			$.ajax({
+				method: "POST",
+				url: "/fun_unf" + user_id,
+				data:{
+					post_username:post_username,
+					check:check
+				},
+				success: function(res) {
+					 console.log(res);
+					// username = res.username;
+					// $("#user-name").html(username);
+					if(check==0)
+					{
+						
+						$("#feed "+p_id+" #follow-btn").html('<p style="display:inline-block">Follow</p> <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span>');
+					}
+					else{
+						$("#feed "+p_id+" #follow-btn").html('<p style="display:inline-block">UnFollow</p> <span class="glyphicon glyphicon-minus" style="display:inline-block;font-size:15px;"></span>');
+					}
+					
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			});
+				
+		});
+
 	$("#feed").on('click','#expand', function(){
 		//alert("clicked");
 		var id=$(this).parent("div").attr('id');
@@ -367,24 +429,26 @@ $(document).ready(function(){
 				//	$.cookie("user", res);
 				var loop=ans_count;
 				var post_user_answer_id_cnt=0;
-				if(ans_count>4){
 					
-					for(var i=0;i<5;i++)
-					{
-						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer'+(post_user_answer_id_cnt)+'"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+'</a>'+' '+(res.display[i].date)+'<p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
-						ans_count--;
-						post_user_answer_id_cnt++;
-					}	
-					$(id+" .feed-user-answers div:last-child").after('<button class="btn btn-dark">View more>>></button>');
-				}	
-				else{
 					for(var i=0;i<loop;i++)
 					{
 						$(id+" .feed-user-answers .after-div").after('<div class="post-user-answer" id="post-user-answer'+(post_user_answer_id_cnt)+'"><a href="#"><i class="fa fa-at"></i>'+(res.users[i])+'</a>'+' '+(res.display[i].date)+'<p>'+(res.display[i].content)+' <i id="cancel-answer" class="fa fa-close (alias)"></i></p></div>');
 						ans_count--;
 						post_user_answer_id_cnt++;
 					}	
-				}
+				 var $grid = $('.grid').masonry({
+				    columnWidth:10,
+				    itemSelector: '.grid-item',
+					gutter:20,
+					percentPosition:true,
+					isFitWidth: true,
+					transitionDuration: '0.8s'
+					/* animationOptions: {
+				    duration: 1000
+					} */
+				  });
+				  $grid.masonry();	
+				
 			},
 			error: function(err) {
 				console.log(err);
@@ -625,6 +689,7 @@ $(document).ready(function(){
 		//console.log(field);
 		//alert(field);
 		//$("#interest-name").html(field);
+
 		if(field==""){}		
 		else{
 			interest_list.push(field);
@@ -636,24 +701,35 @@ $(document).ready(function(){
 			$(interestP).html(field+'<span class="remove-int">&times;</span>');
 			$(interestP).appendTo("#interest-name");
 			$("#autocomplete").val("");
+			p_int_cnt++;
 		}
 	});
+
 	$("#done").click(function(){
-		$.ajax({
-			method: "POST",
-			url: "/add_interest" + user_id,
-			// data: JSON.stringify(interest_list),
-			data: { 
-				interest_list: JSON.stringify(interest_list) 
-			},
-			success: function(res) {
-				console.log(interest_list);
-				console.log(res.msg);	
-			},
-			error: function(err) {
-				console.log('ajfkjsb');
-			}
-		});
+		if(p_int_cnt>=3)
+		{
+
+			$.ajax({
+				method: "POST",
+				url: "/add_interest" + user_id,
+				// data: JSON.stringify(interest_list),
+				data: { 
+					interest_list: JSON.stringify(interest_list) 
+				},
+				success: function(res) {
+					console.log(interest_list);
+					console.log(res.msg);	
+					
+				},
+				error: function(err) {
+					console.log('ajfkjsb');
+				}
+			});
+
+		}
+		else{
+			alert("Add atleast Three Games To Begin your Feed");
+		}
 		//window.location.reload(true);
 			/* var time = new Date().getTime();
 			$(document.body).bind("mousemove keypress", function(e) {
@@ -667,6 +743,7 @@ $(document).ready(function(){
 			}
 			setTimeout(refresh, 10000); */
 	});
+
 	$("#interest-name").delegate("p span", "click", function(){
 		//alert("clicked");
 		var id=$(this).closest("p").attr('id');
@@ -759,6 +836,14 @@ $(document).ready(function(){
 
 		window.location.replace("/profile"+username);
 	});
+	
+	$("#home_btn").click(function(){
+		//alert(1);
+		console.log("clicl"+username);
+
+		window.location.replace("/home"+user_id);
+	});
+
 	$("#videos").click(function(){
 		//alert(1);
 		console.log("clicl"+username);
@@ -766,7 +851,11 @@ $(document).ready(function(){
 		window.location.replace("/videos"+user_id);
 	});
 
+$("#gallery-home-btn").click(function(){
+	console.log("clicl"+username);
 
+		window.location.replace("/home"+user_id);
+})
 
 });
 

@@ -102,7 +102,7 @@ def signup():
         cursor.execute('INSERT INTO user_descp(user_id,fname,lname,descp,sex,country,dob) VALUES ("{0}","{1}","{2}","{3}","{4}","{5}","{6}")'.format(user_id,firstname,lastname,descp,sex,country,dob))
         db.commit()
         db.close()
-        return jsonify(status='success', msg='Account Successfully Created')
+        return jsonify(status='success', msg='Account Successfully Created Now Login')
     else:
         return jsonify(status='error', msg='Email Already Exists !')
 
@@ -178,8 +178,29 @@ def add_interest(user_id):
                 entries = cursor.fetchall()
                 game_id = entries[0][0]
                 # print game_id
-                # cursor.execute('INSERT INTO interest(user_id,game_id) VALUES ("{0}","{1}")'.format(user_id,game_id))
-                # db.commit()
+                cursor.execute('INSERT INTO interest(user_id,game_id) VALUES ("{0}","{1}")'.format(user_id,game_id))
+                db.commit()
+        return jsonify(status='success', msg='Interests Successfully Added')
+    else:
+        return jsonify(status='error', msg='No Interest Added')
+
+
+############################################  Add Interest App ################################################
+@app.route('/add_interest_app<user_id>', methods=['POST'])
+def add_interest_app(user_id):
+    db,cursor = get_db()
+    arr = []
+    # import pdb;pdb.set_trace()
+    # data = json.loads(request.data)
+    interest_list = request.form['interest_list']
+    # print interest_list
+    if interest_list:
+        cursor.execute('SELECT game_id FROM games WHERE game_name="{0}"'.format(interest_list))
+        entries = cursor.fetchall()
+        game_id = entries[0][0]
+        # print game_id
+        cursor.execute('INSERT INTO interest(user_id,game_id) VALUES ("{0}","{1}")'.format(user_id,game_id))
+        db.commit()
         return jsonify(status='success', msg='Interests Successfully Added')
     else:
         return jsonify(status='error', msg='No Interest Added')
@@ -544,6 +565,33 @@ def add_post(user_id):
     return jsonify(status="success", msg="Post Added")
 
 
+#########################################    Add Post App  #######################################################
+@app.route('/add_post_app<user_id>', methods=['GET','POST'])
+def add_post_app(user_id):
+    db,cursor = get_db()
+    # request.form = json.loads(request.data)
+    post_type = request.form['type']
+    title = request.form['title']
+    content = request.form['content']
+    # print content
+    # print type(date)
+    cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}",CURRENT_TIMESTAMP)'.format(post_type))
+    db.commit()
+    cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
+    entries = cursor.fetchall()
+    post_id = entries[0][0]
+    # print post_id
+    cursor.execute('INSERT INTO user_posts(user_id,post_id) VALUES ("{0}","{1}")'.format(user_id,post_id))
+    db.commit()
+    if post_type == 'QS':
+        cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+        db.commit()
+    elif post_type == 'AR':
+        cursor.execute('INSERT INTO articles VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+        db.commit()
+    return jsonify(status="success", msg="Post Added")
+
+
 
 #####################################    Profile Page  ##################################################
 @app.route('/profile<username>', methods=['GET','POST'])
@@ -727,17 +775,28 @@ def users_interest(user_id):
     return jsonify(game_name_user=game_name_user)
 
 
-################################################ Remove Following ###########################################
-@app.route('/unfollw<user_id>', methods=['GET','POST'])
-def unfollow(user_id):
+################################################ Follow/Unfollow ###########################################
+@app.route('/fun_unf<user_id>', methods=['GET','POST'])
+def fun_unf(user_id):
     db,cursor = get_db()
-    username = request.form['username']
-    cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
-    entries= cursor.fetchall()
-    u_id = entries[0][0]
-    cursor.execute('DELETE FROM user_following WHERE user_id="{0}" AND following="{1}"'.format(user_id,u_id))
-    db.commit()
-    return jsonify(status="success", msg="Unfollowed")
+    username = request.form['post_username']
+    check = int(request.form['check'])
+    # print username
+    u_id = get_user_id(username)
+    if check == 0:
+        cursor.execute('DELETE FROM user_following WHERE user_id="{0}" AND following="{1}"'.format(user_id,u_id))
+        db.commit()
+        cursor.execute('DELETE FROM user_followers WHERE user_id="{0}" AND followers="{1}"'.format(u_id,user_id))
+        db.commit()
+        flag = 0;
+        return jsonify(status="success", msg="Unfollowed", flag=flag)
+    elif check == 1:
+        cursor.execute('INSERT INTO user_following VALUES (DEFAULT,"{0}","{1}")'.format(user_id,u_id))
+        db.commit()
+        cursor.execute('INSERT INTO user_followers VALUES (DEFAULT,"{0}","{1}")'.format(u_id,user_id))
+        db.commit()
+        flag = 1;
+        return jsonify(status="success", msg="followed", flag=flag)
 
 
 
@@ -818,6 +877,35 @@ def delete_post():
     cursor.execute('DELETE FROM posts WHERE post_id="{0}"'.format(post_id))
     db.commit()
     return jsonify(status="success", msg="Post Deleted")
+
+
+##########################################  Edit Profile  ##############################################
+@app.route('/edit_profile<username>', methods=['GET','POST'])
+def edit_profile(username):
+    user_id = get_user_id(username)
+    db,cursor = get_db()
+    username = request.form['user_name']
+    fname = request.form['name']
+    sex = request.form['sex']
+    password = request.form['npwd']
+    lname = ' '
+    cursor.execute('UPDATE user_login SET username="{0}",password="{1}" WHERE user_id="{2}"'.format(username,password,user_id))
+    db.commit()
+    cursor.execute('UPDATE user_descp SET fname="{0}",lname="{1}",sex="{2}" WHERE user_id="{3}"'.format(fname,lname,sex,user_id))
+    db.commit()
+    return jsonify(status="success", msg="Profile Updated")
+
+
+##########################################  Edit Description  ##############################################
+@app.route('/edit_descp<username>', methods=['GET','POST'])
+def edit_descp(username):
+    user_id = get_user_id(username)
+    db,cursor = get_db()
+    descp = request.form['content']
+    cursor.execute('UPDATE user_descp SET descp="{0}" WHERE user_id="{1}"'.format(descp,user_id))
+    db.commit()
+    return jsonify(status="success", msg="Description Updated")
+
 
 
 ##########################################  Channels  #################################################
@@ -902,7 +990,7 @@ def walkthroughs():
 
 @app.route('/gallery', methods=['GET'])
 def gallery():
-    return render_template('gallery.html')
+    return render_template('imageGallary.html')
 
 @app.route('/tab', methods=['GET'])
 def tab():

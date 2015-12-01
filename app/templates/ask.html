@@ -61,7 +61,7 @@ font-family:Courier, Monaco, monospace;
 </style>
 </head>
 <body>
- <header>
+ 	<header>
 	
   
   <div class="header1" style="">
@@ -80,15 +80,15 @@ font-family:Courier, Monaco, monospace;
 				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
 					<span class="glyphicon glyphicon-user"></span> 
 				</button>
-				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">lovingyugs</a></button>						
+				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">username</a></button>						
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
-						<li><a href="#">Settings</a></li>
+						<li><a href="#" id="profile-edit" data-toggle="modal" data-target="#editModal">Settings</a></li>
 						<li><a href="#">Tods</a>
-						<li><a href="signup.html">Logout</a></li>
+						<li><a href="#" id="logout">Logout</a></li>
 						<li><a href="#">Help</a></li>
 					</ul>
 				</div>
@@ -108,22 +108,12 @@ font-family:Courier, Monaco, monospace;
 	
 	 <div class="collapse navbar-collapse" id="menunavbar">
 		 <ul class="nav navbar-nav ">
-        <li ><a href="/home">Home</a></li>
-        <li><a href="/ask" onclick="make_link_active()">Ask</a></li>
-        <li><a href="article.html" onclick="make_link_active()">Post</a></li>
-		<li class="dropdown " >
-          <a class="dropdown-toggle " data-toggle="dropdown" id="games_drop" href="#">Games <span class="caret"></span></a>
-          <ul class="dropdown-menu " id="db_menu" style="">
-			<li><a href="#">Game1</a></li>
-            <li><a href="#">Game2</a></li>
-            <li><a href="#">Game3</a></li>   
-		  </ul>
-        </li>
-        <li><a href="#" onclick="make_link_active()" style="">Notifications</a></li>
-					</ul>
+	        <li ><a href="#" id="home_btn">Home</a></li>
+	        <li><a href="/ask">Post</a></li>
+		</ul>
 		 <ul class="nav navbar-nav navbar-right">
-			<li><a href="Walkthroughs.html">Walkthroughs</a></li>
-			<li><a href="gallery.html">Gallery</a></li>
+			<li><a href="#" id="videos">Walkthroughs</a></li>
+			<li><a href="/gallery">Gallery</a></li>
 		</ul>
      </div>
 	
@@ -132,7 +122,6 @@ font-family:Courier, Monaco, monospace;
   <div class="clearfix visible-lg"></div>
   
 </header>
-
  <!-- ask section -->
 <div class="section container">
 <div class="ask_section">
