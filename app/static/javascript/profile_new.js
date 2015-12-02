@@ -1,5 +1,7 @@
 var profile_post_cnt=0;
 var username = localStorage.getItem('username');
+var user_clicked = localStorage.getItem('user_clicked');
+
 var user_id=localStorage.getItem('user_id');
 var profile_res;
 var grid;
@@ -80,7 +82,7 @@ $(window).load(function(){
 	//profile();
 	$.ajax({
 		method: "POST",
-		url: "/profile" + username,
+		url: "/profile" + user_clicked,
 		// data: data,
 		success: function(res) {
 			console.log(res);
@@ -90,7 +92,7 @@ $(window).load(function(){
 			//displaying setails
 			$("#description p").text(res.user_desp_dict.descp);
 			$("#name").html(res.user_desp_dict.fname+" "+res.user_desp_dict.lname);
-			$("#profile-username").html(res.username);
+			$("#profile_username p").html(res.username);
 			$(".followers div").html(res.fer_count);
 			$(".following div").html(res.fing_count);
 

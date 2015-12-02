@@ -460,10 +460,10 @@ def like(username):
     db,cursor = get_db()
     # request.form = json.loads(request.data)
     check = request.form['check']
-    post_type = request.form['type']
-    title = request.form['title']
+    post_type = str(request.form['type'])
+    title = str(request.form['title'])
     user_id = get_user_id(username)
-    # print check,post_type,title
+    print check,post_type,title
     check = int(check)
     # print type(check)
     if post_type == 'QS':

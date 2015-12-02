@@ -7,7 +7,7 @@ var game_name;
 var user_id = localStorage.getItem('user_id');
 var username;
 var js_res;
-
+var user_clicked;
 var total_interest=0;
 var trending_cnt=0;
 var ans_count=0;
@@ -352,6 +352,28 @@ $(document).ready(function(){
 	
 	//ans_count=8;
 
+			$("#feed").on('click','.feed-username',function(){
+				user_clicked=$(this).html();
+				console.log(user_clicked);
+				localStorage.setItem('user_clicked',user_clicked);
+				$.ajax({
+				method: "POST",
+				url: "/profile" + user_clicked,
+				//data:data,
+				success: function(res) {
+					 console.log(res);
+					 window.location.replace("/profile"+user_clicked);
+					// username = res.username;
+					// $("#user-name").html(username);
+					
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			});
+			
+
+			});
 			$("#feed").on('click','#follow-btn',function(){
 				//$(this).closest('div').remove();
 				var p_id=$(this).parent('div').attr('id');
@@ -834,8 +856,11 @@ $(document).ready(function(){
 		
 	$("#profileBtn").click(function(){
 		//alert(1);
-		console.log("clicl"+username);
+		console.log("clicl"+username+" "+user_clicked);
+		user_clicked=username
 
+		localStorage.setItem('user_clicked',username);
+		console.log("clicl"+username+" "+user_clicked);
 		window.location.replace("/profile"+username);
 	});
 	
@@ -856,7 +881,7 @@ $(document).ready(function(){
 	$("#profile-send").click(function(){
 		//alert(1);
 		console.log("clicl"+username);
-
+		user_clicked=username;
 		window.location.replace("/profile"+username);
 	});
 $("#gallery-home-btn").click(function(){
