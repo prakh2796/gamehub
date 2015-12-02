@@ -2,11 +2,7 @@
 
 
 $(document).ready( function() {
-/* 
-$( "#autocomplete" ).click({
-		source: availableTags
-	});	 */
-	
+
   var $grid = $('.grid').masonry({
     columnWidth:10,
     itemSelector: '.grid-item',
@@ -41,9 +37,7 @@ $( "#autocomplete" ).click({
 	v="#"+v;
 	console.log("in Expand"+v);
 	$( v ).parent('.grid-item').toggleClass('is-expanded');
-	//$("#start0").toggleClass('is-expanded');
-	//$("#expand").hide;
-	//$("#less").show;
+	
 
 				 var $grid = $('.grid').masonry({
 				    columnWidth:10,

@@ -99,10 +99,9 @@ margin-top:25%;
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
-						<li><a href="#" id="profile-send">My Profile</a></li>
-						<li><a href="#">Tods</a>
-						<li><a href="#" id="logout">Logout</a></li>
-						<li><a href="#">Help</a></li>
+						<li><a href="#" id="profile-send"><i class="fa fa-user"></i> My Profile</a></li>
+						<li><a href="#" id="logout"><i class="fa fa-exclamation-circle"></i> Logout</a></li>
+						<li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
 					</ul>
 				</div>
 			</div>
@@ -144,30 +143,17 @@ margin-top:25%;
 			<li class="sidebar-brand" id="sidebar-brand">
 				<a href="#top"  onclick = $("#menu-close").click(); >Trending Out</a>
             </li>
-			<li>
-				<div class="trending-story">
-					<div class="liUpperDiv">
-						<div class="liGameName btn btn-dark pull-left" style="" id="li_name">Counter strike</div>
-						<div class=" liFollbtn pull-right btn btn-dark" style=""><span class="glyphicon glyphicon-plus" style="display:inline-block"></span></div>
-					</div>
-					<div class="liSecondDiv">
-					</div>
-					<p class="liGenre">jkenkejn</p>
-				</div>
-			</li>
+		
 			<li class="loding-img"></li>
 		</ul>	
-		<!-- <button class="btn btn-info" style="display:block">click me!</button> -->
+		
     </div>
 
 	
 <div class="section container"  >
 <div class="section-head">
-<!-- <p style="font-size:1.2em;display:inline-block;">Add Games:</p>
-		  <input type="text" class="form-control" style="width:30%;" id="autocomplete" placeholder="Enter here"></input>
-		  <button type="button" id="add" class="btn btn-info" >ADD</button>	
-		 -->
-<div id="new-user" class="new-user"><p>Follow atleast Three Games of your choice to start your feed.<a href="#" data-toggle="modal" title="Click Here to add Interest"data-target="#myModal">Click Here!</a><p></div>
+
+<div id="new-user" class="new-user"><p>Follow Games of your choice to increase your feed.<a href="#" data-toggle="modal" title="Click Here to add Interest"data-target="#myModal">Click Here!</a><p></div>
 
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -199,52 +185,7 @@ margin-top:25%;
  
 
 <div id="feed" class="grid">
-  <!-- <div class="stamp">
-	<div class="stamp-head">
-		Top Stories
-	</div>
-	<div class="line"></div>
-	<div class="story" id="story1"></div>
-	<div class="line"></div>
-	<div class="story" id="story1"></div>
-	<div class="line"></div>
-	<div class="story" id="story1"></div>
-	<div class="line"></div>
-	<a id="more-story" href="#">
-		<div class="more-story-link stamp-head" style="font-size:1.2sem;float:right" id="menu_toggle"> more >>></div>
-	</a>
-  </div>
- -->  
-<!--   <div class="grid-item grid-item--height2">
-    <div class="grid-item-content" id="feed0">
-		<div class="feed-div feed-upper-div">
-			<img src="../static/images/profile-dribbble.png" class="feed-user-image"></img>
-			<div id="feed-username" class="feed-username">lovingyugs</div>
-			<div id="post-type" class="post-type">AR</div>
-			<div id="feed-date" class="feed-date">12-12-2015</div>
-			<div id="follow-btn" class="follow-btn">Follow <span class="glyphicon glyphicon-plus" style="display:inline-block;font-size:15px;"></span></div>
-		</div>
-		<div class="feed-div feed-lower-div" id="feedTitle0">
-			<h2>How to download CS maps??</h2>
-			<p>kjasbdkjasnd amnsd kjasndksan  asjdkjasksjd </p>
-		</div>
-		<div class="feed-user-answers" id="feed-answers">
-			
-			<h4 style="">Answers:</h4>
-			<div id="after-div" class="after-div">
-				<textarea id="t1" class="t1" title="Write your text here..."data-action="fit"></textarea><button id="comment-answer"class="btn btn-info">Post</button>
-			</div>
-			<a href="#" id="more-answers" style="">View more>>></a>
-		</div>
-		<div class="like-bar" id="likeBar0">
-			<span style="" id="answer"><i class="fa fa-comments">4</i></span>
-			<span  id="like"><i class="fa fa-heart">10</i></span>
-			<div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div>
-			<div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>
-		</div>
-		
-	</div>
-  </div> -->
+  
   
 </div>
 <!-- <div class="view-more btn btn-info" id="view-more"> View More +
@@ -286,12 +227,7 @@ margin-top:25%;
 				</div><hr>
 			
 				<div class="user_name"><i class="fa fa-user"></i>  Username:<p id="current_username"style="display:inline-block">newbie</p></a>
-	        		<!-- <div id="change_username"class="change_username">
-	        			<form class="email-login" id="form-username" method="POST">
-	        				<input type="name" id="posted_username"class="edit-form form-control" placeholder="New Userame" name="user_name"/><br><br>
-	        				<button type="button" id="chng4">Cancel</button>
-	        			</form>
-	        		</div> -->
+	        	
 	        	</div><hr>
 				<div class="user_name">Gender:<p style="display:inline-block"> &nbsp&nbsp <i id="current_sex"class="fa  fa-2x"></i></p><a style="float:right" id="e5"><i class="fa fa-pencil"></i></a>
 	        		<div id="change_gender"class="change_username">

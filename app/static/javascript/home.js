@@ -16,17 +16,13 @@ var p_int_cnt=0;
 function in_feed(i){
 	var dContent;
 	var d=document.createElement('div');
-				//.html("new one"+(feed_no+1));
-				//.appendTo($("#feed"));
 				
-				//var hRand = Math.random();
-				//var heightClass = hRand > 0.65 ? 'grid-item--height2' : hRand > 0.25 ? 'grid-item--height3' : '';
 				$(d).addClass("grid-item");
 				dContent=document.createElement('div');
 				$(dContent).addClass('grid-item-content')
 				var feed_id='feed'+(feed_no);
 				$(dContent).attr('id',feed_id);
-				//$("#"+feed_id).html("kjdsfnkja");
+				
 				
 				var upper_div=document.createElement("div");
 				$(upper_div).addClass('feed-div feed-upper-div');
@@ -39,7 +35,7 @@ function in_feed(i){
 					$(oImg).appendTo(upper_div);
 								
 					var feed_username=document.createElement("div");
-					$(feed_username).addClass("feed-username").html("new one"+(feed_no));
+					$(feed_username).addClass("feed-username").html("");
 					$(feed_username).appendTo(upper_div);
 								
 					var post_type=document.createElement("div");
@@ -74,11 +70,7 @@ function in_feed(i){
 				$(like_bar).attr('id','likeBar'+feed_no);
 				$(like_bar).html('<span style="" id="answer"><i class="fa fa-comments">4</i></span><span  id="like"><i class="fa fa-heart">10</i></span><div id="expand" class="expand_class"><i class="fa fa-expand"></i>expand</div><div id="compress" class="expand_class"><i class="fa fa-compress"></i>compress</div>');
 				$(like_bar).appendTo(dContent);
-				//.html("new one"+(feed_no+1)).appendTo(d);
-				//console.log(risk);
-				// $("#feedTitle1 h2").html(risk.post[0].title);
-				// $("#feedTitle1 p").html(risk.post[0].content);
-				// $("#likeBar1 #like").html(risk.post[0].likes);
+				
 				$('#feed').append(d).masonry( 'appended',d );
 				feed_no++;
 				$("#feed #compress").hide();
@@ -141,10 +133,10 @@ function createTrending(){
 			var liGameName=document.createElement('div');
 			var liGameName_id='li_name'+trending_cnt;
 			$(liGameName).addClass('liGameName btn btn-dark pull-left');
-			$(liGameName).attr('id',liGameName_id).html("Counter Strike");
+			//$(liGameName).attr('id',liGameName_id).html("Counter Strike");
 			$(liGameName).appendTo(liUpperDiv);
 			var add_to_int=document.createElement('div');
-			$(add_to_int).addClass("liFollbtn pull-right btn btn-dark").html('<span class="glyphicon glyphicon-plus" style="display:inline-block"></span></div>');
+			$(add_to_int).addClass("liFollbtn pull-right btn btn-dark").html('<a download target="_blank" href='+(imageUrl)+'><i class="fa fa-2x fa-save" style="display:inline-block"></i></div>');
 			//$(liGameName).appendTo("liUpperDiv");
 			$(add_to_int).appendTo(liUpperDiv); 
 		
@@ -153,7 +145,7 @@ function createTrending(){
 		$(liSecondDiv).appendTo(liDiv);
 		var p=document.createElement('p');
 		$(p).addClass('liGenre');
-		$(p).html(' genre');
+		//$(p).html(' genre');
 		$(p).appendTo(liDiv);
 		//$(liUpperDiv).appendTo(liDiv);
 		//$(liSecondDiv).appendTo(liDiv);

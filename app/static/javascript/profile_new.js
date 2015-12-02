@@ -347,27 +347,6 @@ $grid.masonry('layout');
 			}
   		});
 		
-				// if(ans_count>4){
-				// 	for(var i=0;i<5;i++)
-				// 	{
-				// 		$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>bittu</a><p>NEW ONE'+(i)+'adskjndkjasd k </p></div>');
-				// 		ans_count--;
-				// 	}	
-				// 	$(id+" .feed-user-answers div:last-child").after('<a href="#" id="more-answers" style="">View more>>></a>');
-				// }	
-				// else{
-				// 	var loop=ans_count;
-				// 	for(var i=0;i<loop;i++)
-				// 	{
-				// 		$(id+" .feed-user-answers .t1").after('<div class="post-user-answer" id="post-user-answer"><a href="#"><i class="fa fa-at"></i>bittu</a><p>NEW ONE'+(i)+'adskjndkjasd k </p></div>');
-				// 		ans_count--;
-				// 	}			
-				// }
-		
-		//id=id+" #feed-answers h4"
-		//$("#feed-answers h4").after('<div class="post-user-answer" id="post-user-answer"><a href="#" style=""><i class="fa fa-at"></i>bittu</a><p  style="">NEW ONEadskjndkjasd k </p></div>');
-		
-			//$(id).remove();
 	});
 	
 	
@@ -544,6 +523,11 @@ $("#profile").on('click','#cancel-answer',function(){
 	  console.log("came in qs");
 	  profile_post_cnt=0;
 	  $("#profile .grid-item-profile").remove();
+
+	  // for(i=0;i<profile_post_cnt;i++)
+	  // {
+	  // 	$("#profile .grid-item-profile").
+	  // }
 	  $.ajax({
 			method: "POST",
 			url: "/users_questions"+username,

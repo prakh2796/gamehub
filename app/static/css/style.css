@@ -267,7 +267,6 @@ body{
 }
 
 .grid-item.is-expanded .feed-user-answers{
-	//width:7%;
 	transition:display 1s;
 	display:block;
 }
