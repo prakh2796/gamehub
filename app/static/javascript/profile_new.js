@@ -35,10 +35,16 @@ function profile(count){
 				
 				var self_header=document.createElement('div');
 				$(self_header).addClass("self-header");
+				$(self_header).attr('id','self-header'+profile_post_cnt);
 				$(self_header).appendTo(dContent);
 					var self_type=document.createElement('div');
 					$(self_type).addClass('self-type');
 					$(self_type).appendTo(self_header);
+					var self_cancel=document.createElement('div');
+					$(self_cancel).addClass('self-cancel');
+					$(self_cancel).attr('id','self-cancel');
+					$(self_cancel).html(' &nbsp<i style="display:inline-block" class="fa fa-times"></i>');
+					$(self_cancel).appendTo(self_header);
 					var self_date=document.createElement('div');
 					$(self_date).addClass('self-date');
 					$(self_date).appendTo(self_header);
@@ -235,6 +241,52 @@ $grid.masonry('layout');
 	//$('#feed').append(d).masonry( 'appended',d );
     
   });
+
+  $("#profile").on('click','#self-cancel', function(){
+
+		var id=$(this).parent("div").attr('id');
+		id="#"+id;
+		console.log("in post"+id);
+		id=$(id).parent('div').attr('id');
+		id="#"+id;
+		console.log("in post"+id);
+		//alert(id);
+		
+		//id=$(id).parent('div').attr('id');
+		//id="#"+id;
+		//console.log("in post"+id);
+		//console.log("in post"+id);
+		var title=$(id+" .self-body h3").html();
+		//console.log("response - "+response);
+		
+		var type=$(id+" .self-type").html();
+		if(type=="Question")
+		{
+			type="QS";
+		}
+		else{type="AR"}
+			console.log(title+" "+type);
+			$.ajax({
+			method: "POST",
+			url: "/delete_post",
+			data: {
+				type:type,
+				username:username,
+				title:title
+			},
+			success: function(res) {
+				console.log(res);
+				console.log(res.msg);
+				alert(res.msg);
+				window.location.replace("/profile"+username);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+  		});
+		
+
+	});
   $("#profile").on('click','#expand', function(){
 		//alert("clicked");
 		var id=$(this).parent("div").attr('id');
@@ -557,49 +609,7 @@ $("#profile").on('click','#cancel-answer',function(){
 			$('#change_gender').removeClass('show');
 		});
 		
-		// $('#submit1').on('click', function(event) {
-		// 	event.preventDefault();
-		// 	var name = $('#name-changed').val();
-		// 	console.log("sex-"+name);
-		// 	window.location = 'profile_new.html';
-		// 	$('#editModal').modal('show');	
-			
-		// });
-		// $('#submit2').on('click', function(event) {
-		// 	event.preventDefault();
-			
-		// 	var pwd = $('#pwd').val();
-		// 	var npwd=$('#npwd').val();
-		// 	console.log("sex-"+npwd);
-		// });
-		// $('#submit3').on('click', function(event) {
-		// 	event.preventDefault();
-		// 	var age = $('#age').val();
-		// 	console.log("sex-"+age);
-		// });
-		// $('#submit4').on('click', function(event) {
-		// 	event.preventDefault();
-			
-		// 	var useraname = $('#username').val();
-		// 	console.log("sex-"+username);
 		
-		// });
-		// $('#submit5').on('click', function(event) {
-		// 	event.preventDefault();
-		// 	console.log('Submitted');
-		// 	sex = $('.opt-gender:checked').attr('id');
-		// 	console.log("sex-"+sex);
-		// 	if(sex=="male")
-		// 		sex="M";
-		// 	else
-		// 		sex="F";
-			
-		// 	});
-		// $('#submit6').on('click', function(event) {
-		// 	event.preventDefault();
-		// 	console.log('Submitted');
-			
-		// });
 
 			$('#submitAll').on('click', function(event) {
 				event.preventDefault();

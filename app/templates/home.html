@@ -99,7 +99,7 @@ margin-top:25%;
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
-						<li><a href="#" id="profile-edit" data-toggle="modal" data-target="#editModal">Settings</a></li>
+						<li><a href="#" id="profile-send">My Profile</a></li>
 						<li><a href="#">Tods</a>
 						<li><a href="#" id="logout">Logout</a></li>
 						<li><a href="#">Help</a></li>
@@ -257,6 +257,62 @@ margin-top:25%;
   <a href="../templates/ask.html">link</a>
 </nav> -->
 </div>
+
+<div class="modal fade" id="editModal" role="dialog">
+    	<div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header" style="text-align:center;border-color:black">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Setting</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<div class="user_email"><i class="fa fa-user"></i>  Email:<p id="current_email" style="display:inline-block"></p></div><hr>
+	        	<div class="user_name"><i class="fa fa-user"></i> Name:<p id="current_name" style="display:inline-block">Yugal</p><a style="float:right" id="e1"><i class="fa fa-pencil"></i></a>
+	        		<div id="change_name"class="change_username">
+	        			<form class="email-login" id="form-name"method="POST">
+	        				<input type="name" id="name-changed" class="edit-form form-control"placeholder="New Name" name="new_name"/><br><br>
+	        				<button type="button" id="chng1">Cancel</button>
+	        			</form>
+	        		</div>
+	        	</div><hr>
+	        	<div class="user_name"><i class="fa fa-eye"></i>  Password<a style="float:right" id="e2"><i class="fa fa-pencil"></i></a>
+					<div id="change_password" class="change_password">
+	        			<form class="email-password" id="form-password" method="POST">
+							<input type="name" id="pwd"class="edit-form form-control" placeholder="Current Password" id="current_password" name="current_password"/><br><br>
+	        				<input type="name" id="npwd" class="edit-form form-control"placeholder="New Password" id="new_password"name="new_password"/><br><br>
+	        				<button type="button" id="chng2">Cancel</button>
+	        			</form>
+	        		</div>
+				</div><hr>
+			
+				<div class="user_name"><i class="fa fa-user"></i>  Username:<p id="current_username"style="display:inline-block">newbie</p></a>
+	        		<!-- <div id="change_username"class="change_username">
+	        			<form class="email-login" id="form-username" method="POST">
+	        				<input type="name" id="posted_username"class="edit-form form-control" placeholder="New Userame" name="user_name"/><br><br>
+	        				<button type="button" id="chng4">Cancel</button>
+	        			</form>
+	        		</div> -->
+	        	</div><hr>
+				<div class="user_name">Gender:<p style="display:inline-block"> &nbsp&nbsp <i id="current_sex"class="fa  fa-2x"></i></p><a style="float:right" id="e5"><i class="fa fa-pencil"></i></a>
+	        		<div id="change_gender"class="change_username">
+	        			<form class="email-login"id="form-gender" method="POST">
+							<div style="width:50%;color:#F0F0F0;text-align:left;display:inline-block;padding:5px;">
+								<label class="radio-inline" style="padding:20px"><input class="opt-gender" type="radio" id="male"  name="optradio"><p style="dispaly:inline-block;color:black;font-weight:bold"><i class="fa fa-male fa-2x"></i></p></label>
+								<label class="radio-inline" style="padding:20px"><input class="opt-gender" type="radio" id="female" name="optradio"><p style="dispaly:inline-block;color:black;font-weight:bold"><i class="fa fa-female fa-2x"></i></p></label>
+							</div>
+	        				<button type="button" id="chng5">Cancel</button>
+	        			</form>
+	        		</div>
+	        	</div><hr>
+	        </div> 
+	        <div class="modal-footer"  style="border-color:black">
+	           <button type="button" id="submitAll" class="btn btn-default" ><i class="fa fa-save (alias)"></i>&nbspSave</button>
+          		<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>&nbspClose</button>
+	        </div>
+	      </div>
+      
+    	</div>
+  	</div>
 <footer>
 </footer>
 	<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>

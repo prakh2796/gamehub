@@ -129,36 +129,35 @@ $(document).ready(function(){
 	});
 	$("#post").click(function(){
 		var post_type=page_type;
-		$.ajax({
-			method: "POST",
-			url: "/add_post" + user_id,
-			// data: JSON.stringify(interest_list),
-			data: { 
-				tag_list: JSON.stringify(tag_list),
-				content:$("#content").val(),
-				title:$("#title").val(),
-				type:post_type
-			},
-			success: function(res) {
-				console.log(tag_list);
-				console.log(res.msg);	
-			},
-			error: function(err) {
-				console.log('ajfkjsb');
-			}
-		});
-		//window.location.reload(true);
-			/* var time = new Date().getTime();
-			$(document.body).bind("mousemove keypress", function(e) {
-				 time = new Date().getTime();
+		if($("#title").val()=="" || $("#title").val()==" ")
+		{
+			alert("Title cannot be Blank");
+		}
+		else{
+				$.ajax({
+				method: "POST",
+				url: "/add_post" + user_id,
+				// data: JSON.stringify(interest_list),
+				data: { 
+					tag_list: JSON.stringify(tag_list),
+					content:$("#content").val(),
+					title:$("#title").val(),
+					type:post_type
+				},
+				success: function(res) {
+					console.log(tag_list);
+					console.log(res.msg);
+					alert(res.msg);
+					window.location.replace("/ask");
+
+				},
+				error: function(err) {
+					console.log('ajfkjsb');
+				}
 			});
-			function refresh() {
-				 if(new Date().getTime() - time >= 60000) 
-					 window.location.reload(true);
-				 else 
-					 setTimeout(refresh, 10000);
-			}
-			setTimeout(refresh, 10000); */
+				
+		}
+		
 	});
 	$("#tag-name").delegate("p span", "click", function(){
 		//alert("clicked");

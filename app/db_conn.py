@@ -836,17 +836,20 @@ def delete_reply():
 def delete_post():
     db,cursor = get_db()
     # request.form = json.loads(request.data)
-    username = request.format['username']
-    post_type = request.form['type']
-    title = request.form['title']
+    username = request.form['username']
+    post_type = str(request.form['type'])
+    title = str(request.form['title'])
+    # print title
     cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
     entries = cursor.fetchall()
     user_id = entries[0][0]
+    # print user_id
     if post_type == 'QS':
         ans_id = []
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}" AND user_id="{1}"'.format(title,user_id))
         entries = cursor.fetchall()
         post_id = entries[0][0]
+        print post_id
         cursor.execute('SELECT ans_id FROM questions_answers WHERE post_id="{0}"'.format(post_id))
         entries = cursor.fetchall()
         for a in entries:
@@ -869,11 +872,15 @@ def delete_post():
             comm_id.append(a)
         cursor.execute('DELETE FROM articles_comments WHERE post_id="{0}"'.format(post_id))
         db.commit()
-        for i in range(0,len(ans_id)):
+        for i in range(0,len(comm_id)):
             cursor.execute('DELETE FROM comments WHERE comm_id="{0}"'.format(comm_id))
             db.commit()
         cursor.execute('DELETE FROM articles WHERE post_id="{0}"'.format(post_id))
         db.commit()
+    cursor.execute('DELETE FROM posts_tags WHERE post_id="{0}"'.format(post_id))
+    db.commit()
+    cursor.execute('DELETE FROM user_posts WHERE post_id="{0}"'.format(post_id))
+    db.commit()
     cursor.execute('DELETE FROM posts WHERE post_id="{0}"'.format(post_id))
     db.commit()
     return jsonify(status="success", msg="Post Deleted")

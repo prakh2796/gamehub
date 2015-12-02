@@ -718,7 +718,9 @@ $(document).ready(function(){
 				},
 				success: function(res) {
 					console.log(interest_list);
-					console.log(res.msg);	
+					console.log(res.msg);
+					alert(res.msg);
+					window.location.replace("/home"+user_id);	
 					
 				},
 				error: function(err) {
@@ -851,6 +853,12 @@ $(document).ready(function(){
 		window.location.replace("/videos"+user_id);
 	});
 
+	$("#profile-send").click(function(){
+		//alert(1);
+		console.log("clicl"+username);
+
+		window.location.replace("/profile"+username);
+	});
 $("#gallery-home-btn").click(function(){
 	console.log("clicl"+username);
 
