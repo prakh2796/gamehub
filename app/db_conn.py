@@ -236,7 +236,7 @@ def autocomplete_games(user_id):
     # print game_name
     count = len(game_name)
     return jsonify(game_name=game_name, count=count)
-    
+
 
 
 ###########################################   Users Timiline  #################################################
@@ -375,8 +375,8 @@ def expand():
 
     db,cursor=get_db()
     # request.form = json.loads(request.data)
-    post_type = request.form['type']
-    title = request.form['title']
+    post_type = str(request.form['type'])
+    title = str(request.form['title'])
     if post_type == 'QS':
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
@@ -423,17 +423,17 @@ def expand():
 def add_reply(user_id):
     db,cursor = get_db()
     # request.form = json.loads(request.data)
-    post_type = request.form['type']
+    post_type = str(request.form['type'])
     title = request.form['title']
     content = request.form['content']
-    print content,user_id
+    # print content,user_id
     if post_type == 'QS':
         cursor.execute('SELECT post_id FROM questions WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
         cursor.execute('INSERT INTO answers VALUES (DEFAULT,CURRENT_TIMESTAMP,"{0}","{1}")'.format(user_id,content))
         db.commit()
-        print post_id
+        # print post_id
         cursor.execute('SELECT ans_id FROM answers WHERE content= "{0}"'.format(content))
         entries = cursor.fetchall()
         ans_id = entries[0][0]
@@ -547,7 +547,7 @@ def add_post(user_id):
     cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
     entries = cursor.fetchall()
     post_id = entries[0][0]
-    print post_id
+    # print post_id
     for i in range(0,len(tag_list)):
         cursor.execute('SELECT tag_id FROM tags WHERE tag_name="{0}"'.format(tag_list[i]))
         entries = cursor.fetchall()
@@ -568,28 +568,28 @@ def add_post(user_id):
 #########################################    Add Post App  #######################################################
 @app.route('/add_post_app<user_id>', methods=['GET','POST'])
 def add_post_app(user_id):
-    db,cursor = get_db()
-    # request.form = json.loads(request.data)
-    post_type = request.form['type']
-    title = request.form['title']
-    content = request.form['content']
-    # print content
-    # print type(date)
-    cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}",CURRENT_TIMESTAMP)'.format(post_type))
-    db.commit()
-    cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
-    entries = cursor.fetchall()
-    post_id = entries[0][0]
-    # print post_id
-    cursor.execute('INSERT INTO user_posts(user_id,post_id) VALUES ("{0}","{1}")'.format(user_id,post_id))
-    db.commit()
-    if post_type == 'QS':
-        cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
-        db.commit()
-    elif post_type == 'AR':
-        cursor.execute('INSERT INTO articles VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
-        db.commit()
-    return jsonify(status="success", msg="Post Added")
+	db,cursor = get_db()
+	# request.form = json.loads(request.data)
+	post_type = request.form['type']
+	title = request.form['title']
+	content = request.form['content']
+	# print content
+	# print type(date)
+	cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}",CURRENT_TIMESTAMP)'.format(post_type))
+	db.commit()
+	cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
+	entries = cursor.fetchall()
+	post_id = entries[0][0]
+	# print post_id
+	cursor.execute('INSERT INTO user_posts VALUES (DEFAULT,"{0}","{1}")'.format(user_id,post_id))
+	db.commit()
+	if post_type == 'QS':
+	    cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+	    db.commit()
+	elif post_type == 'AR':
+	    cursor.execute('INSERT INTO articles VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+	    db.commit()
+	return jsonify(status="success", msg="Post Added")
 
 
 
@@ -598,7 +598,7 @@ def add_post_app(user_id):
 def profile(username):
 
     if request.method == 'GET':
-            return render_template('profile_new.html')
+    	return render_template('profile_new.html')
 
     elif request.method == 'POST':
         arr = []
@@ -810,7 +810,7 @@ def delete_reply():
     content = request.form['content']
     cursor.execute('SELECT user_id FROM user_login WHERE username="{0}"'.format(username))
     entries = cursor.fetchall()
-    user_id = entries[0][0] 
+    user_id = entries[0][0]
     if post_type == 'QS':
         cursor.execute('SELECT ans_id FROM answers WHERE user_id="{0}" AND content="{1}"'.format(user_id,content))
         entries = cursor.fetchall()
