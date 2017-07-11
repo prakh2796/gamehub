@@ -206,7 +206,30 @@ def add_interest_app(user_id):
         return jsonify(status='error', msg='No Interest Added')
 
 
-##########################################  Autocompelete for a user  #################################################
+##############################################  Add Channel  ###################################################
+@app.route('/add_channels<user_id>', methods=['POST'])
+def add_channels(user_id):
+    db,cursor = get_db()
+    arr = []
+    # import pdb;pdb.set_trace()
+    # data = json.loads(request.data)
+    channels_list = json.loads(request.form['channels_list'])
+    # print interest_list
+    if channels_list:
+        for i in range(0,len(channels_list)):
+            if channels_list[i] != '':
+                cursor.execute('SELECT channel_id FROM channels WHERE channel_name="{0}"'.format(channels_list[i]))
+                entries = cursor.fetchall()
+                channel_id = entries[0][0]
+                # print game_id
+                cursor.execute('INSERT INTO user_channel(user_id,channel_id) VALUES ("{0}","{1}")'.format(user_id,channel_id))
+                db.commit()
+        return jsonify(status='success', msg='Channels Successfully Added')
+    else:
+        return jsonify(status='error', msg='No Channels Added')
+
+
+#######################################  Autocompelete Interest for a user  ####################################
 @app.route('/autocomplete_games<user_id>', methods=['POST'])
 def autocomplete_games(user_id):
     arr = []
@@ -236,6 +259,38 @@ def autocomplete_games(user_id):
     # print game_name
     count = len(game_name)
     return jsonify(game_name=game_name, count=count)
+
+
+#######################################  Autocompelete Channel for a user  #####################################
+@app.route('/autocomplete_channels<user_id>', methods=['POST'])
+def autocomplete_channels(user_id):
+    arr = []
+    arr2 = []
+    arr3 = []
+    channel_name = []
+    db,cursor = get_db()
+    # print user_id
+    cursor.execute('SELECT channel_id FROM user_channel WHERE user_id="{0}"'.format(user_id))
+    entries = cursor.fetchall()
+    for a in entries:
+        arr.append(a)
+    count=len(arr)
+    cursor.execute('SELECT channel_id,channel_name FROM channels')
+    entries = cursor.fetchall()
+    for a,b in entries:
+        arr2.append(a)
+        arr3.append(b)
+    for i in range(0,len(arr2)):
+        flag=0
+        for j in range(0,len(arr)):
+            if arr2[i] == arr[j][0]:
+                flag=1
+                break
+        if flag == 0:
+            channel_name.append(arr3[i])
+    # print game_name
+    count = len(channel_name)
+    return jsonify(channel_name=channel_name, count=count)
 
 
 
@@ -294,8 +349,9 @@ def timeline(user_id):
         for a in entries:
             p_id.append(a[0])
     p_id = remove_duplicates(p_id)
-    # print p_id
-    cursor.execute('SELECT post_id,post_date,post_type FROM posts ORDER BY post_date DESC')
+    p_id.sort(reverse=True)
+    print p_id
+    cursor.execute('SELECT post_id,post_date,post_type FROM posts')
     entries = cursor.fetchall()
     for a,b,c in entries:
         arr.append(a)
@@ -382,12 +438,12 @@ def expand():
         entries = cursor.fetchall()
         post_id = entries[0][0]
         print post_id
-        cursor.execute('SELECT ans_id FROM questions_answers WHERE post_id="{0}"'.format(post_id))
+        cursor.execute('SELECT ans_id FROM questions_answers WHERE post_id="{0}" ORDER BY ans_id DESC'.format(post_id))
         for a in cursor.fetchall():
             ans_id.append(a[0])
         print ans_id
         for i in range(0,len(ans_id)):
-            cursor.execute('SELECT ans_date,content,user_id FROM answers WHERE ans_id="{0}" ORDER BY ans_date DESC'.format(ans_id[i]))
+            cursor.execute('SELECT ans_date,content,user_id FROM answers WHERE ans_id="{0}"'.format(ans_id[i]))
             for row in cursor.fetchall():
                 display.append(dict({'date':str(row[0]),'content':row[1]}))
                 user_id = row[2]
@@ -398,11 +454,11 @@ def expand():
         cursor.execute('SELECT post_id FROM articles WHERE title="{0}"'.format(title))
         entries = cursor.fetchall()
         post_id = entries[0][0]
-        cursor.execute('SELECT comm_id FROM articles_comments WHERE post_id="{0}"'.format(post_id))
+        cursor.execute('SELECT comm_id FROM articles_comments WHERE post_id="{0}" ORDER BY comm_id DESC'.format(post_id))
         for a in cursor.fetchall():
             comm_id.append(a[0])
         for i in range(0,len(comm_id)):
-            cursor.execute('SELECT comm_date,content,user_id FROM comments WHERE comm_id="{0}" ORDER BY comm_date DESC'.format(comm_id[i]))
+            cursor.execute('SELECT comm_date,content,user_id FROM comments WHERE comm_id="{0}"'.format(comm_id[i]))
             for row in cursor.fetchall():
                 display.append(dict({'date':str(row[0]),'content':row[1]}))
                 user_id = row[2]
@@ -568,28 +624,28 @@ def add_post(user_id):
 #########################################    Add Post App  #######################################################
 @app.route('/add_post_app<user_id>', methods=['GET','POST'])
 def add_post_app(user_id):
-	db,cursor = get_db()
-	# request.form = json.loads(request.data)
-	post_type = request.form['type']
-	title = request.form['title']
-	content = request.form['content']
-	# print content
-	# print type(date)
-	cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}",CURRENT_TIMESTAMP)'.format(post_type))
-	db.commit()
-	cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
-	entries = cursor.fetchall()
-	post_id = entries[0][0]
-	# print post_id
-	cursor.execute('INSERT INTO user_posts VALUES (DEFAULT,"{0}","{1}")'.format(user_id,post_id))
-	db.commit()
-	if post_type == 'QS':
-	    cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
-	    db.commit()
-	elif post_type == 'AR':
-	    cursor.execute('INSERT INTO articles VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
-	    db.commit()
-	return jsonify(status="success", msg="Post Added")
+    db,cursor = get_db()
+    # request.form = json.loads(request.data)
+    post_type = request.form['type']
+    title = request.form['title']
+    content = request.form['content']
+    # print content
+    # print type(date)
+    cursor.execute('INSERT INTO posts VALUES (DEFAULT,"{0}",CURRENT_TIMESTAMP)'.format(post_type))
+    db.commit()
+    cursor.execute('SELECT post_id FROM posts ORDER BY post_id DESC')
+    entries = cursor.fetchall()
+    post_id = entries[0][0]
+    # print post_id
+    cursor.execute('INSERT INTO user_posts VALUES (DEFAULT,"{0}","{1}")'.format(user_id,post_id))
+    db.commit()
+    if post_type == 'QS':
+        cursor.execute('INSERT INTO questions VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+        db.commit()
+    elif post_type == 'AR':
+        cursor.execute('INSERT INTO articles VALUES ("{0}","{1}","{2}","{3}",0)'.format(post_id,user_id,title,content))
+        db.commit()
+    return jsonify(status="success", msg="Post Added")
 
 
 
@@ -598,7 +654,7 @@ def add_post_app(user_id):
 def profile(username):
 
     if request.method == 'GET':
-    	return render_template('profile_new.html')
+        return render_template('profile_new.html')
 
     elif request.method == 'POST':
         arr = []
@@ -662,7 +718,7 @@ def profile(username):
         for a in entries:
             post_id.append(a[0])
         for i in range(0,len(post_id)):
-            cursor.execute('SELECT post_type,post_date FROM posts WHERE post_id="{0}" ORDER BY post_date DESC'.format(post_id[i]))
+            cursor.execute('SELECT post_type,post_date FROM posts WHERE post_id="{0}"'.format(post_id[i]))
             entries = cursor.fetchall()
             for a,b in entries:
                 post_type.append(str(a))
@@ -712,7 +768,7 @@ def users_questions(username):
     for a in entries:
         post_id.append(a[0])
     for i in range(0,len(post_id)):
-        cursor.execute('SELECT post_type,post_date FROM posts WHERE post_id="{0}" ORDER BY post_date DESC'.format(post_id[i]))
+        cursor.execute('SELECT post_type,post_date FROM posts WHERE post_id="{0}"'.format(post_id[i]))
         entries = cursor.fetchall()
         for a,b in entries:
             post_type.append(str(a))
@@ -741,7 +797,7 @@ def users_articles(username):
     for a in entries:
         post_id.append(a[0])
     for i in range(0,len(post_id)):
-        cursor.execute('SELECT post_type,post_date FROM posts WHERE post_id="{0}" ORDER BY post_date DESC'.format(post_id[i]))
+        cursor.execute('SELECT post_type,post_date FROM posts WHERE post_id="{0}"'.format(post_id[i]))
         entries = cursor.fetchall()
         for a,b in entries:
             post_type.append(str(a))
@@ -915,7 +971,7 @@ def edit_descp(username):
 
 
 
-##########################################  Channels  #################################################
+##########################################  User's Channels  #################################################
 @app.route('/videos<user_id>', methods=['GET','POST'])
 def videos(user_id):
     print user_id
@@ -1005,7 +1061,4 @@ def tab():
 
 if __name__=='__main__':
     app.run(debug=True)
-
-
-
 
