@@ -1,225 +1,181 @@
 <!Doctype html>
 <html>
+
 <head>
-
-	<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Game World-gameworld.pythonanywhere.com</title>
-    
-    
-    
-    
-        <link rel="stylesheet" href="../static/css/style.css">
-		<link rel="stylesheet" href="../static/css/bootstrap.css">
-		<link rel="stylesheet" href="../static/css/home.css">
-		<link rel="stylesheet" href="../static/css/style_home_header.css">
-		<link href="../static/css/jquery-ui.css" rel="stylesheet">
-		
-	<!-- 	<link href="../static/css/bootstrap1.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Game World-gameworld.pythonanywhere.com</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="../static/css/bootstrap.css">
+  <link rel="stylesheet" href="../static/css/home.css">
+  <link rel="stylesheet" href="../static/css/style_home_header.css">
+  <link href="../static/css/jquery-ui.css" rel="stylesheet">
+  <!-- 	<link href="../static/css/bootstrap1.min.css" rel="stylesheet">
  -->
-    <link href="../static/css/stylish-portfolio1.css" rel="stylesheet">
-
-    <link href="../static/font-awesome/css/font-awesome1.min.css" rel="stylesheet" type="text/css">
-	
-<style>
-body{
-background-image:url("..static/images/galaxy-wallpapers-10.jpg");
- //background: url("http://cdn.wonderfulengineering.com/wp-content/uploads/2014/06/galaxy-wallpapers-10.jpg");
-//background:url("http://7-themes.com/data_images/out/54/6955194-games-hd-wallpaper-free-download.jpg");
-//background:url(" http://imagesci.com/img/2013/04/video-games-wallpaper-4362-hd-wallpapers.jpg");
-background-size:cover;
-font-family:Courier, Monaco, monospace;
-
- }
-
- body img{
- opacity: 0.6;
+  <link href="../static/css/stylish-portfolio1.css" rel="stylesheet">
+  <link href="../static/font-awesome/css/font-awesome1.min.css" rel="stylesheet" type="text/css">
+  <style>
+  body {
+    background-image: url("..static/images/galaxy-wallpapers-10.jpg");
+    background-size: cover;
+    font-family: Courier, Monaco, monospace;
+  }
+  
+  body img {
+    opacity: 0.6;
     filter: alpha(opacity=40);
- }
- 
- hr{
-	 height: 2px;
-    background-color:#555;
+  }
+  
+  hr {
+    height: 2px;
+    background-color: #555;
     margin-top: 20px;
     margin-bottom: 20px;
     width: 85%;
- }
- 
- #tag-add{
-	display:inline-block;
-	font-weight:bold;
-	}
- 
- #post{
-	font-weight:bold;
-	
- }
- 
-</style>
-</head>
-<body>
- 	<header>
-	
+  }
   
-  <div class="header1" style="">
-    <div class="top-left">
-		<h1>
+  #tag-add {
+    display: inline-block;
+    font-weight: bold;
+  }
+  
+  #post {
+    font-weight: bold;
+  }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header1" style="">
+      <div class="top-left">
+        <h1>
 			<a href="/"><strong><span style="">G</span>ame <span style="">W</span>orld</strong>
 			</a>
 		</h1>
-	</div>
-	<div class="form-inline search" style="">
-		<input type="text" name="search" class="form-control" style="width:100%;" id="search" placeholder="Search"></input>		
-	</div>
-	<div class="top-right">
-		<nav>
-			<div class="btn-group">
-				<button type="button" class="btn btn-primary" style="border-radius: 50%" >
-					<span class="glyphicon glyphicon-user"></span> 
-				</button>
-				<button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">username</a></button>						
-				<div class="btn-group">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop"style="border-radius: 10px ;">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu dropdown-menu-right " id="drop_down"role="menu">
-						<li><a href="#" id="profile-send"><i class="fa fa-user"></i> My Profile</a></li>
-						<li><a href="#" id="logout"><i class="fa fa-exclamation-circle"></i> Logout</a></li>
-						<li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</div>
-  </div>
-  <div class="header2 navbar navbar-inverse">
-  	
-	<div class="navbar-header">
-      <button type="button" class="navbar-toggle" style=""data-toggle="collapse" data-target="#menunavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>  
-	  </button>
-     </div>
-	
-	 <div class="collapse navbar-collapse" id="menunavbar">
-		 <ul class="nav navbar-nav ">
-	        <li ><a href="#" id="home_btn">Home</a></li>
-	        <li><a href="/ask">Post</a></li>
-		</ul>
-		 <ul class="nav navbar-nav navbar-right">
-			<li><a href="#" id="videos">Walkthroughs</a></li>
-			<li><a href="/gallery">Gallery</a></li>
-		</ul>
-     </div>
-	
-  </div>
-  
-  <div class="clearfix visible-lg"></div>
-  
-</header>
- <!-- ask section -->
-<div class="section container">
-<div class="ask_section">
-	<div class="type_btn" value="Type">
-	<p id="type_static"style="display:inline-block">Type :</p>
-	<p id="type" style="display:inline-block;margin:0px;">Question
-	</p>
-	<div class="btn-group">
-    <button type="button" id="drop_btn" class="btn btn  dropdown-toggle" data-toggle="dropdown" style="margin-left:-10px;background:#00CC33">
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" id="choose">
-      <li><a href="#">Question</a></li>
-      <li><a href="#">Article</a></li>
-    </ul>
-	
-	</div>
-	</div>
-	<div class="ask_section1">
-		<div id="on_ar">			
-			<p style="font-size:2em ; color:#505050 ;"><strong>Add Title</strong></p>
-			<div>
-			<textarea  class="txtarea" placeholder="Title" cols="25" rows="2" name="txtarea" id="title" required></textarea>
-			</div>		
-		</div>
-		
-		<div id="on_qs">
-			<p style="font-size:2em ; color:#505050 ;"><strong>Ask Question.</strong></p>
-			<div>
-			<textarea class="txtarea" placeholder="Enter text Here" cols="40" rows="5" name="txtarea" id="content"></textarea>
-			</div>
-		</div>
-	</div>
-	<div class="ask_section2">
-	<p style="font-size:2em; color:#505050  "><strong>Add Tags</strong></p>
-		<div class="panel panel-default">
-		  <div class="panel-heading"><h3 style="font-size:1.0em;font-weight:bold">Tags are used to relate one's post with other.In order to post your Question/Article you need to include tags .Tags may be the game name your post belongs or the genre of the game.<p>More the tags you include more the response your post may get.</p><p>So Add Tags. </p></h3></div>
-		  <div class="panel-body" style="">
-			<p style="font-size:1.2em;font-weight:bold;display:inline-block;">Include Tags:</p>
-			<input type="text" class="form-control" style="width:50%;display:inline-block" id="tag-autocomplete" placeholder="Enter here"></input>
-			<button type="button" id="tag-add" style=""class="btn btn-info">ADD <i class="fa fa-plus"></i></button>	
-				<!-- <p class="tag-added" id="tag-added"></p>		 
+      </div>
+      <div class="form-inline search" style="">
+        <input type="text" name="search" class="form-control" style="width:100%;" id="search" placeholder="Search"></input>
+      </div>
+      <div class="top-right">
+        <nav>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" style="border-radius: 50%">
+              <span class="glyphicon glyphicon-user"></span>
+            </button>
+            <button type="button" id="profileBtn" class="btn btn-primary" style="border-radius: 10px ;margin-left:3px;">username</a>
+            </button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user_drop" style="border-radius: 10px ;">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right " id="drop_down" role="menu">
+                <li><a href="#" id="profile-send"><i class="fa fa-user"></i> My Profile</a></li>
+                <li><a href="#" id="logout"><i class="fa fa-exclamation-circle"></i> Logout</a></li>
+                <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="header2 navbar navbar-inverse">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" style="" data-toggle="collapse" data-target="#menunavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menunavbar">
+        <ul class="nav navbar-nav ">
+          <li><a href="#" id="home_btn">Home</a></li>
+          <li><a href="/ask">Post</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" id="videos">Walkthroughs</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix visible-lg"></div>
+  </header>
+  <!-- ask section -->
+  <div class="section container">
+    <div class="ask_section">
+      <div class="type_btn" value="Type">
+        <p id="type_static" style="display:inline-block">Type :</p>
+        <p id="type" style="display:inline-block;margin:0px;">Question
+        </p>
+        <div class="btn-group">
+          <button type="button" id="drop_btn" class="btn btn  dropdown-toggle" data-toggle="dropdown" style="margin-left:-10px;background:#00CC33">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="choose">
+            <li><a href="#">Question</a></li>
+            <li><a href="#">Article</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ask_section1">
+        <div id="on_ar">
+          <p style="font-size:2em ; color:#505050 ;"><strong>Add Title</strong></p>
+          <div>
+            <textarea class="txtarea" placeholder="Title" cols="25" rows="2" name="txtarea" id="title" required></textarea>
+          </div>
+        </div>
+        <div id="on_qs">
+          <p style="font-size:2em ; color:#505050 ;"><strong>Ask Question.</strong></p>
+          <div>
+            <textarea class="txtarea" placeholder="Enter text Here" cols="40" rows="5" name="txtarea" id="content"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="ask_section2">
+        <p style="font-size:2em; color:#505050  "><strong>Add Tags</strong></p>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 style="font-size:1.0em;font-weight:bold">Tags are used to relate one's post with other.In order to post your Question/Article you need to include tags .Tags may be the game name your post belongs or the genre of the game.<p>More the tags you include more the response your post may get.</p><p>So Add Tags. </p></h3></div>
+          <div class="panel-body" style="">
+            <p style="font-size:1.2em;font-weight:bold;display:inline-block;">Include Tags:</p>
+            <input type="text" class="form-control" style="width:50%;display:inline-block" id="tag-autocomplete" placeholder="Enter here"></input>
+            <button type="button" id="tag-add" style="" class="btn btn-info">ADD <i class="fa fa-plus"></i></button>
+            <!-- <p class="tag-added" id="tag-added"></p>
 			  -->
-			<div class="tag-name" style="display:block;" id="tag-name">
-				<!-- <p class="tag-added" id="tag-added">sandkjqwn<span class="remove-int">&times;</span></p>
+            <div class="tag-name" style="display:block;" id="tag-name">
+              <!-- <p class="tag-added" id="tag-added">sandkjqwn<span class="remove-int">&times;</span></p>
 			   -->
-			</div>
-		  </div>
-		</div>
-		 <button type="button" id="post" class="btn btn-info btn-lg" >POST <i class="fa fa-globe"></i></button>	
-			
-	</div>
-	<div class="suggest">
-		<div class="container" style="color:#585858;width:60%;text-align:center;">
-			<hr>
-			<hr>
-			<hr>
-		</div>
-	</div>
-</div>	
-</div>
-<footer>
-</footer>
-
-
-<script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
-	<script type="text/javascript" src="../static/javascript/jquery.js"></script>
-	<script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
-	<script src="../static/javascript/index.js"></script>
-	
-	<script type="text/javascript" src="../static/javascript/home.js"></script>
-	<script src="../static/javascript/home_index.js"></script>
-	<script src="../static/javascript/ask.js"></script>
-	<script src="../static/javascript/masonry.pkgd.js"></script>
-<!-- <script src="../static/javascript/home.js"></script>
- -->    
-
+            </div>
+          </div>
+        </div>
+        <button type="button" id="post" class="btn btn-info btn-lg">POST <i class="fa fa-globe fa-spin"></i></button>
+      </div>
+      <div class="suggest">
+        <div class="container" style="color:#585858;width:60%;text-align:center;">
+          <hr>
+          <hr>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+  </footer>
+  <script type="text/javascript" src="../static/javascript/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../static/javascript/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../static/javascript/jquery.cookie.js"></script>
+  <script type="text/javascript" src="../static/javascript/jquery.js"></script>
+  <script type="text/javascript" src="../static/javascript/jquery-ui.js"></script>
+  <script src="../static/javascript/index.js"></script>
+  <script type="text/javascript" src="../static/javascript/home.js"></script>
+  <script src="../static/javascript/home_index.js"></script>
+  <script src="../static/javascript/ask.js"></script>
+  <script src="../static/javascript/masonry.pkgd.js"></script>
+  <!-- <script src="../static/javascript/home.js"></script>
+ -->
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

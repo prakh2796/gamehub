@@ -1,93 +1,66 @@
-
 #content {
-	/*width: 980px;*/
-	/*width: 95%;*/
-	width: auto;
-	margin: 0 auto;
+  /*width: 980px;*/
+  /*width: 95%;*/
+  width: auto;
+  margin: 0 auto;
 }
 
-.item  {
+.item {
   //height: 480px;
-//  width: 640px;
-  	display: block;
-	float: left;
-	width: 300px;
-	margin: 0 20px 20px 0;	
-	position: relative;
-	overflow: hidden;
-//	background-color: rgba(22, 22, 22, 1);
-	transition: background-color 1.4s ease-in-out;
+  //  width: 640px;
+  display: block;
+  float: left;
+  width: 300px;
+  margin: 0 20px 20px 0;
+  position: relative;
+  overflow: hidden;
+  //  background-color: rgba(22, 22, 22, 1);
+  transition: background-color 1.4s ease-in-out;
 }
-.item  :after {
+
+.item:after {
   content: '';
   //display: block;
   position: absolute;
   top: 0;
   left: 0;
-  
   //height: 100%;
   //width: 100%;
   //background-size: 100%;
   //transform-origin: 50% 50%;
-   //transition: transform 0.2s;
-   background-color: rgba(22, 22, 22);
-	
+  //transition: transform 0.2s;
+  background-color: rgba(22, 22, 22);
 }
 
-.item img{
-	transition: transform 1.4s ease-in-out , background-color 1.4s ease-in-out;
-	background-color: rgba(22, 22, 22);
-	border:2px solid red;
-}
-
-.item :hover {
-	//opacity:0.6;
-	//width: 300px;
-	//width:auto;
-	height: auto;
-	//transform: scale(1.8);
-	background-color: rgba(22, 22, 22, 1);
-	//transform: scale(1.8);
-}
-
-.item img:hover{
-	opacity:0.8;
-	background-color: rgba(22, 22, 22, 0.6);
-	transform: scale(1.1);
-}
-/* 
-.item {
-	display: block;
-	float: left;
-	width: 300px;
-	margin: 0 20px 20px 0;
-	-webkit-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
-	-moz-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
-	-ms-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
-	-o-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
-	transition: left .4s ease-in-out, top .4s ease-in-out .4s;
-	//transform-origin: 50% 50%;
-	//transition: transform 2s;
-
-	}
 .item img {
-	width: 300px;
-	height: auto;
-	//transform: scale(1.8);
-	background-color: rgba(22, 22, 22, 0.4);
-} */
-.featured {
-	width: 620px;
+  transition: transform 1.4s ease-in-out, background-color 1.4s ease-in-out;
+  background-color: rgba(22, 22, 22);
+  border: 2px solid red;
 }
 
+.item:hover {
+  height: auto;
+  background-color: rgba(22, 22, 22, 1);
+}
 
+.item img:hover {
+  opacity: 0.8;
+  background-color: rgba(22, 22, 22, 0.6);
+  transform: scale(1.1);
+}
+
+.featured {
+  width: 620px;
+}
 
 .featured img {
   width: 620px;
   height: auto;
 }
 
+
 /* Titles */
+
 h1 {
   font-family: "Times New Roman", Times, serif;
   font-weight: normal;
@@ -106,8 +79,8 @@ h1 a {
 }
 
 header {
-	text-align: center;
-	margin-top: 0.8em;
+  text-align: center;
+  margin-top: 0.8em;
 }
 
 header:after {
@@ -118,12 +91,6 @@ header:after {
   margin: 0.8em auto;
   background-color: #111;
 }
-
-
-
-
-
-
 
 
 /* ==|== media queries ======================================================
@@ -137,31 +104,79 @@ header:after {
 }
 
 
-
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
    ========================================================================== */
 
+
 /* For image replacement */
-.ir { border:0; font: 0/0 a; text-shadow: none; color: transparent; background-color: transparent; }
+
+.ir {
+  border: 0;
+  font: 0/0 a;
+  text-shadow: none;
+  color: transparent;
+  background-color: transparent;
+}
+
 
 /* Hide from both screenreaders and browsers: h5bp.com/u */
-.hidden { display: none !important; visibility: hidden; }
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
 
 /* Hide only visually, but have it available for screenreaders: h5bp.com/v */
-.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
-.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
 
 /* Hide visually and from screenreaders, but maintain layout */
-.invisible { visibility: hidden; }
+
+.invisible {
+  visibility: hidden;
+}
+
 
 /* Contain floats: h5bp.com/q */
-.clearfix:before, .clearfix:after { content: ""; display: table; }
-.clearfix:after { clear: both; }
-.clearfix { *zoom: 1; }
 
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
 
 
 /* ==|== print styles =======================================================
@@ -170,16 +185,58 @@ header:after {
    ========================================================================== */
 
 @media print {
-  * { background: transparent !important; color: black !important; box-shadow:none !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } /* Black prints faster: h5bp.com/s */
-  a, a:visited { text-decoration: underline; }
-  a[href]:after { content: " (" attr(href) ")"; }
-  abbr[title]:after { content: " (" attr(title) ")"; }
-  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  /* Don't show links for images, or javascript/internal links */
-  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
-  thead { display: table-header-group; } /* h5bp.com/t */
-  tr, img { page-break-inside: avoid; }
-  img { max-width: 100% !important; }
-  @page { margin: 0.5cm; }
-  p, h2, h3 { orphans: 3; widows: 3; }
-  h2, h3 { page-break-after: avoid; }
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+  /* Black prints faster: h5bp.com/s */
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+  /* Don't show links for images, or javascript/internal links */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  thead {
+    display: table-header-group;
+  }
+  /* h5bp.com/t */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+  img {
+    max-width: 100% !important;
+  }
+  @page {
+    margin: 0.5cm;
+  }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
 }
